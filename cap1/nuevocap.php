@@ -1,4 +1,4 @@
-<link rel="stylesheet" type="text/css" media="screen" href="trebuchet.css">
+<link rel="stylesheet" type="text/css" media="screen" href="Estilos/trebuchet.css">
 <style type="text/css">
 body{ background: #000 url('fondos/degradado.jpg') no-repeat top right fixed;
 -webkit-background-size: cover;
@@ -83,11 +83,11 @@ function directores ($elemento){
 		
 		$dir[$j];
 		
-		$miconexion->query("INSERT INTO capitulosdirectores (id_capitulo, id_director) VALUES ('".$GLOBALS['idcap']."', '".buscarid($dir[$j], "director", "Nomdir", "ID_director")."')");
+		$miconexion->query("INSERT INTO capitulosdirectores (id_capitulo, id_director) VALUES ('".$GLOBALS['idcap']."', '".buscarid($dir[$j], "persona", "Nombre_persona", "id_persona")."')");
 	}
 	}else{
 		
-		$miconexion->query("INSERT INTO capitulosdirectores (id_capitulo, id_director) VALUES ('".$GLOBALS['idcap']."', '".buscarid($elemento, "director", "Nomdir", "ID_director")."')");
+		$miconexion->query("INSERT INTO capitulosdirectores (id_capitulo, id_director) VALUES ('".$GLOBALS['idcap']."', '".buscarid($elemento, "persona", "Nombre_persona", "id_persona")."')");
 	}
 	 
 }
@@ -110,16 +110,16 @@ $miconsulta="SELECT * FROM ".$tabla." WHERE ".$nombrecampo." LIKE '".$campo."'";
 		 
 	 }else{
 		 
-		 $id=maxid("ID_director", "director");
-		 $miconexion->query("INSERT INTO director (ID_director, Nomdir) VALUES ('".$id."', '".$campo."')");
+		 $id=maxid("ID_persona", "persona");
+		 $miconexion->query("INSERT INTO persona (ID_persona, Nombre_persona) VALUES ('".$id."', '".$campo."')");
 	 }
 	return $id;
 }
 
 
 //PARA LOS DIRECTORES
-directores ($_POST["director"]);
-echo "<br>".$_POST["director"]."<br>";
+directores ($_POST["persona"]);
+echo "<br>".$_POST["persona"]."<br>";
 
 //PARA EL ID DE LA Serie
 $ids=buscarid($_POST["serie"], "serie", "Nombre", "id_serie");

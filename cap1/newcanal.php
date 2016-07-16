@@ -1,4 +1,4 @@
-<link rel="stylesheet" type="text/css" media="screen" href="trebuchet.css">
+<link rel="stylesheet" type="text/css" media="screen" href="Estilos/trebuchet.css">
 <?php
 include "conexion.php";
 if (!$_POST){

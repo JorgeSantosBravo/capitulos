@@ -1,7 +1,8 @@
 ﻿<html>
 <head>
-<link rel="stylesheet" type="text/css" media="screen" href="enlace.css">
-<link rel="stylesheet" type="text/css" media="screen" href="serie.css">
+<link rel="stylesheet" type="text/css" media="screen" href="Estilos/trebuchet.css">
+<link rel="stylesheet" type="text/css" media="screen" href="Estilos/enlace.css">
+<link rel="stylesheet" type="text/css" media="screen" href="Estilos/serie.css">
 <link rel="shortcut icon" type="image/x-icon" href="icono.ico" />
 <title>Inicio - BdSeries</title>
 
@@ -57,14 +58,31 @@ echo $fe[2]."/".$fe[1]." - <a href=capitulo.php?id=".$rows["id_capitulo"].">".$r
 	
 }
 
-echo "<br><br>";
+echo "<br><table>";
 $con=$miconexion->query("SELECT COUNT(*) as con FROM capitulo"); 
 
 while ($rows = $con->fetch_assoc()){
 
-echo "En total has visto <strong>".$rows["con"]."</strong> capítulos";
+echo "<tr><td>Capítulos: </td><td><strong>".$rows["con"]."</strong></td></tr>";
 	
 }
+echo "<tr><td>";
+$con=$miconexion->query("SELECT COUNT(*) as con FROM serie"); 
+
+while ($rows = $con->fetch_assoc()){
+
+echo "Series: </td><td><strong>".$rows["con"]."</strong></td></tr>";
+	
+}
+echo "<tr><td>";
+$con=$miconexion->query("SELECT COUNT(*) as con FROM persona"); 
+
+while ($rows = $con->fetch_assoc()){
+
+echo "Personas: </td><td><strong>".$rows["con"]."</strong></td></tr>";
+	
+}
+echo "</table>";
 function conversorSegundosHoras($minutos) {
 	$meses= floor($minutos / 43200);
 	$dias= floor(($minutos - ($meses * 43200) ) / 1440);
@@ -101,7 +119,10 @@ $con=$miconexion->query("SELECT COUNT(*) as con FROM capitulo WHERE YEAR(fecha)=
 
 while ($rows = $con->fetch_assoc()){
 
-echo " Este año <strong>".$rows["con"]."</strong> capítulos";
+echo " Este año <strong><a href=years/2016/m2016.php>".$rows["con"]."</a></strong> capítulos
+<br>
+BD: <font size=5><strong>$database</strong></font>
+";
 	
 }
 

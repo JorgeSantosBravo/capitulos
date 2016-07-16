@@ -1,5 +1,5 @@
 
-<link rel="stylesheet" type="text/css" media="screen" href="../../trebuchet.css">
+<link rel="stylesheet" type="text/css" media="screen" href="../../Estilos/trebuchet.css">
 <title>Mostrar</title>
 <?php
 
@@ -39,6 +39,6 @@ $i++;
 }
 }
 echo "</table><br>";
-echo "<a href='index.php'>Volver a anuarios</a><br>";
-echo "<a href='../index.php'>Volver a inicio</a>";
+echo "<a href=	../index.php>Volver a anuarios</a><br>";
+echo "<a href=../../index.php>Volver a inicio</a>";
 ?>

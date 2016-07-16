@@ -1,5 +1,5 @@
 ﻿
-<link rel="stylesheet" type="text/css" media="screen" href="../../trebuchet.css">
+<link rel="stylesheet" type="text/css" media="screen" href="../../Estilos/trebuchet.css">
 <title>Estadísticas de 2013</title>
 <?php
 

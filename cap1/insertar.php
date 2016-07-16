@@ -15,7 +15,7 @@ echo "
 <td>S</td><td><input type='text' name='S'><br></td></tr>
 <td>E</td><td><input type='text' name='E'><br></td></tr>
 <td>Título</td><td><input type='text' name='titulo'><br></td></tr>
-<td>Director</td><td><input type='text' name='director'><br></td></tr>
+<td>persona</td><td><input type='text' name='persona'><br></td></tr>
 <td>Duración</td><td><input type='text' name='duracion'><br></td></tr>
 <td>Comentario</td><td><input type='text' name='comentario'><br></td></tr>
 </table>
@@ -55,18 +55,18 @@ if ($miconexion->query("INSERT INTO series VALUES ('$idser', '$_POST[serie]','',
 		echo $miconexion->error;
 	}
 
-	//PARA BUSCAR DIRECTORES
-$dire="SELECT * from directores WHERE Nombre LIKE '$_POST[director]'";
+	//PARA BUSCAR personaES
+$dire="SELECT * from personaes WHERE Nombre LIKE '$_POST[persona]'";
 $direc=$miconexion->query($dire);
 $enci=false;
 while ($rows = $direc->fetch_assoc()) {
-	if ($rows["Nombre"]==$_POST["director"]){
+	if ($rows["Nombre"]==$_POST["persona"]){
 		$enci=true;
-		$iddir=$rows["ID_director"];
+		$iddir=$rows["ID_persona"];
 	}
 }
 if ($enci==false){
-if ($miconexion->query("INSERT INTO directores VALUES ('$iddir', '$_POST[director]')")){
+if ($miconexion->query("INSERT INTO personaes VALUES ('$iddir', '$_POST[persona]')")){
 }
 	else{
 		echo $miconexion->error;

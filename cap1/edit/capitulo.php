@@ -1,4 +1,4 @@
-﻿<link rel="stylesheet" type="text/css" media="screen" href="../trebuchet.css">
+﻿<link rel="stylesheet" type="text/css" media="screen" href="../Estilos/trebuchet.css">
 <script type="text/javascript">
 function getParameterByName(name) {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -22,7 +22,6 @@ location.href="delete.php?id="+id;
 
 
 <?php
-//IMPORTANTE: HACE UNA COSA MUY RARA CON LOS DIRECTORES EN LOS NUEVOS CAPÍTULOS Y NO PIDE CONFIRMACIÓN. AL PULSAR EL BOTÓN HACE LA FUNCIÓN
 session_start();
 if (!$_POST){
 
@@ -35,10 +34,20 @@ Título</td><td><input type='text' name='titulo' value='".$_SESSION["titulo"]."'
 Temporada</td><td><input type='text' name='s' value='".$_SESSION["s"]."' size=1></td></tr>
 <tr><td>
 Episodio</td><td><input type='text' name='e' value='".$_SESSION["e"]."' size=1></td></tr>
-<tr><td>
-Director</td><td><input type='text' name=dire value='".$_SESSION["dire"]."'</td></tr>
+<tr><td>";
+include "../conexion.php";
+$a = array();
+$r2=$miconexion->query("SELECT * FROM capitulo,persona,capitulosdirectores WHERE capitulo.id_capitulo=capitulosdirectores.id_capitulo and capitulosdirectores.id_director=persona.id_persona and capitulosdirectores.id_capitulo LIKE  '$_GET[id]'");
+while ($rows2 = $r2->fetch_assoc()) {
+
+array_push($a, $rows2["Nombre_persona"]);
+}
+$final= implode(', ', $a);
+echo "Director</td><td><input type='text' name=dire value='$final'</td></tr>
 <tr><td>
 Duración</td><td><input type='text' name=dur value='".$_SESSION["dur"]."' size=1></td></tr>
+<tr><td>
+Comentario</td><td><textarea name='com'>".$_SESSION["com"]."</textarea></td></tr>
 
 </table>
 <input type=submit value='Enviar'><input type=button value='Volver atrás' onclick=window.location.href='../capitulo.php?id=".$_GET["id"]."'>
@@ -49,7 +58,7 @@ Duración</td><td><input type='text' name=dur value='".$_SESSION["dur"]."' size=
 //PARA EDITAR LA FECHA PODRÍA HACER UN CALENDARIO 
 }else{
 	include "../conexion.php";
-if (!$miconexion->query("UPDATE capitulo SET Titulo='".$_POST["titulo"]."', s='".$_POST["s"]."', e='".$_POST["e"]."', Duracion='".$_POST["dur"]."' WHERE id_capitulo LIKE '".$_GET["id"]."'")){
+if (!$miconexion->query("UPDATE capitulo SET Titulo='".$_POST["titulo"]."', s='".$_POST["s"]."', e='".$_POST["e"]."', Duracion='".$_POST["dur"]."', Comentario='".$_POST["com"]."' WHERE id_capitulo LIKE '".$_GET["id"]."'")){
 	echo $miconexion->error;
 }
 $miconexion->query("DELETE FROM capitulosdirectores WHERE id_capitulo LIKE '".$_GET["id"]."'");
@@ -80,16 +89,16 @@ function directores ($elemento){
 		
 		$dir[$j];
 		
-		if (!$miconexion->query("INSERT INTO capitulosdirectores VALUES ('".$_GET['id']."', '".buscarid($dir[$j], "director", "Nomdir", "ID_director")."')")){
-			echo buscarid($dir[$j], "director", "Nomdir", "ID_director");
+		if (!$miconexion->query("INSERT INTO capitulosdirectores VALUES ('".$_GET['id']."', '".buscarid($dir[$j], "persona", "Nombre_persona", "id_persona")."')")){
+			echo buscarid($dir[$j], "persona", "Nombre_persona", "ID_persona");
 			echo "uno";
 			echo $miconexion->error;
 		}
 	}
 	}else{
 		
-		if (!$miconexion->query("INSERT INTO capitulosdirectores VALUES ('".$_GET['id']."', '".buscarid($elemento, "director", "Nomdir", "ID_director")."')")){
-			echo buscarid($elemento, "director", "Nomdir", "ID_director")."<br>";
+		if (!$miconexion->query("INSERT INTO capitulosdirectores VALUES ('".$_GET['id']."', '".buscarid($elemento, "persona", "Nombre_persona", "id_persona")."')")){
+			echo buscarid($elemento, "persona", "Nombre_persona", "id_persona")."<br>";
 			echo "otro";
 			echo $miconexion->error;
 		}
@@ -114,8 +123,8 @@ $miconsulta="SELECT * FROM ".$tabla." WHERE ".$nombrecampo." LIKE '".$campo."'";
 		 
 	 }else{
 		 
-		 $id=bid("ID_director", "director");
-		 $miconexion->query("INSERT INTO director (ID_director, Nomdir) VALUES ('".$id."', '".$campo."')");
+		 $id=bid("ID_persona", "persona");
+		 $miconexion->query("INSERT INTO persona (ID_persona, Nombre_persona) VALUES ('".$id."', '".$campo."')");
 	 }
 	return $id;
 }

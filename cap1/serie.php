@@ -1,6 +1,6 @@
-﻿<link rel="stylesheet" type="text/css" media="screen" href="enlace.css">
-<link rel="stylesheet" type="text/css" media="screen" href="trebuchet.css">
-<link rel="stylesheet" type="text/css" media="screen" href="serie.css">
+﻿<link rel="stylesheet" type="text/css" media="screen" href="Estilos/enlace.css">
+<link rel="stylesheet" type="text/css" media="screen" href="Estilos/trebuchet.css">
+<link rel="stylesheet" type="text/css" media="screen" href="Estilos/serie.css">
 
 <?php
 session_start();
@@ -11,7 +11,7 @@ echo "<title>".$rows["Nombre"]." (".$rows["inicio"].")</title>";
 $_SESSION["inicio"]=$rows["inicio"];
 echo "<h3>".$rows["Nombre"]."</h3><hr>";
 $_SESSION["nombre"]=$rows["Nombre"];
-echo "<strong>Canal:</strong> ".$rows["Nomcanal"]."<br>";
+echo "<strong>Canal:</strong> <a href='canal.php?id=".$rows["ID_canal"]."'>".$rows["Nomcanal"]."</a><br>";
 $_SESSION["c"]=$rows["ID_canal"];
 echo "<strong>Inicio</strong>: ".$rows["inicio"]."<br>";
 if ($rows["fin"]==0){
@@ -64,23 +64,23 @@ echo "<input type='button' value='Editar' onclick=window.location.href='edit/ser
 <?php
 $_SESSION["seg"]=$rows["Seguimiento"];
 }
-$resultado=$miconexion->query("SELECT Nomdir FROM serie,director,creadoresserie WHERE serie.id_serie=creadoresserie.id_sserie and id_director=creadoresserie.id_ccreador and serie.id_serie LIKE '$_GET[id]'");
+$resultado=$miconexion->query("SELECT * FROM serie,persona,creadoresserie WHERE serie.id_serie=creadoresserie.id_sserie and persona.id_persona=creadoresserie.id_ccreador and serie.id_serie LIKE '$_GET[id]'");
 echo "<strong>Creadores</strong>: ";
 $a = array();
 while ($rows = $resultado->fetch_assoc()) {
-   array_push($a, $rows["Nomdir"]);
+   array_push($a, "<a href=persona.php?id=".$rows["id_persona"].">".$rows["Nombre_persona"]."</a>");
 }
-$_SESSION["creador"]=$a;
 echo implode(', ', $a);
 echo "<br>";
 echo "Capítulos:<br>";
 $caps=$miconexion->query("SELECT * FROM capitulo WHERE serie in (SELECT id_serie FROM serie WHERE id_serie LIKE '$_GET[id]')");
 echo "<table>";
 while ($rows = $caps->fetch_assoc()) {
-echo "<tr><td>".$rows["s"]." ".$rows["e"]."</td><td><a href=capitulo.php?id=".$rows["id_capitulo"].">".$rows["Titulo"]."</a></td></tr>";
+echo "<tr><td><a href=capitulo.php?id=".$rows["id_capitulo"].">".$rows["s"]." ".$rows["e"]." ".$rows["Titulo"]."</a></td></tr>";
 	
 }
 echo "</table>";
 echo "</table><br></font>";
+echo "<a href='todas.php'>Volver a todas las series</a><br>";
 echo "<a href='index.php'>Volver a inicio</a>";
 ?>

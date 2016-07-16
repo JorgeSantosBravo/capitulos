@@ -8,11 +8,11 @@ ALTER TABLE capitulo ADD CONSTRAINT fk1 FOREIGN KEY (serie) REFERENCES serie (ID
 s
 e
 titulo
-director id de la tabla directores
-ALTER TABLE capitulo ADD CONSTRAINT fk2 FOREIGN KEY (director) REFERENCES director (ID_director) ON DELETE CASCADE
+persona id de la tabla personaes
+ALTER TABLE capitulo ADD CONSTRAINT fk2 FOREIGN KEY (persona) REFERENCES persona (ID_persona) ON DELETE CASCADE
 duracion
 comentario
-CREATE TABLE `capitulos`.`capitulo` ( `id_capitulo` INT(4) NOT NULL , `fecha` DATE NOT NULL , `medio` VARCHAR(15) NOT NULL , `formato` VARCHAR(15) NOT NULL , `serie` INT(3) NOT NULL , `s` INT(3) NOT NULL , `e` INT(4) NOT NULL , `Titulo` VARCHAR(50) NOT NULL , `Director` INT(4) NOT NULL , `Duracion` INT(3) NOT NULL , `Comentario` TEXT NOT NULL , PRIMARY KEY (`id_capitulo`)) ENGINE = InnoDB;
+CREATE TABLE `capitulos`.`capitulo` ( `id_capitulo` INT(4) NOT NULL , `fecha` DATE NOT NULL , `medio` VARCHAR(15) NOT NULL , `formato` VARCHAR(15) NOT NULL , `serie` INT(3) NOT NULL , `s` INT(3) NOT NULL , `e` INT(4) NOT NULL , `Titulo` VARCHAR(50) NOT NULL , `persona` INT(4) NOT NULL , `Duracion` INT(3) NOT NULL , `Comentario` TEXT NOT NULL , PRIMARY KEY (`id_capitulo`)) ENGINE = InnoDB;
 
 TABLA series
 ID_serie

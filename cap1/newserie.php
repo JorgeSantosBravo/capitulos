@@ -1,4 +1,4 @@
-<link rel="stylesheet" type="text/css" media="screen" href="trebuchet.css">
+<link rel="stylesheet" type="text/css" media="screen" href="Estilos/trebuchet.css">
 <?php
 
 include "conexion.php";
@@ -69,7 +69,7 @@ return $id+1;
 }
  $idcap=bid("id_serie", "serie");
  
-function directores ($elemento){
+function personaes ($elemento){
 	include "conexion.php";
 	if (strpos($elemento, ",")){
 	$con=0;
@@ -83,18 +83,18 @@ function directores ($elemento){
 		
 		$dir[$j];
 		
-		if (!$miconexion->query("INSERT INTO creadoresserie VALUES ('".$GLOBALS['idcap']."', '".buscarid($dir[$j], "director", "Nomdir", "ID_director")."')")){
+		if (!$miconexion->query("INSERT INTO creadoresserie VALUES ('".$GLOBALS['idcap']."', '".buscarid($dir[$j], "persona", "Nombre_persona", "ID_persona")."')")){
 			echo $GLOBALS["idcap"];
-			echo buscarid($dir[$j], "director", "Nomdir", "ID_director");
+			echo buscarid($dir[$j], "persona", "Nombre_persona", "ID_persona");
 			echo "uno";
 			echo $miconexion->error;
 		}
 	}
 	}else{
 		
-		if (!$miconexion->query("INSERT INTO creadoresserie VALUES ('".$GLOBALS['idcap']."', '".buscarid($elemento, "director", "Nomdir", "ID_director")."')")){
+		if (!$miconexion->query("INSERT INTO creadoresserie VALUES ('".$GLOBALS['idcap']."', '".buscarid($elemento, "persona", "Nombre_persona", "ID_persona")."')")){
 			echo $GLOBALS["idcap"]."<br>";
-			echo buscarid($elemento, "director", "Nomdir", "ID_director")."<br>";
+			echo buscarid($elemento, "persona", "Nombre_persona", "ID_persona")."<br>";
 			echo "otro";
 			echo $miconexion->error;
 		}
@@ -119,8 +119,8 @@ $miconsulta="SELECT * FROM ".$tabla." WHERE ".$nombrecampo." LIKE '".$campo."'";
 		 
 	 }else{
 		 
-		 $id=bid("ID_director", "director");
-		 $miconexion->query("INSERT INTO director (ID_director, Nomdir) VALUES ('".$id."', '".$campo."')");
+		 $id=bid("ID_persona", "persona");
+		 $miconexion->query("INSERT INTO persona (ID_persona, Nombre_persona) VALUES ('".$id."', '".$campo."')");
 	 }
 	return $id;
 }
@@ -134,7 +134,7 @@ if (!$miconexion->query("INSERT INTO serie VALUES ('".$GLOBALS['idcap']."', '".$
 //	header ("Location:serie.php?id=".$GLOBALS['idcap']."");
 
 }
-directores ($_POST["director"]);
+personaes ($_POST["persona"]);
 
 }
 

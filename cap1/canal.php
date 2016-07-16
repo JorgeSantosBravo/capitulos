@@ -1,3 +1,5 @@
+<link rel="stylesheet" type="text/css" media="screen" href="Estilos/enlace.css">
+<link rel="stylesheet" type="text/css" media="screen" href="Estilos/trebuchet.css">
 <?php
 include "conexion.php";
 
@@ -7,7 +9,7 @@ while ($rows = $img->fetch_assoc())
 {
 echo "<img width=240 height=140 src=poster/logos/".$rows["Logo"]."><br>";
 }
-echo "<br><br>";
+
 $stocke=$miconexion->query("SELECT * FROM serie,canal WHERE serie.canal=canal.ID_canal and canal.ID_canal LIKE '".$_GET["id"]."' ORDER BY serie.Nombre ASC"); 
 while ($rows = $stocke->fetch_assoc()){
 

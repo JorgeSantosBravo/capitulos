@@ -1,9 +1,10 @@
 <link rel="stylesheet" type="text/css" media="screen" href="fondo.css">
-<link rel="stylesheet" type="text/css" media="screen" href="../trebuchet.css">
-<title>Mostrar</title>
+<link rel="stylesheet" type="text/css" media="screen" href="../../Estilos/trebuchet.css">
+<link rel="stylesheet" type="text/css" media="screen" href="../../Estilos/enlace.css">
+<title>2016</title>
 <?php
 
-include ("../conexion.php");
+include ("../../conexion.php");
 echo "<body><table border=1 align=center>";
 echo "<th bgcolor=white>Nº</th>";
 echo "<th bgcolor=white>Fecha</th>";
@@ -38,10 +39,10 @@ echo '<td align=center>'.$rows["Nombre"].'</td>';
 echo '<td align=center>S'.$rows["s"].'E'.$rows["e"].'</td>';
 echo "<td align=center>".$rows["Titulo"]."</td>";
 
-$stocke=$miconexion->query("SELECT * FROM capitulosdirectores,director WHERE capitulosdirectores.id_director=director.id_director and capitulosdirectores.id_capitulo LIKE '".$rows["id_capitulo"]."'"); 
+$stocke=$miconexion->query("SELECT * FROM capitulosdirectores,persona WHERE capitulosdirectores.id_director=persona.id_persona and capitulosdirectores.id_capitulo LIKE '".$rows["id_capitulo"]."'"); 
 $a = array();
 while ($rows2 = $stocke->fetch_assoc()) {
-   array_push($a, $rows2["Nomdir"]);
+   array_push($a, "<a href=../../persona.php?id=".$rows2["id_director"].">".$rows2["Nombre_persona"]."</a>");
 }
 $final= implode(', ', $a);
 echo "<td align=center>".$final."</td>";

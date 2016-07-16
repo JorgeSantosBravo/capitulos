@@ -1,12 +1,13 @@
-<link rel="stylesheet" href="../trebuchet.css"><link rel="stylesheet" href="../enlace.css">
+<link rel="stylesheet" href="../Estilos/trebuchet.css">
+<link rel="stylesheet" href="../Estilos/enlace.css">
 <?php
 
 include ("../conexion.php");
 echo "Todos los capítulos de:
 <li><a href=2013/todo.php>2013</a></li>
-<li><a href=m2014.php>2014</a></li>
-<li><a href=m2015.php>2015</a></li>
-<li><a href=m2016.php>2016</a></li>
+<li><a href=2014/m2014.php>2014</a></li>
+<li><a href=2015/m2015.php>2015</a></li>
+<li><a href=2016/m2016.php>2016</a></li>
 
 
 <br><br>

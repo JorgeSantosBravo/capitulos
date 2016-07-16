@@ -1,5 +1,5 @@
-<link rel="stylesheet" type="text/css" media="screen" href="enlace.css">
-<link rel="stylesheet" type="text/css" media="screen" href="trebuchet.css">
+<link rel="stylesheet" type="text/css" media="screen" href="Estilos/enlace.css">
+<link rel='stylesheet' type='text/css' media='screen' href='Estilos/trebuchet.css'>
 <?php
 include("conexion.php");
 session_start();
@@ -7,7 +7,6 @@ $miconsulta="select * from capitulo where id_capitulo='".$_GET["id"]."'";
      $resultado=$miconexion->query($miconsulta);
 	 $filas=$miconexion->affected_rows;
      if($filas>=1){
-
 $resultado=$miconexion->query("SELECT * FROM capitulo,serie WHERE capitulo.serie=serie.id_serie and capitulo.id_capitulo LIKE '$_GET[id]'");
 
 while ($rows = $resultado->fetch_assoc()) {
@@ -33,22 +32,24 @@ echo " en ".$rows["medio"];}
 if (!$rows["formato"]==""){
 echo " por ".$rows["formato"]."<br>";}
 
-$r2=$miconexion->query("SELECT * FROM capitulo,serie,director,capitulosdirectores WHERE capitulo.serie=serie.id_serie and capitulo.id_capitulo=capitulosdirectores.id_capitulo and capitulosdirectores.id_director=director.ID_director and capitulo.id_capitulo LIKE  '$_GET[id]'");
+$r2=$miconexion->query("SELECT * FROM capitulo,serie,persona,capitulosdirectores WHERE capitulo.serie=serie.id_serie and capitulo.id_capitulo=capitulosdirectores.id_capitulo and capitulosdirectores.id_director=persona.id_persona and capitulo.id_capitulo LIKE  '$_GET[id]'");
 $a = array();
 while ($rows2 = $r2->fetch_assoc()) {
 
 
-array_push($a, $rows2["Nomdir"]);
+array_push($a, "<a href=persona.php?id=".$rows2["id_persona"].">".$rows2["Nombre_persona"]."</a>");
 }
 $final= implode(', ', $a);
-$_SESSION["dire"]=$final;
-echo "<br><strong>Director</strong>: ".$final."<br>"; 
-
-echo "<strong>Duracion</strong>: ".$rows["Duracion"]."<br>";
+if (!$final==""){
+echo "<strong>Director</strong>: ".$final."<br>"; 
+}
+echo "<strong>Duración</strong>: ".$rows["Duracion"]."<br>";
 $_SESSION["dur"]=$rows["Duracion"];
 if (!$rows["Comentario"]==""){
 echo "<strong>Comentario</strong>: ".$rows["Comentario"]."<br>";
+
 }
+$_SESSION["com"]=$rows["Comentario"];
 }
 echo "</table><br></font>";
 ?>

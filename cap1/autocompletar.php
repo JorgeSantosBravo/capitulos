@@ -2,10 +2,10 @@
 <script src="jquery-ui-1.11.4.custom/jquery-ui.min.js" type="text/javascript"></script>
 <?php
 include "conexion.php";
-$stocke=$miconexion->query("SELECT Nomdir FROM director ORDER BY Nomdir"); 
+$stocke=$miconexion->query("SELECT Nombre_persona FROM persona ORDER BY Nombre_persona"); 
 $arreglo_php = array();
   while ($rows = $stocke->fetch_assoc()){
-   array_push($arreglo_php, $rows["Nomdir"]);
+   array_push($arreglo_php, $rows["Nombre_persona"]);
   
 }
 

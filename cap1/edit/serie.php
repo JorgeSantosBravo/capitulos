@@ -1,5 +1,5 @@
-<link rel="stylesheet" type="text/css" media="screen" href="../trebuchet.css">
-<link rel="stylesheet" type="text/css" media="screen" href="../serie.css">
+	<link rel="stylesheet" type="text/css" media="screen" href="../Estilos/trebuchet.css">
+<link rel="stylesheet" type="text/css" media="screen" href="../Estilos/serie.css">
 <?php
 session_start();
 if (!$_POST){
@@ -70,9 +70,15 @@ echo "<option value='hiato' >Hiato</option>
 
 echo "</select></tr>
 <tr><td>Creadores</td>";
+$a = array();
+$r2=$miconexion->query("SELECT * FROM serie,persona,creadoresserie WHERE serie.id_serie=creadoresserie.id_sserie and persona.id_persona=creadoresserie.id_ccreador and creadoresserie.id_sserie LIKE '$_GET[id]'");
+while ($rows2 = $r2->fetch_assoc()) {
 
+array_push($a, $rows2["Nombre_persona"]);
+}
+$final= implode(', ', $a);
 
-echo "<td><input type='text' name='creadores' value='".implode(', ', $_SESSION["creador"])."' </td></tr>
+echo "<td><input type='text' name='creadores' value='$final' </td></tr>
 
 <tr><td>Poster</td><td><input name='poster' type=file></td></tr>
 <tr><td>Intro</td><td><input name='intro' type=text value='".$_SESSION["intro"]."'></td></tr>
@@ -140,16 +146,16 @@ function directores ($elemento){
 		
 		$dir[$j];
 		
-		if (!$miconexion->query("INSERT INTO creadoresserie VALUES ('".$_GET['id']."', '".buscarid($dir[$j], "director", "Nomdir", "ID_director")."')")){
-			echo buscarid($dir[$j], "director", "Nomdir", "ID_director");
+		if (!$miconexion->query("INSERT INTO creadoresserie VALUES ('".$_GET['id']."', '".buscarid($dir[$j], "persona", "Nombre_persona", "id_persona")."')")){
+			echo buscarid($dir[$j], "persona", "Nombre_persona", "id_persona");
 			echo "uno";
 			echo $miconexion->error;
 		}
 	}
 	}else{
 		
-		if (!$miconexion->query("INSERT INTO creadoresserie VALUES ('".$_GET['id']."', '".buscarid($elemento, "director", "Nomdir", "ID_director")."')")){
-			echo buscarid($elemento, "director", "Nomdir", "ID_director")."<br>";
+		if (!$miconexion->query("INSERT INTO creadoresserie VALUES ('".$_GET['id']."', '".buscarid($elemento, "persona", "Nombre_persona", "id_persona")."')")){
+			echo buscarid($elemento, "persona", "Nombre_persona", "id_persona")."<br>";
 			echo "otro";
 			echo $miconexion->error;
 		}
@@ -174,8 +180,8 @@ $miconsulta="SELECT * FROM ".$tabla." WHERE ".$nombrecampo." LIKE '".$campo."'";
 		 
 	 }else{
 		 
-		 $id=bid("ID_director", "director");
-		 $miconexion->query("INSERT INTO director (ID_director, Nomdir) VALUES ('".$id."', '".$campo."')");
+		 $id=bid("ID_persona", "persona");
+		 $miconexion->query("INSERT INTO persona (id_persona, Nombre_persona) VALUES ('".$id."', '".$campo."')");
 	 }
 	return $id;
 }
