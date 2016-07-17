@@ -1,5 +1,5 @@
-
-<link rel="stylesheet" href="animations.css">
+<title>Todas las series </title>
+<link rel="stylesheet" href="Estilos/animations.css">
 <style type="text/css">
 body{ background: #000 url('fondos/degradadooscuro.jpg') no-repeat top right fixed;
 -webkit-background-size: cover;

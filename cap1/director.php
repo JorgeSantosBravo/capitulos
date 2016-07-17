@@ -1,26 +1,26 @@
-<script src="jquery-3.0.0.min.js" type="text/javascript"></script>
-<script src="jquery-ui-1.11.4.custom/jquery-ui.min.js" type="text/javascript"></script>
-<?php
-include "conexion.php";
-$stocke=$miconexion->query("SELECT Nombre_persona FROM persona ORDER BY Nombre_persona"); 
-$arreglo_php = array();
-  while ($rows = $stocke->fetch_assoc()){
-   array_push($arreglo_php, $rows["Nombre_persona"]);
-  
-}
-
-
-?>
-<script>
-  $(function(){
-    var autocompletar = new Array();
-    <?php //Esto es un poco de php para obtener lo que necesitamos
-     for($p = 0;$p < count($arreglo_php); $p++){ //usamos count para saber cuantos elementos hay ?>
-       autocompletar.push('<?php echo $arreglo_php[$p]; ?>');
-     <?php } ?>
-     $("#buscar").autocomplete({ //Usamos el ID de la caja de texto donde lo queremos
-       source: autocompletar //Le decimos que nuestra fuente es el arreglo
-     });
-  });
-</script>
-<input type='text' id='buscar' name='persona' />
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--FUENTE: http://www.tutorialjquery.com/autocompletar-un-textbox-usando-jquery/-->
+<html>
+    <head>
+       
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta content="Plugin Gratis para autocompletar un input con jQuery y Ajax" name="description" />
+        <script src="js/jquery-1.4.2.min.js"></script>
+        <script src="js/autocomplete.jquery.js"></script>
+        <link type="text/css" rel="stylesheet" href="Estilos/autocomplete.css"></link>
+        <script>
+            $(document).ready(function(){
+                /* Una vez que se cargo la pagina , llamo a todos los autocompletes y
+                 * los inicializo */
+                $('.autocomplete').autocomplete();
+            });
+        </script>
+    </head>
+    <body>
+        <!-- Código del Autocompletar , todo el código html necesario estra entre estos comentarios -->
+        <div class="autocomplete">
+            <input  type="text" name="persona" autocomplete="off" value="" data-source="search.php?search=" />
+        </div>
+        <!-- fin de codigo autocompletar -->
+    </body>
+</html>

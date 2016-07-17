@@ -38,7 +38,8 @@ include("hace.php");
 
 echo "<br><a href =todas.php>Todas las series</a><br>";
 echo "<a href =years/index.php>Anuarios</a>";
-echo "<br><input type=button value='Nuevo capítulo' onclick=window.location.href='nuevocap.php'>";
+echo "<br><br><input type=button value='Nuevo capítulo' onclick=window.location.href='nuevocap.php'>";
+echo "<br><br><input type=button value='Nueva serie' onclick=window.location.href='newserie.php'>";
 //include "nuevocap.php";
 ?>
 </div>

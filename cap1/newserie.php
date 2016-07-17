@@ -69,7 +69,7 @@ return $id+1;
 }
  $idcap=bid("id_serie", "serie");
  
-function personaes ($elemento){
+function creadores ($elemento){
 	include "conexion.php";
 	if (strpos($elemento, ",")){
 	$con=0;
@@ -83,7 +83,7 @@ function personaes ($elemento){
 		
 		$dir[$j];
 		
-		if (!$miconexion->query("INSERT INTO creadoresserie VALUES ('".$GLOBALS['idcap']."', '".buscarid($dir[$j], "persona", "Nombre_persona", "ID_persona")."')")){
+		if (!$miconexion->query("INSERT INTO creadoresserie VALUES ('".$GLOBALS['idcap']."', '".buscarid($dir[$j], "persona", "Nombre_persona", "id_persona")."')")){
 			echo $GLOBALS["idcap"];
 			echo buscarid($dir[$j], "persona", "Nombre_persona", "ID_persona");
 			echo "uno";
@@ -92,7 +92,7 @@ function personaes ($elemento){
 	}
 	}else{
 		
-		if (!$miconexion->query("INSERT INTO creadoresserie VALUES ('".$GLOBALS['idcap']."', '".buscarid($elemento, "persona", "Nombre_persona", "ID_persona")."')")){
+		if (!$miconexion->query("INSERT INTO creadoresserie VALUES ('".$GLOBALS['idcap']."', '".buscarid($elemento, "persona", "Nombre_persona", "id_persona")."')")){
 			echo $GLOBALS["idcap"]."<br>";
 			echo buscarid($elemento, "persona", "Nombre_persona", "ID_persona")."<br>";
 			echo "otro";
@@ -130,12 +130,12 @@ $miconsulta="SELECT * FROM ".$tabla." WHERE ".$nombrecampo." LIKE '".$campo."'";
 if (!$miconexion->query("INSERT INTO serie VALUES ('".$GLOBALS['idcap']."', '".$_POST['nombre']."', '".$_POST['c']."', '".$_POST['ini']."', '".$_POST['fin']."', '".$_POST['estado']."', '".$_POST['poster']."', '".$_POST['intro']."', '".$_POST['seg']."')")){
 	echo $miconexion->error;
 }else{
-	header ("Location:nuevocap.php");
-//	header ("Location:serie.php?id=".$GLOBALS['idcap']."");
+//	header ("Location:nuevocap.php");
+	header ("Location:serie.php?id=".$GLOBALS['idcap']."");
 
 }
-personaes ($_POST["persona"]);
-
+creadores ($_POST["persona"]);
+echo $_POST["persona"];
 }
 
 

@@ -16,8 +16,19 @@ echo "<table>
 <tr><td>Fecha</td><td>Hoy: <input type='checkbox' default=off name='hoy'>	Ayer: <input type='checkbox' default=off name='ayer'>
 <br><input type='text' name='fecha' size=10>	</td></tr>
 <tr><td>Visto en:</td><td> <input type='pc' size=2 name='pc'>	<input type='for' size=5 name='for'>	</td></tr>
-<tr><td>Serie</td><td>";
-include "serieauto.php";
+<tr><td>Serie</td>
+<td><select name='serie'>
+<option selected>Elige serie...</option>
+";
+
+$stocke=$miconexion->query("SELECT * FROM serie ORDER BY Nombre");
+while ($rows = $stocke->fetch_assoc()){
+
+echo "<option value ='".$rows['id_serie']."'>".$rows['Nombre']."</option>";
+
+}
+echo "</select>";
+
 echo "</td><td><input type=button name='ns' value='Añadir nueva' onclick='dialogo()'></td></tr>
 <tr><td></td><td> S<input type='text' name='s' size=1> E<input type='text' name='e' size=1>		</td></tr>
 <tr><td>Título</td><td> <input type='text' name='titulo'>		</td></tr>
@@ -122,10 +133,10 @@ directores ($_POST["persona"]);
 echo "<br>".$_POST["persona"]."<br>";
 
 //PARA EL ID DE LA Serie
-$ids=buscarid($_POST["serie"], "serie", "Nombre", "id_serie");
+//$ids=buscarid($_POST["serie"], "serie", "Nombre", "id_serie");
 
 //FINALMENTE INSERTA
-if (!$miconexion->query("INSERT INTO capitulo VALUES ('".$idcap."', '".$fecha."', '".$_POST['pc']."', '".$_POST['for']."', '".$ids."', '".$_POST['s']."', '".$_POST['e']."', '".addslashes($_POST['titulo'])."', '".$_POST['dur']."', '".$_POST['com']."')")){
+if (!$miconexion->query("INSERT INTO capitulo VALUES ('".$idcap."', '".$fecha."', '".$_POST['pc']."', '".$_POST['for']."', '".$_POST["serie"]."', '".$_POST['s']."', '".$_POST['e']."', '".addslashes($_POST['titulo'])."', '".$_POST['dur']."', '".$_POST['com']."')")){
 	echo $miconexion->error;
 }
 header ("Location:index.php");
