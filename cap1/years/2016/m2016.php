@@ -1,10 +1,5 @@
-<link rel="stylesheet" type="text/css" media="screen" href="fondo.css">
-<link rel="stylesheet" type="text/css" media="screen" href="../../Estilos/trebuchet.css">
-<link rel="stylesheet" type="text/css" media="screen" href="../../Estilos/enlace.css">
 <title>2016</title>
 <?php
-
-include ("../../conexion.php");
 echo "<body><table border=1 align=center>";
 echo "<th bgcolor=white>Nº</th>";
 echo "<th bgcolor=white>Fecha</th>";
@@ -52,6 +47,5 @@ $i++;
 }
 }
 echo "</table><br></font>";
-echo "<a href='index.php'>Volver a anuarios</a><br>";
-echo "<a href='../index.php'>Volver a inicio</a>";
+echo "<a href='visor.php?v=years/index.php'>Volver a anuarios</a><br>";
 ?>

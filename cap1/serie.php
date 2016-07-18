@@ -1,9 +1,9 @@
 ﻿<link rel="stylesheet" type="text/css" media="screen" href="Estilos/enlace.css">
 <link rel="stylesheet" type="text/css" media="screen" href="Estilos/trebuchet.css">
 <link rel="stylesheet" type="text/css" media="screen" href="Estilos/serie.css">
-
 <?php
 session_start();
+include("header/header.php");
 include("conexion.php");
 $selec=$miconexion->query("SELECT * FROM serie,canal WHERE serie.canal=canal.id_canal and id_serie LIKE '$_GET[id]'");
 while ($rows = $selec->fetch_assoc()) {
@@ -28,7 +28,7 @@ echo "<strong>Duración total</strong>: ".$rows2["sum"]." minutos";
 
 }
 $_SESSION["poster"]=$rows["Poster"];
-echo '<img witdh=160 height=237 title='.urlencode($rows["Nombre"]).' src=poster/'.$rows["Poster"].'><br>';
+echo '<img witdh=160 height=237 class="poster" title='.urlencode($rows["Nombre"]).' src=poster/'.$rows["Poster"].'><br>';
 echo "<div id=debajo>";
 if (!$rows["Intro"]==""){
 echo "<iframe width='400' height='300' 
@@ -82,5 +82,4 @@ echo "<tr><td><a href=capitulo.php?id=".$rows["id_capitulo"].">".$rows["s"]." ".
 echo "</table>";
 echo "</table><br></font>";
 echo "<a href='todas.php'>Volver a todas las series</a><br>";
-echo "<a href='index.php'>Volver a inicio</a>";
 ?>

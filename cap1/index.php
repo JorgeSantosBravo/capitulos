@@ -28,7 +28,7 @@ background-size: cover;}
 </head>
 <body >
 <?php
-
+include "header/header.php";
 include ("conexion.php");
 ?>
 <div id="izquierda">
@@ -37,7 +37,7 @@ include ("conexion.php");
 include("hace.php");
 
 echo "<br><a href =todas.php>Todas las series</a><br>";
-echo "<a href =years/index.php>Anuarios</a>";
+echo "<a href =visor.php?v=years/index.php>Anuarios</a>";
 echo "<br><br><input type=button value='Nuevo capítulo' onclick=window.location.href='nuevocap.php'>";
 echo "<br><br><input type=button value='Nueva serie' onclick=window.location.href='newserie.php'>";
 //include "nuevocap.php";
@@ -120,9 +120,7 @@ $con=$miconexion->query("SELECT COUNT(*) as con FROM capitulo WHERE YEAR(fecha)=
 
 while ($rows = $con->fetch_assoc()){
 
-echo " Este año <strong><a href=years/2016/m2016.php>".$rows["con"]."</a></strong> capítulos
-<br>
-BD: <font size=5><strong>$database</strong></font>
+echo " Este año <strong><a href=visor.php?v=years/2016/m2016.php>".$rows["con"]."</a></strong> capítulos
 ";
 	
 }

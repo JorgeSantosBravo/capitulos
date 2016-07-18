@@ -1,9 +1,5 @@
-﻿
-<link rel="stylesheet" type="text/css" media="screen" href="../../Estilos/trebuchet.css">
-<title>Estadísticas de 2013</title>
+﻿<title>Estadísticas de 2013</title>
 <?php
-
-include ("../../conexion.php");
 echo "<body><table border=1 align=center>";
 echo "<th bgcolor=white>Serie</th>";
 echo "<th bgcolor=white>Capítulos</th>";

@@ -7,6 +7,7 @@ body{ background: #000 url('fondos/degradado.jpg') no-repeat top right fixed;
 background-size: cover;}
 </style>
 <?php
+include "header/header.php";
 include "conexion.php";
 
 if (!$_POST){

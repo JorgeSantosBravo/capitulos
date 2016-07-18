@@ -1,9 +1,6 @@
-
-<link rel="stylesheet" type="text/css" media="screen" href="../../Estilos/trebuchet.css">
-<title>Mostrar</title>
+<title>2013</title>
 <?php
 
-include ("../../conexion.php");
 echo "<body><table border=1 align=center>";
 echo "<th bgcolor=white><font face='Trebuchet MS'>Nº</th>";
 echo "<th bgcolor=white><font face='Trebuchet MS'>Fecha</th>";
@@ -39,6 +36,5 @@ $i++;
 }
 }
 echo "</table><br>";
-echo "<a href=	../index.php>Volver a anuarios</a><br>";
-echo "<a href=../../index.php>Volver a inicio</a>";
+echo "<a href=visor.php?v=years/index.php>Volver a anuarios</a><br>";
 ?>

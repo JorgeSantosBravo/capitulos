@@ -1,6 +1,7 @@
 <link rel="stylesheet" type="text/css" media="screen" href="Estilos/enlace.css">
 <link rel='stylesheet' type='text/css' media='screen' href='Estilos/trebuchet.css'>
 <?php
+include("header/header.php");
 include("conexion.php");
 session_start();
 $miconsulta="select * from capitulo where id_capitulo='".$_GET["id"]."'"; 
@@ -30,8 +31,8 @@ if (!$rows["medio"]==""){
 echo " en ".$rows["medio"];}
 
 if (!$rows["formato"]==""){
-echo " por ".$rows["formato"]."<br>";}
-
+echo " por ".$rows["formato"];}
+echo "<br>";
 $r2=$miconexion->query("SELECT * FROM capitulo,serie,persona,capitulosdirectores WHERE capitulo.serie=serie.id_serie and capitulo.id_capitulo=capitulosdirectores.id_capitulo and capitulosdirectores.id_director=persona.id_persona and capitulo.id_capitulo LIKE  '$_GET[id]'");
 $a = array();
 while ($rows2 = $r2->fetch_assoc()) {
@@ -63,7 +64,7 @@ echo "</table><br></font>";
         width:80px;
         height:19px;
 		position: absolute;
-	top: 50px; 
+	top: 130px; 
 	right: 270px;
        }
 </style>
@@ -75,7 +76,6 @@ echo "<input type='button' value='Editar' onclick=window.location.href='edit/cap
 ?>
 </div>
 <?php
-echo "<a href='index.php'>Volver a inicio</a>";
 	 }else{
 		 echo "<title>404 Not Found</title>";
 		 ECHO "NOT FOUND";
