@@ -6,6 +6,7 @@ body{ background: #000 url('fondos/degradado.jpg') no-repeat top right fixed;
 -o-background-size: cover;
 background-size: cover;}
 </style>
+<title>Nuevo capítulo</title>
 <?php
 include "header/header.php";
 include "conexion.php";

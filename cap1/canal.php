@@ -1,6 +1,5 @@
 <link rel="stylesheet" type="text/css" media="screen" href="Estilos/enlace.css">
 <link rel="stylesheet" type="text/css" media="screen" href="Estilos/trebuchet.css">
-<link rel="stylesheet" type="text/css" media="screen" href="header/estilo.css">
 <?php
 include "header/header.php";
 include "conexion.php";

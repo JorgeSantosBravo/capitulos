@@ -15,11 +15,10 @@ echo "<th bgcolor=white>Duración</th>";
 $i=1;	//Contador para contar las filas impares y ponerlas de distinto color
 
 
-$fech=$miconexion->query("SELECT * FROM capitulo,serie WHERE serie.id_serie=capitulo.serie ORDER BY (fecha) ASC");
+$fech=$miconexion->query("SELECT * FROM capitulo,serie WHERE serie.id_serie=capitulo.serie and YEAR(fecha)=2016 ORDER BY (fecha),id_capitulo ASC");
 
 while ($rows = $fech->fetch_assoc()) {
 	$fecha = explode("-",$rows["fecha"]); 
-	if ($fecha[0]==2016){
 echo "<tr";
 if ($i%2!=0)
 {echo" bgcolor=#E6E6E6>";}
@@ -37,15 +36,14 @@ echo "<td align=center>".$rows["Titulo"]."</td>";
 $stocke=$miconexion->query("SELECT * FROM capitulosdirectores,persona WHERE capitulosdirectores.id_director=persona.id_persona and capitulosdirectores.id_capitulo LIKE '".$rows["id_capitulo"]."'"); 
 $a = array();
 while ($rows2 = $stocke->fetch_assoc()) {
-   array_push($a, "<a href=../../persona.php?id=".$rows2["id_director"].">".$rows2["Nombre_persona"]."</a>");
+   array_push($a, "<a href=persona.php?id=".$rows2["id_director"].">".$rows2["Nombre_persona"]."</a>");
 }
 $final= implode(', ', $a);
 echo "<td align=center>".$final."</td>";
 echo "<td align=center>".$rows["Duracion"]."</td></tr>";
 $i++;
+}
+echo "</table><br></font><a name='final'> </a>";
 
-}
-}
-echo "</table><br></font>";
 echo "<a href='visor.php?v=years/index.php'>Volver a anuarios</a><br>";
 ?>

@@ -1,5 +1,6 @@
 <link rel="stylesheet" type="text/css" media="screen" href="Estilos/trebuchet.css">
 <link rel="stylesheet" type="text/css" media="screen" href="Estilos/enlace.css">
+<title>Buscar</title>
 <?php
 include "header/header.php";
 include "conexion.php";

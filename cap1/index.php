@@ -120,7 +120,7 @@ $con=$miconexion->query("SELECT COUNT(*) as con FROM capitulo WHERE YEAR(fecha)=
 
 while ($rows = $con->fetch_assoc()){
 
-echo " Este año <strong><a href=visor.php?v=years/2016/m2016.php>".$rows["con"]."</a></strong> capítulos
+echo " Este año <strong><a href=visor.php?v=years/2016/m2016.php#final>".$rows["con"]."</a></strong> capítulos
 ";
 	
 }

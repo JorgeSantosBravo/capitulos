@@ -1,4 +1,5 @@
 <link rel="stylesheet" type="text/css" media="screen" href="Estilos/trebuchet.css">
+<title>Nueva serie</title>
 <?php
 
 include "header/header.php";
