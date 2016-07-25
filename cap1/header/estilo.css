@@ -21,6 +21,7 @@ img.logo {
 	background: #333;
 	color: white;
 	height: 80px;
+	z-index: 1;	/*  Para traer al frente el encabezado */
 }	
 	#main-header a {
 		color: white;

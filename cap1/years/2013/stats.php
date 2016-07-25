@@ -152,6 +152,5 @@ if ($rows = $fech->fetch_assoc()) {
 
 echo "<b>Minutos/día</b>: ".$rows["con"]."<br>";
 }
-echo "<a href='../index.php'>Volver a anuarios</a><br>";
-echo "<a href='../../index.php'>Volver a inicio</a>";
+echo "<a href='visor.php?v=years/index.php'>Volver a anuarios</a><br>";
 ?>

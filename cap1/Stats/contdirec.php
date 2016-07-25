@@ -1,4 +1,3 @@
-<link rel="stylesheet" type="text/css" media="screen" href="Estilos/trebuchet.css">
 <?php
 	
 include("conexion.php");
@@ -9,7 +8,7 @@ echo "<th><font face='Trebuchet MS'>persona</th>";
 echo "<th><font face='Trebuchet MS'>Capítulos</th>";
 while ($rows = $cont->fetch_assoc()) {
 if (!$rows["Nombre_persona"]==""){
-echo "<tr><td align=center>".$rows["Nombre_persona"]."</td>";
+echo "<tr><td align=center><a href=persona.php?id=".$rows["id_persona"].">".$rows["Nombre_persona"]."</a></td>";
 echo "<td align=center>".$rows["cantidad"]."</td></tr>";
 }
 }

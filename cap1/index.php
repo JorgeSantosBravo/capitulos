@@ -37,7 +37,8 @@ include ("conexion.php");
 include("hace.php");
 
 echo "<br><a href =todas.php>Todas las series</a><br>";
-echo "<a href =visor.php?v=years/index.php>Anuarios</a>";
+echo "<a href =visor.php?v=years/index.php>Anuarios</a><br>";
+echo "<a href =visor.php?v=Stats/index.php>Estadísticas</a>";
 echo "<br><br><input type=button value='Nuevo capítulo' onclick=window.location.href='nuevocap.php'>";
 echo "<br><br><input type=button value='Nueva serie' onclick=window.location.href='newserie.php'>";
 //include "nuevocap.php";
@@ -55,7 +56,7 @@ $stocke=$miconexion->query("SELECT * FROM capitulo,serie WHERE capitulo.serie=se
 while ($rows = $stocke->fetch_assoc()){
 $fe=explode("-", $rows["fecha"]);
 
-echo $fe[2]."/".$fe[1]." - <a href=capitulo.php?id=".$rows["id_capitulo"].">".$rows["Nombre"].": ".$rows["s"]."x".$rows["e"]."</a><br>";
+echo $fe[2]."/".$fe[1]." - <a href=capitulo.php?id=".$rows["id_capitulo"].">".$rows["Nombre"]." ".$rows["s"]."x".$rows["e"]."</a><br>";
 	
 }
 

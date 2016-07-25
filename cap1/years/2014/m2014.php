@@ -1,12 +1,12 @@
 <title>2014</title>
 <?php
 echo "<body><table border=1 align=center>";
-echo "<th bgcolor=white><font face='Trebuchet MS'>Num</th>";
-echo "<th bgcolor=white><font face='Trebuchet MS'>Fecha</th>";
-echo "<th bgcolor=white><font face='Trebuchet MS'>Formato</th>";
-echo "<th bgcolor=white><font face='Trebuchet MS'>Serie</th>";
-echo "<th bgcolor=white><font face='Trebuchet MS'>SE</th>";
-echo "<th bgcolor=white><font face='Trebuchet MS'>Duración</th>";
+echo "<th bgcolor=white>Nº</th>";
+echo "<th bgcolor=white>Fecha</th>";
+echo "<th bgcolor=white>Formato</th>";
+echo "<th bgcolor=white>Serie</th>";
+echo "<th bgcolor=white>SE</th>";
+echo "<th bgcolor=white>Duración</th>";
 
 
 $i=1;	//Contador para contar las filas impares y ponerlas de distinto color
@@ -23,8 +23,10 @@ if ($i%2!=0)
 else{
 	echo" bgcolor=white>";
 }
+$fechcompl=$fecha[2].'/'.$fecha[1].'/'.$fecha[0];
+
 echo "<td align=center>".$i."</td>";
-echo '<td>'.$fecha[2].'/'.$fecha[1].'/'.$fecha[0].'</td>';
+echo '<td><a name="'.$fechcompl.'"></a> '.$fechcompl.'</td>';
 echo "<td align=center>".$rows["formato"]."</td>";
 echo '<td align=center>'.$rows["Nombre"].'</td>';
 echo '<td align=center>S'.$rows["s"].'E'.$rows["e"].'</td>';

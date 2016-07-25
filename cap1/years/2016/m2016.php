@@ -25,13 +25,15 @@ if ($i%2!=0)
 else{
 	echo" bgcolor=white>";
 }
-echo '<td>'.$i.'</td>';
-echo '<td>'.$fecha[2].'/'.$fecha[1].'/'.$fecha[0].'</td>';
+$fechcompl=$fecha[2].'/'.$fecha[1].'/'.$fecha[0];
+
+echo "<td align=center>".$i."</td>";
+echo '<td><a name="'.$fechcompl.'"></a> '.$fechcompl.'</td>';
 echo "<td align=center>".$rows["medio"]."</td>";
 echo "<td align=center>".$rows["formato"]."</td>";
-echo '<td align=center>'.$rows["Nombre"].'</td>';
+echo '<td align=center><a href=serie.php?id='.$rows["id_serie"].'>'.$rows["Nombre"].'</a></td>';
 echo '<td align=center>S'.$rows["s"].'E'.$rows["e"].'</td>';
-echo "<td align=center>".$rows["Titulo"]."</td>";
+echo "<td align=center><a href=capitulo.php?id=".$rows["id_capitulo"].">".$rows["Titulo"]."</a></td>";
 
 $stocke=$miconexion->query("SELECT * FROM capitulosdirectores,persona WHERE capitulosdirectores.id_director=persona.id_persona and capitulosdirectores.id_capitulo LIKE '".$rows["id_capitulo"]."'"); 
 $a = array();
