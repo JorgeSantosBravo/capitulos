@@ -1,0 +1,10 @@
+Este documento se crea a partir de la versión 00.13.03 para guardar un historial de cambios.
+
+24/07/2016 17:11	Se modifica estilo.css para traerlo al frente.
+24/07/2016 17:13	Se elimina Volver a inicio de stats.php de la carpeta correspondiente a 2013 y se modifica volver a anuarios.
+24/07/2016 17:21	Se añaden accesos directos a capítulos y a series desde las tablas.
+24/07/2016 19:00	Se añade un gráfico con su correspondiente links en el index de /years sobre los capítulos vistos cada mes.
+25/07/2016 4:42		Se actualiza contador.php.
+25/07/2016 19:02	Se crea sumadias.php, un documento en el que se pueden ver la suma de todos los capítulos vistos en x días, con un link al día correspondiente
+			Es necesario modificar todos los archivos de /years 
+25/07/2016 19:20	Lavado de cara a todos los archivos de la carpeta /Stats con su correspondiente index y su link en el inicio de la página.
