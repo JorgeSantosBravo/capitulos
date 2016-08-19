@@ -1,6 +1,7 @@
 <?php
 $hostname = 'localhost';
-$database = 'capitulos';
+//$database = 'cinepruebas';
+$database = 'cineyseries';
 $username = 'root';		//Definimos las constantes
 $password = '12345';
 

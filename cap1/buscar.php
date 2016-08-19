@@ -17,6 +17,19 @@ while ($rows = $consulta->fetch_assoc()){
 }
 $c++;
 	 }
+	 
+$peliculas="SELECT * FROM peliculas WHERE Titulo LIKE '%".$_GET["b"]."%' or Titulo LIKE '".$_GET["b"]."' or titulo_original LIKE '%".$_GET["b"]."%' or titulo_original LIKE '".$_GET["b"]."'";
+$resultado=$miconexion->query($peliculas);
+	 $filas=$miconexion->affected_rows;
+     if($filas>=1){
+		 
+echo "<br><strong>Películas:</strong><br>";
+$consulta=$miconexion->query($peliculas); 
+while ($rows = $consulta->fetch_assoc()){
+echo "<a href=pelicula.php?id=".$rows["id_pelicula"].">".$rows["año"]." - ".$rows["titulo"]."</a><br>";
+}
+$c++;
+	 }
 $series="SELECT * FROM serie WHERE Nombre LIKE '%".$_GET["b"]."%' or Nombre LIKE '".$_GET["b"]."'";
 $resultado=$miconexion->query($series);
 	 $filas=$miconexion->affected_rows;

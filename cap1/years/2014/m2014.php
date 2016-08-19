@@ -12,7 +12,7 @@ echo "<th bgcolor=white>Duración</th>";
 $i=1;	//Contador para contar las filas impares y ponerlas de distinto color
 
 
-$fech=$miconexion->query("SELECT * FROM capitulo,serie WHERE capitulo.serie LIKE serie.id_serie ORDER BY (fecha) ASC");
+$fech=$miconexion->query("SELECT * FROM capitulo,serie,capitulosfecha WHERE capitulo.id_capitulo = capitulosfecha.id_capitulo and  capitulo.serie LIKE serie.id_serie ORDER BY (fecha) ASC");
 
 while ($rows = $fech->fetch_assoc()) {
 	$fecha = explode("-",$rows["fecha"]); 

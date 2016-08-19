@@ -138,9 +138,20 @@ echo "<br>".$_POST["persona"]."<br>";
 //$ids=buscarid($_POST["serie"], "serie", "Nombre", "id_serie");
 
 //FINALMENTE INSERTA
-if (!$miconexion->query("INSERT INTO capitulo VALUES ('".$idcap."', '".$fecha."', '".$_POST['pc']."', '".$_POST['for']."', '".$_POST["serie"]."', '".$_POST['s']."', '".$_POST['e']."', '".addslashes($_POST['titulo'])."', '".$_POST['dur']."', '".$_POST['com']."')")){
+
+if (!$miconexion->query("INSERT INTO capitulo VALUES ('".$idcap."', '".$_POST["serie"]."', '".$_POST['s']."', '".$_POST['e']."', '".addslashes($_POST['titulo'])."', '".$_POST['dur']."')")){
 	echo $miconexion->error;
 }
 header ("Location:index.php");
+
+
+//ACTUALIZACIÓN: LAS FECHAS VAN EN UNA TABLA APARTE
+if (!$miconexion->query("INSERT INTO capitulosfecha VALUES ('".$idcap."', '".$fecha."', '".$_POST['pc']."', '".$_POST['for']."', '".$_POST['com']."')")){
+	echo $miconexion->error;
 }
+
+
+}
+echo "<BR><br> - O - <br><br> <a href=rewatch.php>REWATCH</a>";
+
 ?>

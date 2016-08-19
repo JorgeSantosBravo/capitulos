@@ -8,6 +8,7 @@ include "conexion.php";
 $img=$miconexion->query("SELECT * FROM canal WHERE ID_canal LIKE '".$_GET["id"]."'"); 
 while ($rows = $img->fetch_assoc())
 {
+echo "<title>".$rows["Nomcanal"]."</title>";
 echo "<img width=240 height=140 src=poster/logos/".$rows["Logo"]."><br>";
 }
 

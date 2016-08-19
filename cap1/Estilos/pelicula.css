@@ -1,0 +1,61 @@
+body {
+font-family: 'Libre Baskerville', serif;
+background: #000 url('../fondos/degradado.jpg') no-repeat top right fixed;
+-webkit-background-size: cover;
+-moz-background-size: cover;
+-o-background-size: cover;
+background-size: cover;
+}
+table.visionados{
+position:absolute;
+right: 10px;
+top:100px;
+border-radius: 19px 19px 19px 19px;
+-moz-border-radius: 19px 19px 19px 19px;
+-webkit-border-radius: 19px 19px 19px 19px;
+border: 2px solid #7d7c7d;
+}
+
+img.poster{
+border-radius: 19px 19px 19px 19px;
+-moz-border-radius: 19px 19px 19px 19px;
+-webkit-border-radius: 19px 19px 19px 19px;
+border: 2px solid #7d7c7d;
+}
+
+
+
+td.cabeza{
+color: grey;
+text-align: right;
+}
+td.puntuacion{
+border-radius: 19px 19px 19px 19px;
+-moz-border-radius: 19px 19px 19px 19px;
+-webkit-border-radius: 19px 19px 19px 19px;
+border: 2px solid #7d7c7d;
+background-color:red;
+text-align:center;
+color:white;
+font-size:20;
+}
+th{
+font-size:24; 
+}
+table.imagen{
+position:absolute;
+}
+table.datos{
+	left:275px;
+	width:750px;
+	position:absolute;
+	line-height: 1.85; 
+}
+
+a:link{
+	text-decoration:none;
+	color:#000000;
+}
+a:visited {text-decoration:none;color:#000000;}
+a:active {text-decoration:none;color:#000000;} 
+a:hover {text-decoration:underline;color:#000000;} 

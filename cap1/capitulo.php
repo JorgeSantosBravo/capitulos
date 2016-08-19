@@ -24,15 +24,27 @@ echo "Temporada ".$rows["s"]." Episodio ".$rows["e"]."<br>";
 $_SESSION["s"]=$rows["s"];
 $_SESSION["e"]=$rows["e"];
 $_SESSION["titulo"]=$rows["Titulo"];
-$fe=explode("-", $rows["fecha"]);
 
-echo "<strong>Visto el:</strong> ".$fe[2]."/".$fe[1]."/".$fe[0];
-if (!$rows["medio"]==""){
-echo " en ".$rows["medio"];}
+echo "<strong>Visto el:</strong> ";
+$fecha=$miconexion->query("SELECT * FROM capitulo,capitulosfecha WHERE capitulo.id_capitulo=capitulosfecha.id_capitulo and capitulo.id_capitulo LIKE '$_GET[id]'");
 
-if (!$rows["formato"]==""){
-echo " por ".$rows["formato"];}
+while ($rows4 = $fecha->fetch_assoc()) {
+$fe=explode("-", $rows4["fecha"]);
+ echo $fe[2]."/".$fe[1]."/".$fe[0];
+if (!$rows4["medio"]==""){
+echo " en ".$rows4["medio"];}
+
+if (!$rows4["formato"]==""){
+echo " por ".$rows4["formato"];
+}
 echo "<br>";
+if (!$rows4["comentario"]==""){
+echo "<strong>Comentario</strong>: ".$rows4["comentario"]."<br>";
+
+}
+$_SESSION["com"]=$rows4["comentario"];
+
+}
 $r2=$miconexion->query("SELECT * FROM capitulo,serie,persona,capitulosdirectores WHERE capitulo.serie=serie.id_serie and capitulo.id_capitulo=capitulosdirectores.id_capitulo and capitulosdirectores.id_director=persona.id_persona and capitulo.id_capitulo LIKE  '$_GET[id]'");
 $a = array();
 while ($rows2 = $r2->fetch_assoc()) {
@@ -46,11 +58,6 @@ echo "<strong>Director</strong>: ".$final."<br>";
 }
 echo "<strong>Duración</strong>: ".$rows["Duracion"]."<br>";
 $_SESSION["dur"]=$rows["Duracion"];
-if (!$rows["Comentario"]==""){
-echo "<strong>Comentario</strong>: ".$rows["Comentario"]."<br>";
-
-}
-$_SESSION["com"]=$rows["Comentario"];
 }
 echo "</table><br></font>";
 ?>

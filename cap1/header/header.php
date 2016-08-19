@@ -17,12 +17,6 @@ else{
 	header("Location:../buscar.php?b=".$_POST["busc"]."");
 }
 ?>
-<div id="derecha">
-<?php
-include "conexion.php";
-echo "Estás en $database";
-?>
-</div>
 </div>
 
 

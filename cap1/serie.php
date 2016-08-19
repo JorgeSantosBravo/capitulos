@@ -50,7 +50,7 @@ echo "</div>";
         width:80px;
         height:19px;
 		position: absolute;
-	top: 50px; 
+	top: 105px; 
 	right: 270px;
        }
 </style>

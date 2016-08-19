@@ -5,7 +5,7 @@ include "conexion.php";
 ?>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>Capítulos meses</title>
+		<title>Minutos por mes</title>
 
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 		<style type="text/css">
@@ -15,7 +15,7 @@ ${demo.css}
 $(function () {
     $('#container').highcharts({
         title: {
-            text: 'Capítulos vistos cada mes',
+            text: 'Minutos vistos cada mes',
             x: -20 //center
         },
         
@@ -25,7 +25,7 @@ $(function () {
         },
         yAxis: {
             title: {
-                text: 'Capítulos'
+                text: 'Minutos'
             },
             plotLines: [{
                 value: 0,
@@ -34,7 +34,7 @@ $(function () {
             }]
         },
         tooltip: {
-            valueSuffix: ' capítulos'
+            valueSuffix: ' minutos'
         },
         legend: {
             layout: 'vertical',
@@ -46,7 +46,7 @@ $(function () {
             name: '2013',
             data: [ 0,0,
 			<?php
-			$stocke=$miconexion->query("SELECT COUNT(*) as con FROM capitulo,capitulosfecha WHERE capitulo.id_capitulo=capitulosfecha.id_capitulo and YEAR(fecha)=2013 GROUP BY MONTH(fecha)"); 
+			$stocke=$miconexion->query("SELECT SUM(Duracion) as con FROM capitulo,capitulosfecha WHERE capitulosfecha.id_capitulo=capitulo.id_capitulo and YEAR(fecha)=2013 GROUP BY MONTH(fecha)"); 
 while ($rows = $stocke->fetch_assoc()){
 
 			?>
@@ -59,12 +59,12 @@ while ($rows = $stocke->fetch_assoc()){
 			]
         }, {
             name: '2014',
-            data: [72, 27, 10, 5, 19, 51, 65, 0, 24, 45, 59, 35]
+            data: [2551, 933, 418, 100, 695, 2719, 2984, 0, 1145, 1918, 2450, 1565]
         }, {
             name: '2015',
             data: [
 			<?php
-			$stocke=$miconexion->query("SELECT COUNT(*) as con FROM capitulo,capitulosfecha WHERE capitulo.id_capitulo=capitulosfecha.id_capitulo and YEAR(fecha)=2015 GROUP BY MONTH(fecha)"); 
+			$stocke=$miconexion->query("SELECT SUM(Duracion) as con FROM capitulo,capitulosfecha WHERE capitulosfecha.id_capitulo=capitulo.id_capitulo and  YEAR(fecha)=2015 GROUP BY MONTH(fecha)"); 
 while ($rows = $stocke->fetch_assoc()){
 
 			?>
@@ -79,7 +79,7 @@ while ($rows = $stocke->fetch_assoc()){
             name: '2016',
             data: [
 			<?php
-			$stocke=$miconexion->query("SELECT COUNT(*) as con FROM capitulo,capitulosfecha WHERE capitulo.id_capitulo=capitulosfecha.id_capitulo and YEAR(fecha)=2016 GROUP BY MONTH(fecha)"); 
+			$stocke=$miconexion->query("SELECT SUM(Duracion) as con FROM capitulo,capitulosfecha WHERE capitulosfecha.id_capitulo=capitulo.id_capitulo and YEAR(fecha)=2016 GROUP BY MONTH(fecha)"); 
 while ($rows = $stocke->fetch_assoc()){
 
 			?>
