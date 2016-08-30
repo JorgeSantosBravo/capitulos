@@ -6,7 +6,7 @@
 
 <a href='http://localhost:8080/capitulos/index.php'><img class="logo" width="100" height="80" src="http://localhost:8080/capitulos/header/logo.png" ></a>
 <?php
-if (!$_POST){
+if (!isset($_POST["busc"])){
 echo "<div id='buscador'>
 <form action='header/header.php' method=post>
 <input class='buscador' autocomplete=off type='text' name='busc' size=40>

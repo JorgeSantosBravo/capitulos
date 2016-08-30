@@ -9,6 +9,7 @@ background-size: cover;}
 <?php
 
 include "conexion.php";
+include "header/header.php";
 echo "<table>";
 if (!$_POST){
 

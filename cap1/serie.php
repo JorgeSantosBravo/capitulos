@@ -9,17 +9,22 @@ $selec=$miconexion->query("SELECT * FROM serie,canal WHERE serie.canal=canal.id_
 while ($rows = $selec->fetch_assoc()) {
 echo "<title>".$rows["Nombre"]." (".$rows["inicio"].")</title>";
 $_SESSION["inicio"]=$rows["inicio"];
-echo "<h3>".$rows["Nombre"]."</h3><hr>";
+echo "<h3>".$rows["Nombre"];
+if ($rows["miniserie"]==1){
+	echo " (Miniserie)";
+}
+echo "</h3><hr>";
 $_SESSION["nombre"]=$rows["Nombre"];
 echo "<strong>Canal:</strong> <a href='canal.php?id=".$rows["ID_canal"]."'>".$rows["Nomcanal"]."</a><br>";
 $_SESSION["c"]=$rows["ID_canal"];
 echo "<strong>Inicio</strong>: ".$rows["inicio"]."<br>";
-if ($rows["fin"]==0){
+if ($rows["fin"]==0 ||$rows["miniserie"]==1){
 }else{
 echo "<strong>Fin</strong>: ".$rows["fin"]."<br>";
 }
 $_SESSION["fin"]=$rows["fin"];
-echo "<strong>Estado</strong>: ".$rows["estado"]."<br>";
+if ($rows["miniserie"]==0){
+echo "<strong>Estado</strong>: ".$rows["estado"]."<br>";}
 $_SESSION["estado"]=$rows["estado"];
 $dur=$miconexion->query("SELECT SUM(Duracion) as sum FROM capitulo,serie WHERE capitulo.serie=serie.id_serie and serie.id_serie LIKE '$_GET[id]'");
 while ($rows2 = $dur->fetch_assoc()) {

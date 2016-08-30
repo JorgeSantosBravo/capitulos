@@ -38,8 +38,9 @@ include("hace.php");
 
 echo "<br><a href =todas.php>Todas las series</a><br>";
 echo "<a href =visor.php?v=years/index.php>Anuarios</a><br>";
-echo "<a href =visor.php?v=Stats/index.php>Estadísticas</a>";
-echo "<br><br><input type=button value='Nuevo capítulo' onclick=window.location.href='nuevocap.php'>";
+echo "<a href =visor.php?v=Stats/index.php>Estadísticas</a><br>";
+echo "<a href =buscafecha.php>Buscar por fecha</a><br>";
+echo "<br><input type=button value='Nuevo capítulo' onclick=window.location.href='nuevocap.php'>";
 echo "<br><br><input type=button value='Nueva serie' onclick=window.location.href='newserie.php'>";
 echo "<br><br><input type=button value='Nueva película' onclick=window.location.href='nuevapelicula.php'>";
 ?>

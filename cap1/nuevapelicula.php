@@ -8,6 +8,7 @@ background-size: cover;}
 </style>
 <title>Nueva película</title>
 <?php
+include "header/header.php";
 include "conexion.php";
 
 if (!$_POST){
@@ -450,7 +451,7 @@ if (strpos($elemento, ",")){
 	}		
 	
 //PARA LA FECHA
-if (!$miconexion->query("INSERT INTO fechaspeliculas VALUES ('".maxid("id_visionado", "fechaspeliculas")."', '".$fecha."', '".$idcap."', '".$_POST['pc']."', '".$_POST['for']."', '".$_POST['audio']."', '".$_POST['com']."', '".$_POST['punt']."', '".$_POST['fa']."', '".$_POST['imdb']."', '".$_POST['rt']."', '".$_POST['as']."', '".$_POST['lb']."')")){
+if (!$miconexion->query("INSERT INTO fechaspeliculas VALUES ('".maxid("id_visionado", "fechaspeliculas")."', '".$fecha."', '".$idcap."', '".$_POST['pc']."', '".$_POST['for']."', '".$_POST['audio']."', '".$_POST['com']."', '".$_POST['punt']."', '".$_POST['fa']."', '".$_POST['imdb']."', '".$_POST['rt']."', '".$_POST['as']."', '".($_POST['lb']*2)."')")){
 	echo $miconexion->error;
 }
 

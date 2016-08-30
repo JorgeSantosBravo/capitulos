@@ -23,8 +23,7 @@ echo $rows2["puntuacion"];
 
 }
 echo "</td></tr></table>";
-echo "<div id=datos>
-<table class=datos>
+echo "<table class=datos>
 <tr><th align=left colspan=3>".$rows["titulo"]."</th></tr>
 <tr><td class=cabeza>Título orig.</td><td> </td><td>".$rows["titulo_original"]."</td></tr>
 <tr><td class=cabeza>Año</td><td> </td><td>".$rows["año"]."</td></tr>
@@ -116,7 +115,7 @@ $final= implode(', ', $a);
 echo $final."</td></tr>"; 
 
 
-"</table></div>";
+"</table>";
 }
 
 echo "<table class=visionados><tr><td>";
@@ -135,83 +134,14 @@ if ($rows=$numero->fetch_assoc()){
 echo	"</td></tr>";
 }
 
-/*
-$resultado=$miconexion->query("SELECT * FROM peliculas,fechaspeliculas WHERE peliculas.id_pelicula=fechaspeliculas.id_pelicula and peliculas.id_pelicula LIKE '$_GET[id]'");
+$resultado=$miconexion->query("SELECT * FROM peliculas,fechaspeliculas WHERE peliculas.id_pelicula=fechaspeliculas.id_pelicula and peliculas.id_pelicula LIKE '$_GET[id]' ORDER BY fecha ASC");
 
-echo "<table border=1><tr><td>Fecha</td><td>Punt.</td><td>FilmAffinity</td><td>IMDB</td><td>RottenTomatoes</td><td>AudienceScore</td><td>Letterboxd</td><td>Media</td><td>Media prof.</td></tr>";
-$i=1;
-$j=1;
-$pu=0;	//CONTADOR PARA HACER LA MEDIA
-$fa=0;
-$imdb=0;
-$rt=0;
-$as=0;
-$lb=0;
-while ($rows = $resultado->fetch_assoc()) {
-   echo "<tr><td>";
+   while ($rows=$resultado->fetch_assoc()){
+echo "<tr><td>";
   $fe=explode("-", $rows["fecha"]);
  echo $fe[2]."/".$fe[1]."/".$fe[0];
- echo "</td><td align=center> ";
-   $pu=$rows["puntuacion"];
-   echo  $rows["puntuacion"]."</td>";
-   echo "<td align=center>";
-	if (!$rows["filmaffinity"]==0){
-		echo $rows["filmaffinity"];
-		$fa=$rows["filmaffinity"];
-		$i++;
-		$j++;
-	}
-	echo "</td>";
-	 echo "<td align=center>";
-	if (!$rows["imdb"]==0){
-		echo $rows["imdb"];
-		$imdb=$rows["imdb"];
-		$i++;
-		$j++;
-	}
-	echo "</td>";
-	 echo "<td align=center>";
-	if (!$rows["tomatometer"]==0){
-		echo $rows["tomatometer"];
-		$rt=$rows["tomatometer"];
-		$i++;
-		$j++;
-	}
-	echo "</td>";
-	echo "<td align=center>";
-	if (!$rows["audiencescore"]==0){
-		echo $rows["audiencescore"];
-		$as=$rows["audiencescore"];
-		$i++;
-	}
-	echo "</td>";
-	echo "<td align=center>";
-	if (!$rows["letterboxd"]==0){
-		echo $rows["letterboxd"];
-		$lb=$rows["letterboxd"];
-		$i++;
-		$j++;
-	}
-	echo "</td>";
-   echo "<td align=center>";
-   $media=($pu+$fa+$imdb+$rt+$as+$lb)/$i;
-   echo number_format($media, 3);
-   echo "</td>";
-   echo "<td align=center>";
-   if ($j>1){
-	   $j-=1;
+ echo "</td></tr>";
    }
-   $mediaprof=($fa+$imdb+$rt+$lb)/$j;
-   if (!$mediaprof==0){
-   echo number_format($mediaprof, 3);
-   }
-   echo "</td>";
-   $i=1;		//VOLVEMOS A PONER EL CONTADOR EN SU POSICIÓN INICIAL
-   $j=1;
-}
-echo "</table>";
-*/
-
 
 echo "</table>";
 

@@ -146,7 +146,7 @@ header ("Location:index.php");
 
 
 //ACTUALIZACIÓN: LAS FECHAS VAN EN UNA TABLA APARTE
-if (!$miconexion->query("INSERT INTO capitulosfecha VALUES ('".$idcap."', '".$fecha."', '".$_POST['pc']."', '".$_POST['for']."', '".$_POST['com']."')")){
+if (!$miconexion->query("INSERT INTO capitulosfecha (id_capitulo, fecha, medio, formato, comentario) VALUES ('".$idcap."', '".$fecha."', '".$_POST['pc']."', '".$_POST['for']."', '".$_POST['com']."')")){
 	echo $miconexion->error;
 }
 

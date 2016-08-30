@@ -1,12 +1,15 @@
 body {
-font-family: 'Libre Baskerville', serif;
+
 background: #000 url('../fondos/degradado.jpg') no-repeat top right fixed;
 -webkit-background-size: cover;
 -moz-background-size: cover;
 -o-background-size: cover;
 background-size: cover;
 }
+
 table.visionados{
+background-color:grey;
+font-family: Trebuchet MS;
 position:absolute;
 right: 10px;
 top:100px;
@@ -15,6 +18,7 @@ border-radius: 19px 19px 19px 19px;
 -webkit-border-radius: 19px 19px 19px 19px;
 border: 2px solid #7d7c7d;
 }
+
 
 img.poster{
 border-radius: 19px 19px 19px 19px;
@@ -46,6 +50,7 @@ table.imagen{
 position:absolute;
 }
 table.datos{
+	font-family: 'Libre Baskerville', serif;
 	left:275px;
 	width:750px;
 	position:absolute;
