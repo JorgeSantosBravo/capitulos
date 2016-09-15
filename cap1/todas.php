@@ -12,7 +12,7 @@ background-size: cover;}
 include ("header/header.php");
 include ("conexion.php");
 
-$cont=$miconexion->query("SELECT id_serie,Nombre,Poster,inicio FROM serie ORDER BY inicio ASC");
+$cont=$miconexion->query("SELECT * FROM serie WHERE Seguimiento=1 ORDER BY inicio ASC");
 
 while ($rows = $cont->fetch_assoc()) {
 echo ' <a href=serie.php?id='.$rows["id_serie"].'><img class="todas" title='.urlencode($rows["Nombre"]).' src=poster/'.$rows["Poster"].'></a>';

@@ -23,7 +23,7 @@ echo "<table>
 <option selected>Elige serie...</option>
 ";
 
-$stocke=$miconexion->query("SELECT * FROM serie ORDER BY Nombre");
+$stocke=$miconexion->query("SELECT * FROM serie WHERE Seguimiento=1 ORDER BY Nombre");
 while ($rows = $stocke->fetch_assoc()){
 
 echo "<option value ='".$rows['id_serie']."'>".$rows['Nombre']."</option>";

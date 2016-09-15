@@ -455,7 +455,21 @@ if (!$miconexion->query("INSERT INTO fechaspeliculas VALUES ('".maxid("id_vision
 	echo $miconexion->error;
 }
 
-
+if (!$miconexion->query("UPDATE fechaspeliculas SET filmaffinity=NULL WHERE filmaffinity=0")){
+	echo $miconexion->error;
+}
+if (!$miconexion->query("UPDATE fechaspeliculas SET imdb=NULL WHERE imdb=0")){
+	echo $miconexion->error;
+}
+if (!$miconexion->query("UPDATE fechaspeliculas SET tomatometer=NULL WHERE tomatometer=0")){
+	echo $miconexion->error;
+}
+if (!$miconexion->query("UPDATE fechaspeliculas SET audiencescore=NULL WHERE audiencescore=0")){
+	echo $miconexion->error;
+}
+if (!$miconexion->query("UPDATE fechaspeliculas SET letterboxd=NULL WHERE letterboxd=0")){
+	echo $miconexion->error;
+}
 }
 echo "<BR><br> - O - <br><br> <a href=rewatchmovie.php>REWATCH</a>";
 

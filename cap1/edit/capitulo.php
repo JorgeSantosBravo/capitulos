@@ -46,8 +46,6 @@ $final= implode(', ', $a);
 echo "Director</td><td><input type='text' name=dire value='$final'</td></tr>
 <tr><td>
 Duración</td><td><input type='text' name=dur value='".$_SESSION["dur"]."' size=1></td></tr>
-<tr><td>
-Comentario</td><td><textarea name='com'>".$_SESSION["com"]."</textarea></td></tr>
 
 </table>
 <input type=submit value='Enviar'><input type=button value='Volver atrás' onclick=window.location.href='../capitulo.php?id=".$_GET["id"]."'>
@@ -58,7 +56,7 @@ Comentario</td><td><textarea name='com'>".$_SESSION["com"]."</textarea></td></tr
 //PARA EDITAR LA FECHA PODRÍA HACER UN CALENDARIO 
 }else{
 	include "../conexion.php";
-if (!$miconexion->query("UPDATE capitulo SET Titulo='".$_POST["titulo"]."', s='".$_POST["s"]."', e='".$_POST["e"]."', Duracion='".$_POST["dur"]."', Comentario='".$_POST["com"]."' WHERE id_capitulo LIKE '".$_GET["id"]."'")){
+if (!$miconexion->query("UPDATE capitulo SET Titulo='".$_POST["titulo"]."', s='".$_POST["s"]."', e='".$_POST["e"]."', Duracion='".$_POST["dur"]."' WHERE id_capitulo LIKE '".$_GET["id"]."'")){
 	echo $miconexion->error;
 }
 $miconexion->query("DELETE FROM capitulosdirectores WHERE id_capitulo LIKE '".$_GET["id"]."'");

@@ -33,7 +33,7 @@ echo "<td align=center>".$rows["medio"]."</td>";
 echo "<td align=center>".$rows["formato"]."</td>";
 echo '<td align=center>'.$rows["Nombre"].'</td>';
 echo '<td align=center>S'.$rows["s"].'E'.$rows["e"].'</td>';
-echo "<td align=center>".$rows["Titulo"]."</td>";
+echo "<td align=center><a href=capitulo.php?id=".$rows["id_capitulo"].">".$rows["Titulo"]."</a></td>";
 
 echo "<td align=center>".$rows["Duracion"]."</td></tr>";
 $i++;

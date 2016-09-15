@@ -1,12 +1,14 @@
+<link rel="stylesheet" type="text/css" media="screen" href="Estilos/anios.css">
 <title>2016</title>
 <?php
-echo "<body><table border=1 align=center>";
-echo "<th bgcolor=white>Nº</th>";
-echo "<th bgcolor=white>Fecha</th>";
-echo "<th bgcolor=white>Formato</th>";
-echo "<th bgcolor=white>Año</th>";
-echo "<th bgcolor=white>Título</th>";
-echo "<th bgcolor=white>Punt.</th>";
+echo "<body><table align=center>";
+echo "<th>Nº</th>";
+echo "<th>Fecha</th>";
+echo "<th>Formato</th>";
+echo "<th>Año</th>";
+echo "<th></th>";
+echo "<th>Título</th>";
+echo "<th>Punt.</th>";
 
 
 $i=1;	//Contador para contar las filas impares y ponerlas de distinto color
@@ -16,18 +18,14 @@ $fech=$miconexion->query("SELECT * FROM peliculas,fechaspeliculas WHERE pelicula
 
 while ($rows = $fech->fetch_assoc()) {
 	$fecha = explode("-",$rows["fecha"]); 
-echo "<tr";
-if ($i%2!=0)
-{echo" bgcolor=#E6E6E6>";}
-else{
-	echo" bgcolor=white>";
-}
+echo "<tr>";
 $fechcompl=$fecha[2].'/'.$fecha[1].'/'.$fecha[0];
 
 echo "<td align=center>".$i."</td>";
 echo '<td><a name="'.$fechcompl.'"></a> '.$fechcompl.'</td>';
 echo "<td align=center>".$rows["formato"]."</td>";
 echo '<td align=center>'.$rows["año"].'</td>';
+echo '<td align=center><img  width=35 height=50 src=poster/'.$rows["poster"].'></td>';
 echo '<td align=center><a href=pelicula.php?id='.$rows["id_pelicula"].'>'.$rows["titulo"].'</a></td>';
 echo '<td align=center>'.$rows["puntuacion"].'</td>';
 $i++;

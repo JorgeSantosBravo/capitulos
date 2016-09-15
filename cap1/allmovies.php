@@ -12,7 +12,7 @@ background-size: cover;}
 include ("header/header.php");
 include ("conexion.php");
 
-$cont=$miconexion->query("SELECT * FROM peliculas ORDER BY año ASC");
+$cont=$miconexion->query("SELECT * FROM peliculas ORDER BY año,id_pelicula ASC");
 
 while ($rows = $cont->fetch_assoc()) {
 echo ' <a href=pelicula.php?id='.$rows["id_pelicula"].'><img class="todas" title='.urlencode($rows["titulo"]).' src=poster/'.$rows["poster"].'></a>';

@@ -32,6 +32,7 @@ border: 2px solid #7d7c7d;
 td.cabeza{
 color: grey;
 text-align: right;
+width: 17px;
 }
 td.puntuacion{
 border-radius: 19px 19px 19px 19px;

@@ -4,6 +4,7 @@
 include("header/header.php");
 include("conexion.php");
 session_start();
+$_SESSION["idcap"]=$_GET["id"];
 $miconsulta="select * from capitulo where id_capitulo='".$_GET["id"]."'"; 
      $resultado=$miconexion->query($miconsulta);
 	 $filas=$miconexion->affected_rows;
@@ -30,7 +31,7 @@ $fecha=$miconexion->query("SELECT * FROM capitulo,capitulosfecha WHERE capitulo.
 
 while ($rows4 = $fecha->fetch_assoc()) {
 $fe=explode("-", $rows4["fecha"]);
- echo $fe[2]."/".$fe[1]."/".$fe[0];
+ echo "<a href=edit/visionado.php?id=".$rows4["id_visionado"].">".$fe[2]."/".$fe[1]."/".$fe[0];
 if (!$rows4["medio"]==""){
 echo " en ".$rows4["medio"];}
 
@@ -39,12 +40,13 @@ echo " por ".$rows4["formato"];
 }
 echo "<br>";
 if (!$rows4["comentario"]==""){
-echo "<strong>Comentario</strong>: ".$rows4["comentario"]."<br>";
+echo "<strong>Comentario</strong>: ".$rows4["comentario"]."</a><br>";
 
 }
 $_SESSION["com"]=$rows4["comentario"];
 
 }
+echo "</a>";
 $r2=$miconexion->query("SELECT * FROM capitulo,serie,persona,capitulosdirectores WHERE capitulo.serie=serie.id_serie and capitulo.id_capitulo=capitulosdirectores.id_capitulo and capitulosdirectores.id_director=persona.id_persona and capitulo.id_capitulo LIKE  '$_GET[id]'");
 $a = array();
 while ($rows2 = $r2->fetch_assoc()) {

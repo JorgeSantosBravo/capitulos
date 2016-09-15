@@ -82,10 +82,8 @@ while ($rows2 = $cast->fetch_assoc()) {
 array_push($a, "<a href=persona.php?id=".$rows2["id_persona"].">".$rows2["Nombre_persona"]."</a>");
 }
 $final= implode(', ', $a);
-if (!$final==""){
-echo $final."</td></tr>"; 
-}
-
+echo $final; 
+echo "</td></tr>";
 echo "<tr><td class=cabeza valign=top>Productora</td><td> </td><td>";
 $cast=$miconexion->query("SELECT * FROM peliculasproductoras,productora WHERE peliculasproductoras.id_productora=productora.id_productora and id_pelicula LIKE '".$_GET["id"]."'"); 
 $a = array();
@@ -147,3 +145,24 @@ echo "</table>";
 
 
 ?>
+<style type="text/css">
+  .boton{
+        font-size:10px;
+        font-weight:bold;
+        color:white;
+        background:#638cb5;
+        border:0px;
+        width:80px;
+        height:19px;
+		position: absolute;
+	top: 130px; 
+	right: 270px;
+       }
+</style>
+<div id="boton">
+<?php
+
+
+echo "<input type='button' value='Editar' onclick=window.location.href='edit/pelicula.php?id=".$_GET["id"]."' class='boton'>";
+?>
+</div>

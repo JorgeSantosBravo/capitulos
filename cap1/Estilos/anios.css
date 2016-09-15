@@ -1,0 +1,18 @@
+body {
+  color: black;
+}
+table{
+border:1px solid black;
+}
+td{
+ border-bottom: 1px solid black;
+}
+a:link{
+color:black;
+}
+a:visited {text-decoration:none;color:black;}
+a:active {text-decoration:none;color:black;} 
+a:hover {text-decoration:underline;color:black;} 
+img{
+	border:1px;
+}
