@@ -4,7 +4,7 @@
 <link rel="stylesheet" type="text/css" media="screen" href="Estilos/enlace.css">
 <link rel="stylesheet" type="text/css" media="screen" href="Estilos/serie.css">
 <link rel="shortcut icon" type="image/x-icon" href="icono.ico" />
-<title>Inicio - BdSeries</title>
+<title>Inicio</title>
 
 <style type="text/css" media="screen">
   <?php 

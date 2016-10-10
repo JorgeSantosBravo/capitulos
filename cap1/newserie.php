@@ -132,8 +132,7 @@ $miconsulta="SELECT * FROM ".$tabla." WHERE ".$nombrecampo." LIKE '".$campo."'";
 if (!$miconexion->query("INSERT INTO serie VALUES ('".$GLOBALS['idcap']."', '".$_POST['nombre']."', '".$_POST['c']."', '".$_POST['ini']."', '".$_POST['fin']."', '".$_POST['estado']."', '".$_POST['poster']."', '".$_POST['intro']."', '".$_POST['seg']."', '".$_POST["miniserie"]."')")){
 	echo $miconexion->error;
 }else{
-//	header ("Location:nuevocap.php");
-	header ("Location:serie.php?id=".$GLOBALS['idcap']."");
+header ("Location:nuevocap.php");
 
 }
 creadores ($_POST["persona"]);

@@ -96,11 +96,11 @@ function directores ($elemento){
 		
 		$dir[$j];
 		
-		$miconexion->query("INSERT INTO capitulosdirectores (id_capitulo, id_director) VALUES ('".$GLOBALS['idcap']."', '".buscarid($dir[$j], "persona", "Nombre_persona", "id_persona")."')");
+		$miconexion->query("INSERT INTO capitulosdirectores (id_capitulo, id_director) VALUES ('".$GLOBALS['idcap']."', '".addslashes(buscarid($dir[$j], "persona", "Nombre_persona", "id_persona"))."')");
 	}
 	}else{
 		
-		$miconexion->query("INSERT INTO capitulosdirectores (id_capitulo, id_director) VALUES ('".$GLOBALS['idcap']."', '".buscarid($elemento, "persona", "Nombre_persona", "id_persona")."')");
+		$miconexion->query("INSERT INTO capitulosdirectores (id_capitulo, id_director) VALUES ('".$GLOBALS['idcap']."', '".addslashes(buscarid($elemento, "persona", "Nombre_persona", "id_persona"))."')");
 	}
 	 
 }
@@ -124,7 +124,7 @@ $miconsulta="SELECT * FROM ".$tabla." WHERE ".$nombrecampo." LIKE '".$campo."'";
 	 }else{
 		 
 		 $id=maxid("ID_persona", "persona");
-		 $miconexion->query("INSERT INTO persona (ID_persona, Nombre_persona) VALUES ('".$id."', '".$campo."')");
+		 $miconexion->query("INSERT INTO persona (ID_persona, Nombre_persona) VALUES ('".$id."', '".addslashes($campo)."')");
 	 }
 	return $id;
 }
@@ -149,6 +149,7 @@ header ("Location:index.php");
 if (!$miconexion->query("INSERT INTO capitulosfecha (id_capitulo, fecha, medio, formato, comentario) VALUES ('".$idcap."', '".$fecha."', '".$_POST['pc']."', '".$_POST['for']."', '".$_POST['com']."')")){
 	echo $miconexion->error;
 }
+$miconexion->query("DELETE FROM capitulosdirectores WHERE id_director=127");
 
 
 }

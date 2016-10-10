@@ -14,12 +14,45 @@ $peli=$miconexion->query("SELECT * FROM peliculas WHERE id_pelicula LIKE '".$_GE
 
 while ($rows = $peli->fetch_assoc()) {
 /*TÍTULO:*/ echo "<title>".$rows["titulo"]."</title>";
-echo "<table class=imagen><tr><td>";
-echo "<img class=poster src=poster/".$rows["poster"]." width=230 height=345></td></tr><tr><td class=puntuacion>";
+echo "<table class=imagen><tr><td colspan=6>";
+echo "<img class=poster src=poster/".$rows["poster"]." width=230 height=345></td></tr>";
+
+
 $punt=$miconexion->query("SELECT * FROM peliculas,fechaspeliculas WHERE peliculas.id_pelicula=fechaspeliculas.id_pelicula and peliculas.id_pelicula LIKE '".$_GET["id"]."' ORDER BY fechaspeliculas.fecha DESC LIMIT 1");
 while ($rows2 = $punt->fetch_assoc()) {
 
-echo $rows2["puntuacion"];
+echo "<tr><td rowspan=2 class=puntuacion>".$rows2["puntuacion"]."</td>";
+if (!is_null($rows2["filmaffinity"])){
+echo "<td  size=1 align=center width=1><img src=iconos/filmaffinity.png width=24 height=24>";}
+if (!is_null($rows2["imdb"])){
+echo "<td  size=1 align=center><img src=iconos/imdb.png width=24 height=24>";}
+if (is_null($rows2["tomatometer"])){
+	echo "<td></td>";
+}else if ($rows2["tomatometer"]>=6.0&&$rows2["tomatometer"]<=7.4){
+echo "<td  size=1 align=center><img src=iconos/tomato.png width=24 height=24>";}
+else if ($rows2["tomatometer"]<=5.9){
+echo "<td  size=1 align=center ><img src=iconos/rotten.png width=24 height=24>";}	
+else if ($rows2["tomatometer"]>7.4){
+	echo "<td  size=1 align=center><img src=iconos/fresh.png width=24 height=24>";}
+if (is_null($rows2["audiencescore"])){
+}else if ($rows2["audiencescore"]>=5){
+echo "<td size=1 align=center><img src=iconos/pc.png width=24 height=24>";}	
+else{
+	echo "<td  size=1 align=center><img src=iconos/badpc.png width=24 height=24>";}
+if (!is_null($rows2["letterboxd"])){
+echo "<td  size=1 align=center><img src=iconos/lb.png width=24 height=24>";	}
+
+echo "</tr>";
+if (!is_null($rows2["filmaffinity"])){
+echo "<td class=puntuacion>".$rows2["filmaffinity"]."</td>";}
+if (!is_null($rows2["imdb"])){
+echo "<td class=puntuacion>".$rows2["imdb"]."</td>";}
+if (!is_null($rows2["tomatometer"])){
+echo "<td class=puntuacion>".$rows2["tomatometer"]."</td>";}
+if (!is_null($rows2["audiencescore"])){
+echo "<td class=puntuacion>".$rows2["audiencescore"]."</td>";}
+if (!is_null($rows2["letterboxd"])){
+echo "<td class=puntuacion>".$rows2["letterboxd"]."</td>";}
 
 }
 echo "</td></tr></table>";

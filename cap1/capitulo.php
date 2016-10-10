@@ -12,10 +12,14 @@ $miconsulta="select * from capitulo where id_capitulo='".$_GET["id"]."'";
 $resultado=$miconexion->query("SELECT * FROM capitulo,serie WHERE capitulo.serie=serie.id_serie and capitulo.id_capitulo LIKE '$_GET[id]'");
 
 while ($rows = $resultado->fetch_assoc()) {
-	if ($rows["fin"]!=0){
+if ($rows["miniserie"]==1){
+echo "<a href=serie.php?id=".$rows["id_serie"].">".$rows["Nombre"]." (".$rows["inicio"].")</a><br>";	
+}else{
+if ($rows["fin"]!=0){
 echo "<a href=serie.php?id=".$rows["id_serie"].">".$rows["Nombre"]." (".$rows["inicio"]."-".$rows["fin"].")</a><br>";
 }else{
 echo "<a href=serie.php?id=".$rows["id_serie"].">".$rows["Nombre"]." (".$rows["inicio"]."-)</a><br>";
+}
 }
 echo'<title>'.$rows["Titulo"].'</title>';
 
