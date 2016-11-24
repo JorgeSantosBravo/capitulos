@@ -304,7 +304,7 @@ $id=$rows["max"];
 }
 return $id+1;
 }
- $idcap=maxid("id_pelicula", "peliculas");
+ $idcap=maxid("id_titulo", "titulo");
 	
 	
 	if(isset($_POST['hoy'])){
@@ -366,24 +366,32 @@ $miconsulta="SELECT * FROM ".$tabla." WHERE ".$nombrecampo." LIKE '".$campo."'";
 
 
 //PARA LOS DIRECTORES
-directores ($_POST["persona"], "peliculasdirectores");
+$_POST["persona"]=addslashes($_POST["persona"]);
+directores ($_POST["persona"], "titulosdirectores");
 echo "<br>".$_POST["persona"]."<br>";
 
 //PARA LOS ACTORES
+$_POST["rep"]=addslashes($_POST["rep"]);
 directores($_POST["rep"], "peliculasactores");
 
 //PARA LOS GUIONISTAS
+$_POST["guion"]=addslashes($_POST["guion"]);
 directores($_POST["guion"], "peliculasguionistas");
 
 //PARA LA BSO
+$_POST["musica"]=addslashes($_POST["musica"]);
 directores($_POST["musica"], "peliculasmusicos");
 
 //PARA LA FOTOGRAFÍA
+$_POST["foto"]=addslashes($_POST["foto"]);
 directores($_POST["foto"], "peliculasfotografos");
 
 
 //FINALMENTE INSERTA
-if (!$miconexion->query("INSERT INTO peliculas VALUES ('".$idcap."', '".$_POST["ano"]."', '".addslashes($_POST['titulo'])."', '".addslashes($_POST['tituloorig'])."', '".$_POST['dur']."', '".$_POST['pais']."', '".$_POST["doc"]."', '".$_POST['poster']."')")){
+if (!$miconexion->query("INSERT INTO titulo VALUES ('".$idcap."', '".$_POST['poster']."')")){
+	echo $miconexion->error;
+}
+if (!$miconexion->query("INSERT INTO titulopelicula VALUES ('".$idcap."', '".$_POST["ano"]."', '".addslashes($_POST['titulo'])."', '".addslashes($_POST['tituloorig'])."', '".$_POST['dur']."' , '".$_POST["doc"]."', '".$_POST['pais']."')")){
 	echo $miconexion->error;
 }
 header ("Location:index.php");
@@ -451,23 +459,23 @@ if (strpos($elemento, ",")){
 	}		
 	
 //PARA LA FECHA
-if (!$miconexion->query("INSERT INTO fechaspeliculas VALUES ('".maxid("id_visionado", "fechaspeliculas")."', '".$fecha."', '".$idcap."', '".$_POST['pc']."', '".$_POST['for']."', '".$_POST['audio']."', '".$_POST['com']."', '".$_POST['punt']."', '".$_POST['fa']."', '".$_POST['imdb']."', '".$_POST['rt']."', '".$_POST['as']."', '".($_POST['lb']*2)."')")){
+if (!$miconexion->query("INSERT INTO fechastitulos VALUES ('".maxid("id_visionado", "fechastitulos")."', '".$fecha."', '".$idcap."', '".$_POST['pc']."', '".$_POST['for']."', '".$_POST['audio']."', '".$_POST['com']."', '".$_POST['punt']."', '".$_POST['fa']."', '".$_POST['imdb']."', '".$_POST['rt']."', '".$_POST['as']."', '".($_POST['lb']*2)."')")){
 	echo $miconexion->error;
 }
 
-if (!$miconexion->query("UPDATE fechaspeliculas SET filmaffinity=NULL WHERE filmaffinity=0")){
+if (!$miconexion->query("UPDATE fechastitulos SET filmaffinity=NULL WHERE filmaffinity=0")){
 	echo $miconexion->error;
 }
-if (!$miconexion->query("UPDATE fechaspeliculas SET imdb=NULL WHERE imdb=0")){
+if (!$miconexion->query("UPDATE fechastitulos SET imdb=NULL WHERE imdb=0")){
 	echo $miconexion->error;
 }
-if (!$miconexion->query("UPDATE fechaspeliculas SET tomatometer=NULL WHERE tomatometer=0")){
+if (!$miconexion->query("UPDATE fechastitulos SET tomatometer=NULL WHERE tomatometer=0")){
 	echo $miconexion->error;
 }
-if (!$miconexion->query("UPDATE fechaspeliculas SET audiencescore=NULL WHERE audiencescore=0")){
+if (!$miconexion->query("UPDATE fechastitulos SET audiencescore=NULL WHERE audiencescore=0")){
 	echo $miconexion->error;
 }
-if (!$miconexion->query("UPDATE fechaspeliculas SET letterboxd=NULL WHERE letterboxd=0")){
+if (!$miconexion->query("UPDATE fechastitulos SET letterboxd=NULL WHERE letterboxd=0")){
 	echo $miconexion->error;
 }
 }

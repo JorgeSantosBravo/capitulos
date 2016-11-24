@@ -71,7 +71,7 @@ echo "<option value='hiato' >Hiato</option>
 echo "</select></tr>
 <tr><td>Creadores</td>";
 $a = array();
-$r2=$miconexion->query("SELECT * FROM serie,persona,creadoresserie WHERE serie.id_serie=creadoresserie.id_sserie and persona.id_persona=creadoresserie.id_ccreador and creadoresserie.id_sserie LIKE '$_GET[id]'");
+$r2=$miconexion->query("SELECT * FROM tituloserie,persona,creadoresserie WHERE tituloserie.id_serie=creadoresserie.id_sserie and persona.id_persona=creadoresserie.id_ccreador and creadoresserie.id_sserie LIKE '$_GET[id]'");
 while ($rows2 = $r2->fetch_assoc()) {
 
 array_push($a, $rows2["Nombre_persona"]);
@@ -111,8 +111,10 @@ if (!isset($_POST["seg"])){
 	$_POST["seg"]=$_SESSION["seg"];
 }
 
-
-if (!$miconexion->query("UPDATE serie SET Nombre='".addslashes($_POST["nombre"])."', canal='".$_POST["c"]."', inicio='".$_POST["ini"]."', fin='".$_POST["fin"]."', estado='".$_POST["estado"]."', Poster='".$_SESSION["poster"]."', Intro='".$_POST["intro"]."', Seguimiento='".$_POST["seg"]."' WHERE id_serie LIKE '".$_GET["id"]."' ")){
+if (!$miconexion->query("UPDATE titulo SET poster='".$_SESSION["poster"]."' WHERE id_serie LIKE '".$_GET["id"]."' ")){
+	echo $miconexion->error;
+}
+if (!$miconexion->query("UPDATE tituloserie SET titulo_serie='".addslashes($_POST["nombre"])."', canal='".$_POST["c"]."', inicio='".$_POST["ini"]."', fin='".$_POST["fin"]."', estado='".$_POST["estado"]."', intro='".$_POST["intro"]."', seguimiento='".$_POST["seg"]."' WHERE id_serie LIKE '".$_GET["id"]."' ")){
 	echo $miconexion->error;
 }
 
@@ -130,7 +132,7 @@ $id=$rows["max"];
 }
 return $id+1;
 }
- $idcap=bid("id_serie", "serie");
+ $idcap=bid("id_serie", "tituloserie");
  
 function directores ($elemento){
 	include "../conexion.php";
@@ -191,7 +193,7 @@ if (!$miconexion->query("DELETE FROM creadoresserie WHERE id_sserie LIKE '".$_GE
 	echo $miconexion->error;
 }
 directores($_POST["creadores"]);
-header ("Location:../serie.php?id=".$_GET["id"]."");
+header ("Location:../titulo.php?id=".$_GET["id"]."");
 
 }
 

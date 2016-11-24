@@ -10,7 +10,7 @@ include "header/header.php";
 include "conexion.php";
 
 
-$peli=$miconexion->query("SELECT * FROM peliculas WHERE id_pelicula LIKE '".$_GET["id"]."'"); 
+$peli=$miconexion->query("SELECT * FROM titulo,titulopelicula WHERE titulo.id_titulo=titulopelicula.id_pelicula and id_pelicula LIKE '".$_GET["id"]."'"); 
 
 while ($rows = $peli->fetch_assoc()) {
 /*TÍTULO:*/ echo "<title>".$rows["titulo"]."</title>";
@@ -18,16 +18,16 @@ echo "<table class=imagen><tr><td colspan=6>";
 echo "<img class=poster src=poster/".$rows["poster"]." width=230 height=345></td></tr>";
 
 
-$punt=$miconexion->query("SELECT * FROM peliculas,fechaspeliculas WHERE peliculas.id_pelicula=fechaspeliculas.id_pelicula and peliculas.id_pelicula LIKE '".$_GET["id"]."' ORDER BY fechaspeliculas.fecha DESC LIMIT 1");
+$punt=$miconexion->query("SELECT * FROM titulo,fechastitulos WHERE titulo.id_titulo=fechastitulos.id_titulo and titulo.id_titulo LIKE '".$_GET["id"]."' ORDER BY fechastitulos.fecha DESC LIMIT 1");
 while ($rows2 = $punt->fetch_assoc()) {
 
-echo "<tr><td rowspan=2 class=puntuacion>".$rows2["puntuacion"]."</td>";
+echo "<tr><td colspan=6 class=puntuacion>".$rows2["puntuacion"]."</td></tr><tr>";
 if (!is_null($rows2["filmaffinity"])){
 echo "<td  size=1 align=center width=1><img src=iconos/filmaffinity.png width=24 height=24>";}
 if (!is_null($rows2["imdb"])){
 echo "<td  size=1 align=center><img src=iconos/imdb.png width=24 height=24>";}
 if (is_null($rows2["tomatometer"])){
-	echo "<td></td>";
+	
 }else if ($rows2["tomatometer"]>=6.0&&$rows2["tomatometer"]<=7.4){
 echo "<td  size=1 align=center><img src=iconos/tomato.png width=24 height=24>";}
 else if ($rows2["tomatometer"]<=5.9){
@@ -65,7 +65,7 @@ echo "<table class=datos>
 <tr><td class=cabeza valign=top>Dirección</td><td> </td><td>
 ";
 
-$dire=$miconexion->query("SELECT * FROM peliculasdirectores,persona WHERE peliculasdirectores.id_director=persona.id_persona and id_pelicula LIKE '".$_GET["id"]."'"); 
+$dire=$miconexion->query("SELECT * FROM titulosdirectores,persona WHERE titulosdirectores.id_director=persona.id_persona and id_titulo LIKE '".$_GET["id"]."'"); 
 $a = array();
 while ($rows2 = $dire->fetch_assoc()) {
 array_push($a, "<a href=persona.php?id=".$rows2["id_persona"].">".$rows2["Nombre_persona"]."</a>");
@@ -150,7 +150,7 @@ echo $final."</td></tr>";
 }
 
 echo "<table class=visionados><tr><td>";
-$numero=$miconexion->query("SELECT COUNT(*) as con FROM fechaspeliculas WHERE id_pelicula LIKE '".$_GET["id"]."'");
+$numero=$miconexion->query("SELECT COUNT(*) as con FROM fechastitulos WHERE id_titulo LIKE '".$_GET["id"]."'");
 
 
 if ($rows=$numero->fetch_assoc()){
@@ -165,7 +165,7 @@ if ($rows=$numero->fetch_assoc()){
 echo	"</td></tr>";
 }
 
-$resultado=$miconexion->query("SELECT * FROM peliculas,fechaspeliculas WHERE peliculas.id_pelicula=fechaspeliculas.id_pelicula and peliculas.id_pelicula LIKE '$_GET[id]' ORDER BY fecha ASC");
+$resultado=$miconexion->query("SELECT * FROM titulo,fechastitulos WHERE titulo.id_titulo=fechastitulos.id_titulo and titulo.id_titulo LIKE '$_GET[id]' ORDER BY fecha ASC");
 
    while ($rows=$resultado->fetch_assoc()){
 echo "<tr><td>";

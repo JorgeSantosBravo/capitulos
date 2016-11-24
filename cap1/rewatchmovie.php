@@ -17,7 +17,7 @@ echo "<form action='rewatchmovie.php' method=post>";
 echo "
 <tr><td>Película</td><td><select name='pelicula'>
 <option selected=on>Elige una película</option>";
-$consulta=$miconexion->query("SELECT * FROM peliculas ORDER BY titulo"); 
+$consulta=$miconexion->query("SELECT * FROM titulopelicula ORDER BY titulo"); 
 while ($rows = $consulta->fetch_assoc()){
 echo "<option value=".$rows["id_pelicula"].">".$rows["titulo"]." - ".$rows["año"]."</option>";
 }
@@ -50,7 +50,7 @@ $id=$rows["max"];
 }
 return $id+1;
 }	
-$id=maxid("id_visionado", "fechaspeliculas");
+$id=maxid("id_visionado", "fechastitulos");
 if(isset($_POST['hoy'])){
 $fecha= date("Y")."/".date("n")."/".date("j");
 }else if(isset($_POST['ayer'])){
@@ -61,22 +61,22 @@ $f=explode('/', $_POST["fecha"]);
 $fecha=$f[2].'/'.$f[1].'/'.$f[0];
 }
 
-if (!$miconexion->query("INSERT INTO fechaspeliculas VALUES ('".$id."', '".$fecha."', '".$_POST["pelicula"]."', '".$_POST['pc']."', '".$_POST['for']."', '".$_POST['audio']."', '".$_POST['com']."', '".$_POST['punt']."', '".$_POST['fa']."', '".$_POST['imdb']."', '".$_POST['rt']."', '".$_POST['as']."', '".$_POST['lb']."')")){
+if (!$miconexion->query("INSERT INTO fechastitulos VALUES ('".$id."', '".$fecha."', '".$_POST["pelicula"]."', '".$_POST['pc']."', '".$_POST['for']."', '".$_POST['audio']."', '".$_POST['com']."', '".$_POST['punt']."', '".$_POST['fa']."', '".$_POST['imdb']."', '".$_POST['rt']."', '".$_POST['as']."', '".($_POST['lb']*2)."')")){
 	echo $miconexion->error;
 }
-if (!$miconexion->query("UPDATE fechaspeliculas SET filmaffinity=NULL WHERE filmaffinity=0")){
+if (!$miconexion->query("UPDATE fechastitulos SET filmaffinity=NULL WHERE filmaffinity=0")){
 	echo $miconexion->error;
 }
-if (!$miconexion->query("UPDATE fechaspeliculas SET imdb=NULL WHERE imdb=0")){
+if (!$miconexion->query("UPDATE fechastitulos SET imdb=NULL WHERE imdb=0")){
 	echo $miconexion->error;
 }
-if (!$miconexion->query("UPDATE fechaspeliculas SET tomatometer=NULL WHERE tomatometer=0")){
+if (!$miconexion->query("UPDATE fechastitulos SET tomatometer=NULL WHERE tomatometer=0")){
 	echo $miconexion->error;
 }
-if (!$miconexion->query("UPDATE fechaspeliculas SET audiencescore=NULL WHERE audiencescore=0")){
+if (!$miconexion->query("UPDATE fechastitulos SET audiencescore=NULL WHERE audiencescore=0")){
 	echo $miconexion->error;
 }
-if (!$miconexion->query("UPDATE fechaspeliculas SET letterboxd=NULL WHERE letterboxd=0")){
+if (!$miconexion->query("UPDATE fechastitulos SET letterboxd=NULL WHERE letterboxd=0")){
 	echo $miconexion->error;
 }
 header ("Location:index.php");

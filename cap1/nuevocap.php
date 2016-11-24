@@ -15,18 +15,17 @@ if (!$_POST){
 echo "<table>
 <form action='nuevocap.php' method=post>
 
-<tr><td>Fecha</td><td>Hoy: <input type='checkbox' default=off name='hoy'>	Ayer: <input type='checkbox' default=off name='ayer'>
-<br><input type='text' name='fecha' size=10>	</td></tr>
+<tr><td>Fecha</td><td><input type='date' name='fecha'>	</td></tr>
 <tr><td>Visto en:</td><td> <input type='pc' size=2 name='pc'>	<input type='for' size=5 name='for'>	</td></tr>
 <tr><td>Serie</td>
 <td><select name='serie'>
 <option selected>Elige serie...</option>
 ";
 
-$stocke=$miconexion->query("SELECT * FROM serie WHERE Seguimiento=1 ORDER BY Nombre");
+$stocke=$miconexion->query("SELECT * FROM tituloserie WHERE seguimiento=1 ORDER BY titulo_serie");
 while ($rows = $stocke->fetch_assoc()){
 
-echo "<option value ='".$rows['id_serie']."'>".$rows['Nombre']."</option>";
+echo "<option value ='".$rows['id_serie']."'>".$rows['titulo_serie']."</option>";
 
 }
 echo "</select>";
@@ -70,18 +69,8 @@ $id=$rows["max"];
 }
 return $id+1;
 }
- $idcap=maxid("id_capitulo", "capitulo");
+ $idcap=maxid("id_titulo", "titulo");
 	
-	
-	if(isset($_POST['hoy'])){
-$fecha= date("Y")."/".date("n")."/".date("j");
-}else if(isset($_POST['ayer'])){
-	$date = date("y-m-d");
-$fecha = date( "Y-m-d", strtotime( "-1 day", strtotime( $date ) ) ); 
-}else{
-$f=explode('/', $_POST["fecha"]);
-$fecha=$f[2].'/'.$f[1].'/'.$f[0];
-}
 function directores ($elemento){
 	include "conexion.php";
 	if (strpos($elemento, ",")){
@@ -96,11 +85,11 @@ function directores ($elemento){
 		
 		$dir[$j];
 		
-		$miconexion->query("INSERT INTO capitulosdirectores (id_capitulo, id_director) VALUES ('".$GLOBALS['idcap']."', '".addslashes(buscarid($dir[$j], "persona", "Nombre_persona", "id_persona"))."')");
+		$miconexion->query("INSERT INTO titulosdirectores (id_titulo, id_director) VALUES ('".$GLOBALS['idcap']."', '".addslashes(buscarid($dir[$j], "persona", "Nombre_persona", "id_persona"))."')");
 	}
 	}else{
 		
-		$miconexion->query("INSERT INTO capitulosdirectores (id_capitulo, id_director) VALUES ('".$GLOBALS['idcap']."', '".addslashes(buscarid($elemento, "persona", "Nombre_persona", "id_persona"))."')");
+		$miconexion->query("INSERT INTO titulosdirectores (id_titulo, id_director) VALUES ('".$GLOBALS['idcap']."', '".addslashes(buscarid($elemento, "persona", "Nombre_persona", "id_persona"))."')");
 	}
 	 
 }
@@ -138,18 +127,20 @@ echo "<br>".$_POST["persona"]."<br>";
 //$ids=buscarid($_POST["serie"], "serie", "Nombre", "id_serie");
 
 //FINALMENTE INSERTA
-
-if (!$miconexion->query("INSERT INTO capitulo VALUES ('".$idcap."', '".$_POST["serie"]."', '".$_POST['s']."', '".$_POST['e']."', '".addslashes($_POST['titulo'])."', '".$_POST['dur']."')")){
+if (!$miconexion->query("INSERT INTO titulo (id_titulo) VALUES ('".$idcap."')")){
+	echo $miconexion->error;
+}
+if (!$miconexion->query("INSERT INTO titulocapitulo VALUES ('".$idcap."', '".addslashes($_POST['titulo'])."', '".$_POST["serie"]."', '".$_POST['s']."', '".$_POST['e']."', '".$_POST['dur']."')")){
 	echo $miconexion->error;
 }
 header ("Location:index.php");
 
 
 //ACTUALIZACIÓN: LAS FECHAS VAN EN UNA TABLA APARTE
-if (!$miconexion->query("INSERT INTO capitulosfecha (id_capitulo, fecha, medio, formato, comentario) VALUES ('".$idcap."', '".$fecha."', '".$_POST['pc']."', '".$_POST['for']."', '".$_POST['com']."')")){
+if (!$miconexion->query("INSERT INTO fechastitulos (id_visionado, id_titulo, fecha, medio, formato, comentario) VALUES ('".maxid("id_visionado", "fechastitulos")."', '".$idcap."', '".$_POST["fecha"]."', '".$_POST['pc']."', '".$_POST['for']."', '".$_POST['com']."')")){
 	echo $miconexion->error;
 }
-$miconexion->query("DELETE FROM capitulosdirectores WHERE id_director=127");
+$miconexion->query("DELETE FROM titulosdirectores WHERE id_director=127");
 
 
 }

@@ -15,7 +15,7 @@ echo "<th bgcolor=white>Duración</th>";
 $i=1;	//Contador para contar las filas impares y ponerlas de distinto color
 
 
-$fech=$miconexion->query("SELECT * FROM capitulo,serie,capitulosfecha WHERE capitulo.id_capitulo = capitulosfecha.id_capitulo and serie.id_serie=capitulo.serie and YEAR(fecha)=2016 ORDER BY (fecha),capitulosfecha.id_capitulo ASC");
+$fech=$miconexion->query("SELECT * FROM titulocapitulo,tituloserie,fechastitulos WHERE titulocapitulo.id_capitulo = fechastitulos.id_titulo and tituloserie.id_serie=titulocapitulo.serie and YEAR(fecha)=2016 ORDER BY (fecha),fechastitulos.id_titulo ASC");
 
 while ($rows = $fech->fetch_assoc()) {
 	$fecha = explode("-",$rows["fecha"]); 
@@ -31,18 +31,18 @@ echo "<td align=center>".$i."</td>";
 echo '<td><a name="'.$fechcompl.'"></a> '.$fechcompl.'</td>';
 echo "<td align=center>".$rows["medio"]."</td>";
 echo "<td align=center>".$rows["formato"]."</td>";
-echo '<td align=center><a href=serie.php?id='.$rows["id_serie"].'>'.$rows["Nombre"].'</a></td>';
+echo '<td align=center><a href=titulo.php?id='.$rows["id_serie"].'>'.$rows["titulo_serie"].'</a></td>';
 echo '<td align=center>S'.$rows["s"].'E'.$rows["e"].'</td>';
-echo "<td align=center><a href=capitulo.php?id=".$rows["id_capitulo"].">".$rows["Titulo"]."</a></td>";
+echo "<td align=center><a href=titulo.php?id=".$rows["id_titulo"].">".$rows["titulo_capitulo"]."</a></td>";
 
-$stocke=$miconexion->query("SELECT * FROM capitulosdirectores,persona WHERE capitulosdirectores.id_director=persona.id_persona and capitulosdirectores.id_capitulo LIKE '".$rows["id_capitulo"]."'"); 
+$stocke=$miconexion->query("SELECT * FROM titulosdirectores,persona WHERE titulosdirectores.id_director=persona.id_persona and titulosdirectores.id_titulo LIKE '".$rows["id_titulo"]."'"); 
 $a = array();
 while ($rows2 = $stocke->fetch_assoc()) {
    array_push($a, "<a href=persona.php?id=".$rows2["id_director"].">".$rows2["Nombre_persona"]."</a>");
 }
 $final= implode(', ', $a);
 echo "<td align=center>".$final."</td>";
-echo "<td align=center>".$rows["Duracion"]."</td></tr>";
+echo "<td align=center>".$rows["duracion"]."</td></tr>";
 $i++;
 }
 echo "</table><br></font><a name='final'> </a>";

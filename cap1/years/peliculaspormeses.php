@@ -46,7 +46,7 @@ $(function () {
             name: '2013',
             data: [
 			<?php
-			$stocke=$miconexion->query("SELECT COUNT(*) as con FROM peliculas,fechaspeliculas WHERE peliculas.id_pelicula=fechaspeliculas.id_pelicula and YEAR(fecha)=2013 GROUP BY MONTH(fecha)"); 
+			$stocke=$miconexion->query("SELECT COUNT(*) as con FROM peliculas,fechastitulos WHERE titulo.id_titulo=fechastitulos.id_titulo and YEAR(fecha)=2013 GROUP BY MONTH(fecha)"); 
 while ($rows = $stocke->fetch_assoc()){
 
 			?>
@@ -61,7 +61,7 @@ while ($rows = $stocke->fetch_assoc()){
              name: '2014',
             data: [
 			<?php
-			$stocke=$miconexion->query("SELECT COUNT(*) as con FROM peliculas,fechaspeliculas WHERE peliculas.id_pelicula=fechaspeliculas.id_pelicula and YEAR(fecha)=2014 GROUP BY MONTH(fecha)"); 
+			$stocke=$miconexion->query("SELECT COUNT(*) as con FROM peliculas,fechastitulos WHERE titulo.id_titulo=fechastitulos.id_titulo and YEAR(fecha)=2014 GROUP BY MONTH(fecha)"); 
 while ($rows = $stocke->fetch_assoc()){
 
 			?>
@@ -76,7 +76,7 @@ while ($rows = $stocke->fetch_assoc()){
             name: '2015',
             data: [
 			<?php
-			$stocke=$miconexion->query("SELECT COUNT(*) as con FROM peliculas,fechaspeliculas WHERE peliculas.id_pelicula=fechaspeliculas.id_pelicula and YEAR(fecha)=2015 GROUP BY MONTH(fecha)"); 
+			$stocke=$miconexion->query("SELECT COUNT(*) as con FROM peliculas,fechastitulos WHERE titulo.id_titulo=fechastitulos.id_titulo and YEAR(fecha)=2015 GROUP BY MONTH(fecha)"); 
 while ($rows = $stocke->fetch_assoc()){
 
 			?>
@@ -91,7 +91,7 @@ while ($rows = $stocke->fetch_assoc()){
             name: '2016',
             data: [
 			<?php
-			$stocke=$miconexion->query("SELECT COUNT(*) as con FROM peliculas,fechaspeliculas WHERE peliculas.id_pelicula=fechaspeliculas.id_pelicula and YEAR(fecha)=2016 GROUP BY MONTH(fecha)"); 
+			$stocke=$miconexion->query("SELECT COUNT(*) as con FROM peliculas,fechastitulos WHERE titulo.id_titulo=fechastitulos.id_titulo and YEAR(fecha)=2016 GROUP BY MONTH(fecha)"); 
 while ($rows = $stocke->fetch_assoc()){
 
 			?>

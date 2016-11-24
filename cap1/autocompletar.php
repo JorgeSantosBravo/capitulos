@@ -26,7 +26,7 @@ $arreglo_php = array();
 <?php
 
 if (!$_POST){
-echo "	<form action='capitulo.php?id=".$_GET['id']."' method=post>
+echo "	<form action='titulo.php?id=".$_GET['id']."' method=post>
 <input type='text' id='buscar' name='texto'/>
 <input type=submit value='Enviar'>
 </form>

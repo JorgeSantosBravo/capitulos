@@ -3,7 +3,7 @@
 	
 include("conexion.php");
 
-$cont=$miconexion->query("SELECT *,COUNT(id_capitulo) as cantidad FROM capitulo,serie,canal WHERE capitulo.serie=serie.id_serie and serie.Canal=canal.ID_canal GROUP BY canal ORDER BY cantidad DESC");
+$cont=$miconexion->query("SELECT *,COUNT(id_capitulo) as cantidad FROM titulocapitulo,tituloserie,canal WHERE titulocapitulo.serie=tituloserie.id_serie and tituloserie.canal=canal.ID_canal GROUP BY canal ORDER BY cantidad DESC");
 echo "<table border=1 align=center>";
 echo "<th><font face='Trebuchet MS'>Canal</th>";
 echo "<th><font face='Trebuchet MS'>Capítulos</th>";

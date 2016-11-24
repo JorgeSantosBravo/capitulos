@@ -35,26 +35,26 @@ echo "<input type=submit value='Enviar'>
 }else{
 	$i=0;
 $fecha=$_POST["ano"]."-".$_POST["mes"]."-".$_POST["dia"];
-$caps="SELECT * FROM capitulo,capitulosfecha,serie WHERE capitulo.serie=serie.id_serie and capitulo.serie=serie.id_serie and capitulo.id_capitulo=capitulosfecha.id_capitulo and fecha='$fecha'";
+$caps="SELECT * FROM titulo,fechastitulos,serie WHERE titulo.serie=tituloserie.id_serie and titulo.serie=tituloserie.id_serie and titulo.id_titulo=fechastitulos.id_titulo and fecha='$fecha'";
 $resultado=$miconexion->query($caps);
 	 $filas=$miconexion->affected_rows;
      if($filas>=1){
 	 echo "<strong>Capítulos</strong>:<br>";
 $consulta=$miconexion->query($caps); 
 while ($rows = $consulta->fetch_assoc()){
-echo "<a href=capitulo.php?id=".$rows["id_capitulo"].">".$rows["Nombre"]." - ".$rows["Titulo"]."</a><br>";
+echo "<a href=titulo.php?id=".$rows["id_titulo"].">".$rows["titulo_serie"]." - ".$rows["Titulo"]."</a><br>";
 $i++;
 }
 echo "<br>";
 }
-$pelis="SELECT * FROM fechaspeliculas,peliculas WHERE peliculas.id_pelicula=fechaspeliculas.id_pelicula and fecha='$fecha'";
+$pelis="SELECT * FROM fechastitulos,peliculas WHERE titulo.id_titulo=fechastitulos.id_titulo and fecha='$fecha'";
 $resultado=$miconexion->query($pelis);
 	 $filas=$miconexion->affected_rows;
      if($filas>=1){
 	 echo "<strong>Películas</strong>:<br>";
 $consulta=$miconexion->query($pelis); 
 while ($rows = $consulta->fetch_assoc()){
-echo "<a href=pelicula.php?id=".$rows["id_pelicula"].">".$rows["titulo"]."</a><br>";
+echo "<a href=titulo.php?id=".$rows["id_titulo"].">".$rows["titulo"]."</a><br>";
 
 $i++;
 }

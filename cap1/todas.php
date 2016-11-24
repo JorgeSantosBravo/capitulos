@@ -12,9 +12,9 @@ background-size: cover;}
 include ("header/header.php");
 include ("conexion.php");
 
-$cont=$miconexion->query("SELECT * FROM serie WHERE Seguimiento=1 ORDER BY inicio,id_serie ASC");
+$cont=$miconexion->query("SELECT * FROM tituloserie,titulo WHERE titulo.id_titulo=tituloserie.id_serie and seguimiento=1 ORDER BY inicio,id_serie ASC");
 
 while ($rows = $cont->fetch_assoc()) {
-echo ' <a href=serie.php?id='.$rows["id_serie"].'><img class="todas" title='.urlencode($rows["Nombre"]).' src=poster/'.$rows["Poster"].'></a>';
+echo ' <a href=titulo.php?id='.$rows["id_serie"].'><img class="todas" title='.urlencode($rows["titulo_serie"]).' src=poster/'.$rows["poster"].'></a>';
 }
 ?>

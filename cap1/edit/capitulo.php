@@ -37,7 +37,7 @@ Episodio</td><td><input type='text' name='e' value='".$_SESSION["e"]."' size=1><
 <tr><td>";
 include "../conexion.php";
 $a = array();
-$r2=$miconexion->query("SELECT * FROM capitulo,persona,capitulosdirectores WHERE capitulo.id_capitulo=capitulosdirectores.id_capitulo and capitulosdirectores.id_director=persona.id_persona and capitulosdirectores.id_capitulo LIKE  '$_GET[id]'");
+$r2=$miconexion->query("SELECT * FROM titulo,persona,titulosdirectores WHERE titulo.id_titulo=titulosdirectores.id_titulo and titulosdirectores.id_director=persona.id_persona and titulosdirectores.id_titulo LIKE  '$_GET[id]'");
 while ($rows2 = $r2->fetch_assoc()) {
 
 array_push($a, $rows2["Nombre_persona"]);
@@ -48,7 +48,7 @@ echo "Director</td><td><input type='text' name=dire value=\"".$final."\"</td></t
 Duración</td><td><input type='text' name=dur value='".$_SESSION["dur"]."' size=1></td></tr>
 
 </table>
-<input type=submit value='Enviar'><input type=button value='Volver atrás' onclick=window.location.href='../capitulo.php?id=".$_GET["id"]."'>
+<input type=submit value='Enviar'><input type=button value='Volver atrás' onclick=window.location.href='../titulo.php?id=".$_GET["id"]."'>
 
 </form>
 <input type=button value='Borrar capítulo' onclick=eliminar()>
@@ -56,10 +56,10 @@ Duración</td><td><input type='text' name=dur value='".$_SESSION["dur"]."' size=
 //PARA EDITAR LA FECHA PODRÍA HACER UN CALENDARIO 
 }else{
 	include "../conexion.php";
-if (!$miconexion->query("UPDATE capitulo SET Titulo='".addslashes($_POST["titulo"])."', s='".$_POST["s"]."', e='".$_POST["e"]."', Duracion='".$_POST["dur"]."' WHERE id_capitulo LIKE '".$_GET["id"]."'")){
+if (!$miconexion->query("UPDATE titulocapitulo SET titulo_capitulo='".addslashes($_POST["titulo"])."', s='".$_POST["s"]."', e='".$_POST["e"]."', duracion='".$_POST["dur"]."' WHERE id_capitulo LIKE '".$_GET["id"]."'")){
 	echo $miconexion->error;
 }
-$miconexion->query("DELETE FROM capitulosdirectores WHERE id_capitulo LIKE '".$_GET["id"]."'");
+$miconexion->query("DELETE FROM titulosdirectores WHERE id_titulo LIKE '".$_GET["id"]."'");
 
 function bid($nombreid, $tabla){
 include "../conexion.php";
@@ -71,7 +71,7 @@ $id=$rows["max"];
 }
 return $id+1;
 }
- $idcap=bid("id_serie", "serie");
+ $idcap=bid("id_serie", "tituloserie");
  
 function directores ($elemento){
 	include "../conexion.php";
@@ -87,7 +87,7 @@ function directores ($elemento){
 		
 		$dir[$j];
 		
-		if (!$miconexion->query("INSERT INTO capitulosdirectores VALUES ('".$_GET['id']."', '".addslashes(buscarid($dir[$j], "persona", "Nombre_persona", "id_persona"))."')")){
+		if (!$miconexion->query("INSERT INTO titulosdirectores VALUES ('".$_GET['id']."', '".addslashes(buscarid($dir[$j], "persona", "Nombre_persona", "id_persona"))."')")){
 			echo buscarid($dir[$j], "persona", "Nombre_persona", "ID_persona");
 			echo "uno";
 			echo $miconexion->error;
@@ -95,7 +95,7 @@ function directores ($elemento){
 	}
 	}else{
 		
-		if (!$miconexion->query("INSERT INTO capitulosdirectores VALUES ('".$_GET['id']."', '".addslashes(buscarid($elemento, "persona", "Nombre_persona", "id_persona"))."')")){
+		if (!$miconexion->query("INSERT INTO titulosdirectores VALUES ('".$_GET['id']."', '".addslashes(buscarid($elemento, "persona", "Nombre_persona", "id_persona"))."')")){
 			echo buscarid($elemento, "persona", "Nombre_persona", "id_persona")."<br>";
 			echo "otro";
 			echo $miconexion->error;
@@ -126,9 +126,10 @@ $miconsulta="SELECT * FROM ".$tabla." WHERE ".$nombrecampo." LIKE '".$campo."'";
 	 }
 	return $id;
 }
+$_POST["dire"]=addslashes($_POST["dire"]);
 directores($_POST["dire"]);
 session_destroy();
-header ("Location:../capitulo.php?id=".$_GET["id"]."");
+header ("Location:../titulo.php?id=".$_GET["id"]."");
 
 }
 

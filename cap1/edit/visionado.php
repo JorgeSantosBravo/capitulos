@@ -27,7 +27,7 @@ echo "
 <form action='visionado.php?id=".$_GET["id"]."' method=post>
 <table>
 <tr><td>";
-$r2=$miconexion->query("SELECT * FROM capitulosfecha WHERE id_visionado LIKE  '$_GET[id]'");
+$r2=$miconexion->query("SELECT * FROM fechastitulos WHERE id_visionado LIKE  '$_GET[id]'");
 while ($rows = $r2->fetch_assoc()) {
 $fe=explode("-", $rows["fecha"]);
 echo "Fecha</td><td><input type='text' name='fecha' value='".$fe[2]."/".$fe[1]."/".$fe[0]."'></td></tr>
@@ -35,7 +35,7 @@ echo "Fecha</td><td><input type='text' name='fecha' value='".$fe[2]."/".$fe[1]."
 <tr><td>Formato</td><td><input type='text' name='formato' value='".$rows["formato"]."'></td></tr>
 <tr><td>Comentario</td><td><textarea name='comentario'>".$rows["comentario"]."</textarea></td></tr>
 </table>
-<input type=submit value='Enviar'><input type=button value='Volver atrás' onclick=window.location.href='../capitulo.php?id=".$_SESSION["idcap"]."'>
+<input type=submit value='Enviar'><input type=button value='Volver atrás' onclick=window.location.href='../titulo.php?id=".$_SESSION["idcap"]."'>
 
 </form>
 <input type=button value='Borrar capítulo' onclick=eliminar()>
@@ -46,8 +46,8 @@ echo "Fecha</td><td><input type='text' name='fecha' value='".$fe[2]."/".$fe[1]."
 	session_start();
 	$fe=explode("/", $_POST["fecha"]);
 	$fecha=$fe[2]."/".$fe[1]."/".$fe[0];
-	$miconexion->query("UPDATE capitulosfecha SET fecha='".$fecha."',medio='".$_POST["medio"]."',formato='".$_POST["formato"]."',comentario='".$_POST["comentario"]."' WHERE id_visionado LIKE '".$_GET["id"]."'");
-	header("Location:../capitulo.php?id=".$_SESSION["idcap"]);
+	$miconexion->query("UPDATE fechastitulos SET fecha='".$fecha."',medio='".$_POST["medio"]."',formato='".$_POST["formato"]."',comentario='".$_POST["comentario"]."' WHERE id_visionado LIKE '".$_GET["id"]."'");
+	header("Location:../titulo.php?id=".$_SESSION["idcap"]);
 	session_destroy();
 	}
 ?>

@@ -25,11 +25,11 @@ if (!$_POST){
 echo "
 <form action='pelicula.php?id=".$_GET["id"]."' method=post>
 <table>";
-$consulta=$miconexion->query("SELECT * FROM peliculas WHERE id_pelicula LIKE '".$_GET["id"]."'"); 
+$consulta=$miconexion->query("SELECT * FROM titulopelicula,titulo WHERE titulo.id_titulo=titulopelicula.id_pelicula and titulopelicula.id_pelicula LIKE '".$_GET["id"]."'"); 
 while ($rows = $consulta->fetch_assoc()){
 echo "<tr><td>Año</td><td><input type='text' name='anio' value='".$rows["año"]."'></td></tr>";	
-echo "<tr><td>Título</td><td><input type='text' name='titulo' value='".$rows["titulo"]."'></td></tr>";	
-echo "<tr><td>Título orig.</td><td><input type='text' name='titorig' value='".$rows["titulo_original"]."'></td></tr>";	
+echo "<tr><td>Título</td><td><input type='text' name='titulo' value=\"".$rows["titulo"]."\"></td></tr>";	
+echo "<tr><td>Título orig.</td><td><input type='text' name='titorig' value=\"".$rows["titulo_original"]."\"></td></tr>";	
 echo "<tr><td>Duración</td><td><input type='text' name='duracion' value='".$rows["duracion"]."'></td></tr>";	
 echo "<tr><td>País</td><td><input type='text' name='pais' value='".$rows["pais"]."'></td></tr>";	
 echo "<tr><td>Póster</td><td><input type='file' name='poster'></td></tr>";	
@@ -45,76 +45,76 @@ if ($rows["documental"]==1){
 }
 
 $a = array();
-$r2=$miconexion->query("SELECT * FROM peliculas,peliculasdirectores,persona WHERE peliculas.id_pelicula=peliculasdirectores.id_pelicula and peliculasdirectores.id_director=persona.id_persona and peliculas.id_pelicula LIKE  '$_GET[id]'");
+$r2=$miconexion->query("SELECT * FROM titulopelicula,titulosdirectores,persona WHERE titulopelicula.id_pelicula=titulosdirectores.id_titulo and titulosdirectores.id_director=persona.id_persona and titulopelicula.id_pelicula LIKE  '$_GET[id]'");
 while ($rows2 = $r2->fetch_assoc()) {
 
 array_push($a, $rows2["Nombre_persona"]);
 }
 $final= implode(', ', $a);
-echo "<tr><td>Director</td><td><input type='text' name=dire value='$final'</td></tr>";
+echo "<tr><td>Director</td><td><input type='text' name=dire value=\"".$final."\"</td></tr>";
 
 $a = array();
-$r2=$miconexion->query("SELECT * FROM peliculas,peliculasguionistas,persona WHERE peliculas.id_pelicula=peliculasguionistas.id_pelicula and peliculasguionistas.id_guionista=persona.id_persona and peliculas.id_pelicula LIKE  '$_GET[id]'");
+$r2=$miconexion->query("SELECT * FROM titulopelicula,peliculasguionistas,persona WHERE titulopelicula.id_pelicula=peliculasguionistas.id_pelicula and peliculasguionistas.id_guionista=persona.id_persona and titulopelicula.id_pelicula LIKE  '$_GET[id]'");
 while ($rows2 = $r2->fetch_assoc()) {
 
 array_push($a, $rows2["Nombre_persona"]);
 }
 $final= implode(', ', $a);
-echo "<tr><td>Guión</td><td><input type='text' name=guion value='$final'</td></tr>";
+echo "<tr><td>Guión</td><td><input type='text' name=guion value=\"".$final."\"</td></tr>";
 
 $a = array();
-$r2=$miconexion->query("SELECT * FROM peliculas,peliculasmusicos,persona WHERE peliculas.id_pelicula=peliculasmusicos.id_pelicula and peliculasmusicos.id_musico=persona.id_persona and peliculas.id_pelicula LIKE  '$_GET[id]'");
+$r2=$miconexion->query("SELECT * FROM titulopelicula,peliculasmusicos,persona WHERE titulopelicula.id_pelicula=peliculasmusicos.id_pelicula and peliculasmusicos.id_musico=persona.id_persona and titulopelicula.id_pelicula LIKE  '$_GET[id]'");
 while ($rows2 = $r2->fetch_assoc()) {
 
 array_push($a, $rows2["Nombre_persona"]);
 }
 $final= implode(', ', $a);
-echo "<tr><td>Música</td><td><input type='text' name=musica value='$final'</td></tr>";
+echo "<tr><td>Música</td><td><input type='text' name=musica value=\"".$final."\"</td></tr>";
 
 $a = array();
-$r2=$miconexion->query("SELECT * FROM peliculas,peliculasfotografos,persona WHERE peliculas.id_pelicula=peliculasfotografos.id_pelicula and peliculasfotografos.id_foto=persona.id_persona and peliculas.id_pelicula LIKE  '$_GET[id]'");
+$r2=$miconexion->query("SELECT * FROM titulopelicula,peliculasfotografos,persona WHERE titulopelicula.id_pelicula=peliculasfotografos.id_pelicula and peliculasfotografos.id_foto=persona.id_persona and titulopelicula.id_pelicula LIKE  '$_GET[id]'");
 while ($rows2 = $r2->fetch_assoc()) {
 
 array_push($a, $rows2["Nombre_persona"]);
 }
 $final= implode(', ', $a);
-echo "<tr><td>Fotografía</td><td><input type='text' name=foto value='$final'</td></tr>";
+echo "<tr><td>Fotografía</td><td><input type='text' name=foto value=\"".$final."\"</td></tr>";
 
 $a = array();
-$r2=$miconexion->query("SELECT * FROM peliculas,peliculasactores,persona WHERE peliculas.id_pelicula=peliculasactores.id_pelicula and peliculasactores.id_actor=persona.id_persona and peliculas.id_pelicula LIKE  '$_GET[id]'");
+$r2=$miconexion->query("SELECT * FROM titulopelicula,peliculasactores,persona WHERE titulopelicula.id_pelicula=peliculasactores.id_pelicula and peliculasactores.id_actor=persona.id_persona and titulopelicula.id_pelicula LIKE  '$_GET[id]'");
 while ($rows2 = $r2->fetch_assoc()) {
 
 array_push($a, $rows2["Nombre_persona"]);
 }
 $final= implode(', ', $a);
-echo "<tr><td>Reparto</td><td><input type='text' name=rep value=\"". addslashes($final)."\" /></td></tr>";
+echo "<tr><td>Reparto</td><td><input type='text' name=rep value=\"".$final."\" /></td></tr>";
 
 $a = array();
-$r2=$miconexion->query("SELECT * FROM peliculas,peliculasproductoras,productora WHERE peliculas.id_pelicula=peliculasproductoras.id_pelicula and peliculasproductoras.id_productora=productora.id_productora and peliculas.id_pelicula LIKE  '$_GET[id]'");
+$r2=$miconexion->query("SELECT * FROM titulopelicula,peliculasproductoras,productora WHERE titulopelicula.id_pelicula=peliculasproductoras.id_pelicula and peliculasproductoras.id_productora=productora.id_productora and titulopelicula.id_pelicula LIKE  '$_GET[id]'");
 while ($rows2 = $r2->fetch_assoc()) {
 
 array_push($a, $rows2["nombre_productora"]);
 }
 $final= implode(', ', $a);
-echo "<tr><td>Productoras</td><td><input type='text' name=prod value='$final'</td></tr>";
+echo "<tr><td>Productoras</td><td><input type='text' name=prod value=\"".$final."\"</td></tr>";
 
 $a = array();
-$r2=$miconexion->query("SELECT * FROM peliculas,peliculasgeneros,genero WHERE peliculas.id_pelicula=peliculasgeneros.id_pelicula and peliculasgeneros.id_genero=genero.id_genero and peliculas.id_pelicula LIKE  '$_GET[id]'");
+$r2=$miconexion->query("SELECT * FROM titulopelicula,peliculasgeneros,genero WHERE titulopelicula.id_pelicula=peliculasgeneros.id_pelicula and peliculasgeneros.id_genero=genero.id_genero and titulopelicula.id_pelicula LIKE  '$_GET[id]'");
 while ($rows2 = $r2->fetch_assoc()) {
 
 array_push($a, $rows2["nombre_genero"]);
 }
 $final= implode(', ', $a);
-echo "<tr><td>Género</td><td><input type='text' name=gen value='$final'</td></tr>";
+echo "<tr><td>Género</td><td><input type='text' name=gen value=\"".$final."\"</td></tr>";
 
 $a = array();
-$r2=$miconexion->query("SELECT * FROM peliculas,peliculastemas,tema WHERE peliculas.id_pelicula=peliculastemas.id_pelicula and peliculastemas.id_tema=tema.id_tema and peliculas.id_pelicula LIKE  '$_GET[id]'");
+$r2=$miconexion->query("SELECT * FROM titulopelicula,peliculastemas,tema WHERE titulopelicula.id_pelicula=peliculastemas.id_pelicula and peliculastemas.id_tema=tema.id_tema and titulopelicula.id_pelicula LIKE  '$_GET[id]'");
 while ($rows2 = $r2->fetch_assoc()) {
 
 array_push($a, $rows2["nombre_tema"]);
 }
 $final= implode(', ', $a);
-echo "<tr><td>Tema</td><td><input type='text' name=tema value='$final'</td></tr>";
+echo "<tr><td>Tema</td><td><input type='text' name=tema value=\"".$final."\"</td></tr>";
 
 echo "</table>
 <input type=submit value='Enviar'><input type=button value='Volver atrás' onclick=window.location.href='../pelicula.php?id=".$_GET["id"]."'>
@@ -125,7 +125,8 @@ echo "</table>
 //PARA EDITAR LA FECHA PODRÍA HACER UN CALENDARIO 
 }else{
 	include "../conexion.php";
-$miconexion->query("DELETE FROM peliculasdirectores WHERE id_pelicula LIKE '".$_GET["id"]."'");
+
+$miconexion->query("DELETE FROM titulosdirectores WHERE id_titulo LIKE '".$_GET["id"]."'");
 $miconexion->query("DELETE FROM peliculasguionistas WHERE id_pelicula LIKE '".$_GET["id"]."'");
 $miconexion->query("DELETE FROM peliculasmusicos WHERE id_pelicula LIKE '".$_GET["id"]."'");
 $miconexion->query("DELETE FROM peliculasfotografos WHERE id_pelicula LIKE '".$_GET["id"]."'");
@@ -193,19 +194,24 @@ $miconsulta="SELECT * FROM ".$tabla." WHERE ".$nombrecampo." LIKE '".$campo."'";
 
 
 //PARA LOS DIRECTORES
-directores ($_POST["dire"], "peliculasdirectores");
+$_POST["dire"]=addslashes($_POST["dire"]);
+directores ($_POST["dire"], "titulosdirectores");
 echo "<br>".$_POST["dire"]."<br>";
 
 //PARA LOS ACTORES
+$_POST["rep"]=addslashes($_POST["rep"]);
 directores($_POST["rep"], "peliculasactores");
 
 //PARA LOS GUIONISTAS
+$_POST["guion"]=addslashes($_POST["guion"]);
 directores($_POST["guion"], "peliculasguionistas");
 
 //PARA LA BSO
+$_POST["musica"]=addslashes($_POST["musica"]);
 directores($_POST["musica"], "peliculasmusicos");
 
 //PARA LA FOTOGRAFÍA
+$_POST["foto"]=addslashes($_POST["foto"]);
 directores($_POST["foto"], "peliculasfotografos");
 
 //PARA EL POSTER
@@ -217,7 +223,11 @@ $_SESSION["poster"]=$_POST["poster"];
 
 }
 
-if (!$miconexion->query("UPDATE peliculas SET año='".$_POST["anio"]."', titulo='".$_POST["titulo"]."', titulo_original='".$_POST["titorig"]."', duracion='".$_POST["duracion"]."', pais='".$_POST["pais"]."', documental='".$_POST["documental"]."', poster='".$_SESSION["poster"]."' WHERE id_pelicula LIKE '".$_GET["id"]."'")){
+if (!$miconexion->query("UPDATE titulo SET poster='".$_SESSION["poster"]."' WHERE id_titulo LIKE '".$_GET["id"]."'")){
+	echo $miconexion->error;
+}
+
+if (!$miconexion->query("UPDATE titulopelicula SET año='".$_POST["anio"]."', titulo='".$_POST["titulo"]."', titulo_original='".$_POST["titorig"]."', duracion='".$_POST["duracion"]."', documental='".$_POST["documental"]."', pais='".$_POST["pais"]."' WHERE id_pelicula LIKE '".$_GET["id"]."'")){
 	echo $miconexion->error;
 }
 
@@ -282,5 +292,5 @@ if (strpos($elemento, ",")){
 		
 		$miconexion->query("INSERT INTO peliculastemas VALUES ('".$_GET['id']."', '".buscarid($elemento, "tema", "nombre_tema", "id_tema")."')");
 	}		
-	header("Location:../pelicula.php?id=".$_GET["id"]);
+	header("Location:../titulo.php?id=".$_GET["id"]);
 }

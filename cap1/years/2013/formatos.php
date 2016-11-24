@@ -42,7 +42,7 @@ $(function () {
             colorByPoint: true,
             data: [
 			<?php
-			$cont=$miconexion->query("SELECT *,COUNT(formato) as cantidad FROM capitulo,capitulosfecha WHERE capitulo.id_capitulo=capitulosfecha.id_capitulo and YEAR(capitulosfecha.fecha)=2013 GROUP BY capitulosfecha.formato ORDER BY cantidad DESC");
+			$cont=$miconexion->query("SELECT *,COUNT(formato) as cantidad FROM titulo,fechastitulos WHERE titulo.id_titulo=fechastitulos.id_titulo and YEAR(fechastitulos.fecha)=2013 GROUP BY fechastitulos.formato ORDER BY cantidad DESC");
 while ($rows = $cont->fetch_assoc()) {
 			
 			?>

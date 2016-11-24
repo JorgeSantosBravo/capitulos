@@ -46,7 +46,7 @@ $(function () {
             name: '2013',
             data: [ 0,0,
 			<?php
-			$stocke=$miconexion->query("SELECT SUM(Duracion) as con FROM capitulo,capitulosfecha WHERE capitulosfecha.id_capitulo=capitulo.id_capitulo and YEAR(fecha)=2013 GROUP BY MONTH(fecha)"); 
+			$stocke=$miconexion->query("SELECT SUM(duracion) as con FROM titulocapitulo,fechastitulos WHERE fechastitulos.id_titulo=titulocapitulo.id_capitulo and YEAR(fecha)=2013 GROUP BY MONTH(fecha)"); 
 while ($rows = $stocke->fetch_assoc()){
 
 			?>
@@ -64,7 +64,7 @@ while ($rows = $stocke->fetch_assoc()){
             name: '2015',
             data: [
 			<?php
-			$stocke=$miconexion->query("SELECT SUM(Duracion) as con FROM capitulo,capitulosfecha WHERE capitulosfecha.id_capitulo=capitulo.id_capitulo and  YEAR(fecha)=2015 GROUP BY MONTH(fecha)"); 
+			$stocke=$miconexion->query("SELECT SUM(duracion) as con FROM titulocapitulo,fechastitulos WHERE fechastitulos.id_titulo=titulocapitulo.id_capitulo and YEAR(fecha)=2015 GROUP BY MONTH(fecha)"); 
 while ($rows = $stocke->fetch_assoc()){
 
 			?>
@@ -79,7 +79,7 @@ while ($rows = $stocke->fetch_assoc()){
             name: '2016',
             data: [
 			<?php
-			$stocke=$miconexion->query("SELECT SUM(Duracion) as con FROM capitulo,capitulosfecha WHERE capitulosfecha.id_capitulo=capitulo.id_capitulo and YEAR(fecha)=2016 GROUP BY MONTH(fecha)"); 
+			$stocke=$miconexion->query("SELECT SUM(duracion) as con FROM titulocapitulo,fechastitulos WHERE fechastitulos.id_titulo=titulocapitulo.id_capitulo and YEAR(fecha)=2016 GROUP BY MONTH(fecha)"); 
 while ($rows = $stocke->fetch_assoc()){
 
 			?>

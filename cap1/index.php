@@ -53,25 +53,27 @@ float:right;}
 <strong>Últimos capítulos introducidos <br> </strong>
 <?php
 
-$stocke=$miconexion->query("SELECT * FROM capitulo,serie,capitulosfecha WHERE capitulo.id_capitulo=capitulosfecha.id_capitulo and capitulo.serie=serie.id_serie ORDER BY capitulosfecha.id_capitulo DESC limit 5"); 
+$stocke=$miconexion->query("SELECT * FROM fechastitulos,titulocapitulo,tituloserie WHERE tituloserie.id_serie=titulocapitulo.serie and titulocapitulo.id_capitulo=fechastitulos.id_titulo ORDER BY fechastitulos.id_titulo DESC limit 5"); 
 while ($rows = $stocke->fetch_assoc()){
 $fe=explode("-", $rows["fecha"]);
 
-echo $fe[2]."/".$fe[1]." - <a href=capitulo.php?id=".$rows["id_capitulo"].">".$rows["Nombre"]." ".$rows["s"]."x".$rows["e"]."</a><br>";
+echo $fe[2]."/".$fe[1]." - <a href=titulo.php?id=".$rows["id_titulo"].">".$rows["titulo_serie"]." ".$rows["s"]."x".$rows["e"]."</a><br>";
 	
 }
 echo "<br><strong>Últimas películas introducidas</strong><br>";
 
-$stocke=$miconexion->query("SELECT * FROM peliculas,fechaspeliculas WHERE peliculas.id_pelicula=fechaspeliculas.id_pelicula ORDER BY fechaspeliculas.id_visionado DESC limit 5"); 
+$stocke=$miconexion->query("SELECT * FROM fechastitulos,titulopelicula WHERE titulopelicula.id_pelicula=fechastitulos.id_titulo ORDER BY fechastitulos.id_visionado DESC limit 5"); 
 while ($rows = $stocke->fetch_assoc()){
 $fe=explode("-", $rows["fecha"]);
 
-echo $fe[2]."/".$fe[1]." - <a href=pelicula.php?id=".$rows["id_pelicula"].">".$rows["titulo"]."</a><br>";
+echo $fe[2]."/".$fe[1]." - <a href=titulo.php?id=".$rows["id_titulo"].">".substr($rows["titulo"],0,23);
+
+echo "</a><br>";
 	
 }
 
 echo "<br><table>";
-$con=$miconexion->query("SELECT COUNT(*) as con FROM capitulo"); 
+$con=$miconexion->query("SELECT COUNT(*) as con FROM titulocapitulo"); 
 
 while ($rows = $con->fetch_assoc()){
 
@@ -79,7 +81,7 @@ echo "<tr><td>Capítulos: </td><td><strong>".$rows["con"]."</strong></td></tr>";
 	
 }
 echo "<tr><td>";
-$con=$miconexion->query("SELECT COUNT(*) as con FROM peliculas"); 
+$con=$miconexion->query("SELECT COUNT(*) as con FROM titulopelicula"); 
 
 while ($rows = $con->fetch_assoc()){
 
@@ -87,7 +89,7 @@ echo "Películas: </td><td><strong>".$rows["con"]."</strong></td></tr>";
 	
 }
 echo "<tr><td>";
-$con=$miconexion->query("SELECT COUNT(*) as con FROM serie"); 
+$con=$miconexion->query("SELECT COUNT(*) as con FROM tituloserie"); 
 
 while ($rows = $con->fetch_assoc()){
 
@@ -124,7 +126,7 @@ function conversorSegundosHoras($minutos) {
 }
 
 echo "<br>";
-$con=$miconexion->query("SELECT SUM(Duracion) as con FROM capitulo"); 
+$con=$miconexion->query("SELECT SUM(duracion) as con FROM titulocapitulo"); 
 
 while ($rows = $con->fetch_assoc()){
 
@@ -135,7 +137,7 @@ echo "Tiempo total: ".conversorSegundosHoras($rows["con"]);
 
 
 echo "<br><br>";
-$con=$miconexion->query("SELECT COUNT(*) as con FROM capitulo,capitulosfecha WHERE capitulo.id_capitulo=capitulosfecha.id_capitulo and YEAR(capitulosfecha.fecha)=".date ("Y").""); 
+$con=$miconexion->query("SELECT COUNT(*) as con FROM titulocapitulo,fechastitulos WHERE titulocapitulo.id_capitulo=fechastitulos.id_titulo and YEAR(fechastitulos.fecha)=".date ("Y").""); 
 
 while ($rows = $con->fetch_assoc()){
 
@@ -143,7 +145,7 @@ echo " Este año <strong><a href=visor.php?v=years/2016/m2016.php#final>".$rows[
 	
 }
 echo "<br><br>";
-$con=$miconexion->query("SELECT COUNT(*) as con FROM peliculas,fechaspeliculas WHERE peliculas.id_pelicula=fechaspeliculas.id_pelicula and YEAR(fechaspeliculas.fecha)=".date ("Y").""); 
+$con=$miconexion->query("SELECT COUNT(*) as con FROM titulopelicula,fechastitulos WHERE titulopelicula.id_pelicula=fechastitulos.id_titulo and YEAR(fechastitulos.fecha)=".date ("Y").""); 
 
 while ($rows = $con->fetch_assoc()){
 

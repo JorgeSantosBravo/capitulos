@@ -69,7 +69,7 @@ $id=$rows["max"];
 }
 return $id+1;
 }
- $idcap=bid("id_serie", "serie");
+ $idcap=bid("id_titulo", "titulo");
  
 function creadores ($elemento){
 	include "conexion.php";
@@ -127,9 +127,11 @@ $miconsulta="SELECT * FROM ".$tabla." WHERE ".$nombrecampo." LIKE '".$campo."'";
 	return $id;
 }
 
+if (!$miconexion->query("INSERT INTO titulo VALUES ('".$GLOBALS['idcap']."', '".$_POST['poster']."'")){
+	echo $miconexion->error;
+}
 
-
-if (!$miconexion->query("INSERT INTO serie VALUES ('".$GLOBALS['idcap']."', '".$_POST['nombre']."', '".$_POST['c']."', '".$_POST['ini']."', '".$_POST['fin']."', '".$_POST['estado']."', '".$_POST['poster']."', '".$_POST['intro']."', '".$_POST['seg']."', '".$_POST["miniserie"]."')")){
+if (!$miconexion->query("INSERT INTO tituloserie VALUES ('".$GLOBALS['idcap']."', '".$_POST['nombre']."', '".$_POST['c']."', '".$_POST['ini']."', '".$_POST['fin']."', '".$_POST['estado']."', '".$_POST['intro']."', '".$_POST['seg']."', '".$_POST["miniserie"]."')")){
 	echo $miconexion->error;
 }else{
 header ("Location:nuevocap.php");

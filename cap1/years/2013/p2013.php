@@ -12,7 +12,7 @@ echo "<th bgcolor=white>Punt.</th>";
 $i=1;	//Contador para contar las filas impares y ponerlas de distinto color
 
 
-$fech=$miconexion->query("SELECT * FROM peliculas,fechaspeliculas WHERE peliculas.id_pelicula=fechaspeliculas.id_pelicula and YEAR(fecha)=2013 ORDER BY fecha ASC");
+$fech=$miconexion->query("SELECT * FROM peliculas,fechastitulos WHERE titulo.id_titulo=fechastitulos.id_titulo and YEAR(fecha)=2013 ORDER BY fecha ASC");
 
 while ($rows = $fech->fetch_assoc()) {
 	$fecha = explode("-",$rows["fecha"]); 
@@ -28,7 +28,7 @@ echo "<td align=center>".$i."</td>";
 echo '<td><a name="'.$fechcompl.'"></a> '.$fechcompl.'</td>';
 echo "<td align=center>".$rows["formato"]."</td>";
 echo '<td align=center>'.$rows["año"].'</td>';
-echo '<td align=center><a href=pelicula.php?id='.$rows["id_pelicula"].'>'.$rows["titulo"].'</a></td>';
+echo '<td align=center><a href=titulo.php?id='.$rows["id_titulo"].'>'.$rows["titulo"].'</a></td>';
 echo '<td align=center>'.$rows["puntuacion"].'</td>';
 $i++;
 

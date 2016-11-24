@@ -8,7 +8,7 @@ echo "<th bgcolor=white>Capítulos</th>";
 $i=1;	//Contador para contar las filas impares y ponerlas de distinto color
 
 
-$fech=$miconexion->query("SELECT serie.Nombre,COUNT(*) as con FROM capitulo,serie,capitulosfecha WHERE capitulo.id_capitulo=capitulosfecha.id_capitulo and capitulo.serie=serie.id_serie and YEAR(capitulosfecha.fecha)=2013 GROUP BY capitulo.serie ORDER BY con DESC");
+$fech=$miconexion->query("SELECT serie.Nombre,COUNT(*) as con FROM titulo,serie,fechastitulos WHERE titulo.id_titulo=fechastitulos.id_titulo and titulo.serie=tituloserie.id_serie and YEAR(fechastitulos.fecha)=2013 GROUP BY titulo.serie ORDER BY con DESC");
 
 while ($rows = $fech->fetch_assoc()) {
 echo "<tr";
@@ -17,7 +17,7 @@ if ($i%2!=0)
 else{
 	echo" bgcolor=white>";
 }
-echo '<td align=center>'.$rows["Nombre"].'</td>';
+echo '<td align=center>'.$rows["titulo_serie"].'</td>';
 echo "<td align=center>".$rows["con"]."</td></tr>";
 $i++;
 }
@@ -33,7 +33,7 @@ echo "<th bgcolor=white>Capítulos</th>";
 $i=1;	//Contador para contar las filas impares y ponerlas de distinto color
 
 
-$fech=$miconexion->query("SELECT capitulosfecha.fecha,COUNT(*) as con FROM capitulo,capitulosfecha WHERE capitulo.id_capitulo=capitulosfecha.id_capitulo and YEAR(capitulosfecha.fecha)=2013 GROUP BY capitulosfecha.fecha ORDER BY con DESC limit 10");
+$fech=$miconexion->query("SELECT fechastitulos.fecha,COUNT(*) as con FROM titulo,fechastitulos WHERE titulo.id_titulo=fechastitulos.id_titulo and YEAR(fechastitulos.fecha)=2013 GROUP BY fechastitulos.fecha ORDER BY con DESC limit 10");
 
 while ($rows = $fech->fetch_assoc()) {
 echo "<tr";
@@ -62,7 +62,7 @@ echo "<th bgcolor=white>Minutos</th>";
 $i=1;	//Contador para contar las filas impares y ponerlas de distinto color
 
 
-$fech=$miconexion->query("SELECT capitulosfecha.fecha,SUM(capitulo.Duracion) as con FROM capitulo,capitulosfecha WHERE capitulo.id_capitulo=capitulosfecha.id_capitulo and YEAR(capitulosfecha.fecha)=2013 GROUP BY capitulosfecha.fecha ORDER BY con DESC limit 10");
+$fech=$miconexion->query("SELECT fechastitulos.fecha,SUM(titulo.Duracion) as con FROM titulo,fechastitulos WHERE titulo.id_titulo=fechastitulos.id_titulo and YEAR(fechastitulos.fecha)=2013 GROUP BY fechastitulos.fecha ORDER BY con DESC limit 10");
 
 while ($rows = $fech->fetch_assoc()) {
 echo "<tr";
@@ -91,7 +91,7 @@ echo "<th bgcolor=white>Capítulos</th>";
 
 
 $i=1;
-$fech=$miconexion->query("SELECT canal.Nomcanal,COUNT(*) as con FROM capitulo,serie,canal,capitulosfecha WHERE capitulo.id_capitulo=capitulosfecha.id_capitulo and capitulo.serie=serie.id_serie and serie.canal=canal.ID_canal and YEAR(capitulosfecha.fecha)=2013 GROUP BY serie.canal ORDER BY con DESC");
+$fech=$miconexion->query("SELECT canal.Nomcanal,COUNT(*) as con FROM titulo,serie,canal,fechastitulos WHERE titulo.id_titulo=fechastitulos.id_titulo and titulo.serie=tituloserie.id_serie and serie.canal=canal.ID_canal and YEAR(fechastitulos.fecha)=2013 GROUP BY serie.canal ORDER BY con DESC");
 
 while ($rows = $fech->fetch_assoc()) {
 echo "<tr";
@@ -106,19 +106,19 @@ $i++;
 }
 echo "</table><br><br><br>";
 
-$fech=$miconexion->query("SELECT COUNT(*) as con FROM capitulosfecha WHERE YEAR(capitulosfecha.fecha)=2013");
+$fech=$miconexion->query("SELECT COUNT(*) as con FROM fechastitulos WHERE YEAR(fechastitulos.fecha)=2013");
 
 if ($rows = $fech->fetch_assoc()) {
 
 echo "<b>Capítulos en total</b>: ".$rows["con"]."<br>";
 }
-$fech=$miconexion->query("SELECT COUNT(*)/365 as con FROM capitulosfecha WHERE YEAR(capitulosfecha.fecha)=2013");
+$fech=$miconexion->query("SELECT COUNT(*)/365 as con FROM fechastitulos WHERE YEAR(fechastitulos.fecha)=2013");
 
 if ($rows = $fech->fetch_assoc()) {
 
 echo "<b>Capítulos/día</b>: ".$rows["con"]."<br>";
 }
-$fech=$miconexion->query("SELECT SUM(capitulo.Duracion)*60 as con FROM capitulo,capitulosfecha WHERE capitulo.id_capitulo=capitulosfecha.id_capitulo and YEAR(capitulosfecha.fecha)=2013");
+$fech=$miconexion->query("SELECT SUM(titulo.Duracion)*60 as con FROM titulo,fechastitulos WHERE titulo.id_titulo=fechastitulos.id_titulo and YEAR(fechastitulos.fecha)=2013");
 
 if ($rows = $fech->fetch_assoc()) {
 function conversorSegundosHoras($tiempo_en_segundos) {
@@ -146,7 +146,7 @@ $p=($rows["con"]*100)/31536000;
 echo "<b>Tiempo total</b>: ".conversorSegundosHoras($rows["con"])."(". number_format($p, 2)  ."%)<br>";
 }
 
-$fech=$miconexion->query("SELECT SUM(Duracion)/365 as con FROM capitulo,capitulosfecha WHERE capitulo.id_capitulo=capitulosfecha.id_capitulo and  YEAR(capitulosfecha.fecha)=2013");
+$fech=$miconexion->query("SELECT SUM(Duracion)/365 as con FROM titulo,fechastitulos WHERE titulo.id_titulo=fechastitulos.id_titulo and  YEAR(fechastitulos.fecha)=2013");
 
 if ($rows = $fech->fetch_assoc()) {
 

@@ -14,7 +14,7 @@ echo "<th bgcolor=white>Duración</th>";
 $i=1;	//Contador para contar las filas impares y ponerlas de distinto color
 
 
-$fech=$miconexion->query("SELECT * FROM capitulo,serie ,capitulosfecha WHERE capitulo.id_capitulo = capitulosfecha.id_capitulo and  capitulo.serie LIKE serie.id_serie ORDER BY (fecha) ASC");
+$fech=$miconexion->query("SELECT * FROM titulocapitulo,tituloserie,fechastitulos WHERE titulocapitulo.id_capitulo = fechastitulos.id_titulo and tituloserie.id_serie=titulocapitulo.serie and YEAR(fecha)=2015 ORDER BY (fecha),fechastitulos.id_titulo ASC");
 
 while ($rows = $fech->fetch_assoc()) {
 	$fecha = explode("-",$rows["fecha"]); 
@@ -31,11 +31,11 @@ echo "<td align=center>".$i."</td>";
 echo '<td><a name="'.$fechcompl.'"></a> '.$fechcompl.'</td>';
 echo "<td align=center>".$rows["medio"]."</td>";
 echo "<td align=center>".$rows["formato"]."</td>";
-echo '<td align=center>'.$rows["Nombre"].'</td>';
+echo '<td align=center>'.$rows["titulo_serie"].'</td>';
 echo '<td align=center>S'.$rows["s"].'E'.$rows["e"].'</td>';
-echo "<td align=center><a href=capitulo.php?id=".$rows["id_capitulo"].">".$rows["Titulo"]."</a></td>";
+echo "<td align=center><a href=titulo.php?id=".$rows["id_titulo"].">".$rows["titulo_capitulo"]."</a></td>";
 
-echo "<td align=center>".$rows["Duracion"]."</td></tr>";
+echo "<td align=center>".$rows["duracion"]."</td></tr>";
 $i++;
 
 }

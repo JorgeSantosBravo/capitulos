@@ -12,11 +12,11 @@ echo "<title>".$rows["Nomcanal"]."</title>";
 echo "<img width=240 height=140 src=poster/logos/".$rows["Logo"]."><br>";
 }
 
-$stocke=$miconexion->query("SELECT * FROM serie,canal WHERE serie.canal=canal.ID_canal and canal.ID_canal LIKE '".$_GET["id"]."' ORDER BY serie.Nombre ASC"); 
+$stocke=$miconexion->query("SELECT * FROM tituloserie,canal WHERE tituloserie.canal=canal.ID_canal and canal.ID_canal LIKE '".$_GET["id"]."' ORDER BY tituloserie.titulo_serie ASC"); 
 while ($rows = $stocke->fetch_assoc()){
 
 
-echo "<a href=serie.php?id=".$rows["id_serie"].">".$rows["Nombre"]."</a><br>";
+echo "<a href=titulo.php?id=".$rows["id_serie"].">".$rows["titulo_serie"]."</a><br>";
 	
 }
 

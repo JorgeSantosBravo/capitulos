@@ -5,7 +5,8 @@
 include "header/header.php";
 include "conexion.php";
 $c=0;	//CONTADOR CUYO OBJETIVO ES DECIR SI NO HAY NINGÚN RESULTADO.
-$capitulos="SELECT * FROM capitulo,serie WHERE capitulo.serie=serie.id_serie and (Titulo LIKE '%".$_GET["b"]."%' or Titulo LIKE '".$_GET["b"]."')";
+$_GET["b"]=addslashes($_GET["b"]);
+$capitulos="SELECT * FROM titulocapitulo,tituloserie WHERE titulocapitulo.serie=tituloserie.id_serie and (titulo_capitulo LIKE '%".$_GET["b"]."%' or titulo_capitulo LIKE '".$_GET["b"]."')";
 $resultado=$miconexion->query($capitulos);
 	 $filas=$miconexion->affected_rows;
      if($filas>=1){
@@ -13,12 +14,12 @@ $resultado=$miconexion->query($capitulos);
 echo "<strong>Capítulos:</strong><br>";
 $consulta=$miconexion->query($capitulos); 
 while ($rows = $consulta->fetch_assoc()){
-	echo "<a href=capitulo.php?id=".$rows["id_capitulo"].">".$rows["Nombre"]." - ".$rows["Titulo"]." #".$rows["s"].".".$rows["e"]."</a><br>";
+	echo "<a href=titulo.php?id=".$rows["id_capitulo"].">".$rows["titulo_serie"]." - ".$rows["titulo_capitulo"]." #".$rows["s"].".".$rows["e"]."</a><br>";
 }
 $c++;
 	 }
 	 
-$peliculas="SELECT * FROM peliculas WHERE Titulo LIKE '%".$_GET["b"]."%' or Titulo LIKE '".$_GET["b"]."' or titulo_original LIKE '%".$_GET["b"]."%' or titulo_original LIKE '".$_GET["b"]."'";
+$peliculas="SELECT * FROM titulo,titulopelicula WHERE titulo.id_titulo=titulopelicula.id_pelicula and (titulo LIKE '%".$_GET["b"]."%' or titulo LIKE '".$_GET["b"]."' or titulo_original LIKE '%".$_GET["b"]."%' or titulo_original LIKE '".$_GET["b"]."')";
 $resultado=$miconexion->query($peliculas);
 	 $filas=$miconexion->affected_rows;
      if($filas>=1){
@@ -26,18 +27,18 @@ $resultado=$miconexion->query($peliculas);
 echo "<br><strong>Películas:</strong><br>";
 $consulta=$miconexion->query($peliculas); 
 while ($rows = $consulta->fetch_assoc()){
-echo "<a href=pelicula.php?id=".$rows["id_pelicula"].">".$rows["año"]." - ".$rows["titulo"]."</a><br>";
+echo "<a href=titulo.php?id=".$rows["id_pelicula"].">".$rows["año"]." - ".$rows["titulo"]."</a><br>";
 }
 $c++;
 	 }
-$series="SELECT * FROM serie WHERE Nombre LIKE '%".$_GET["b"]."%' or Nombre LIKE '".$_GET["b"]."'";
+$series="SELECT * FROM tituloserie WHERE titulo_serie LIKE '%".$_GET["b"]."%' or titulo_serie LIKE '".$_GET["b"]."'";
 $resultado=$miconexion->query($series);
 	 $filas=$miconexion->affected_rows;
      if($filas>=1){
 echo "<br><strong>Series:</strong><br>";
 $consulta=$miconexion->query($series); 
 while ($rows = $consulta->fetch_assoc()){
-	echo "<a href=serie.php?id=".$rows["id_serie"].">".$rows["Nombre"]."</a><br>";
+	echo "<a href=titulo.php?id=".$rows["id_serie"].">".$rows["titulo_serie"]."</a><br>";
 }
 $c++;
 	 }

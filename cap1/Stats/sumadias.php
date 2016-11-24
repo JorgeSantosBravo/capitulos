@@ -2,7 +2,7 @@
 <?php
 include "conexion.php";
 
-$stocke=$miconexion->query("SELECT fecha,SUM(Duracion) as suma FROM capitulo,capitulosfecha WHERE capitulosfecha.id_capitulo=capitulo.id_capitulo GROUP BY fecha ORDER BY suma DESC LIMIT 201"); 
+$stocke=$miconexion->query("SELECT fecha,SUM(Duracion) as suma FROM titulocapitulo,fechastitulos WHERE fechastitulos.id_titulo=titulocapitulo.id_capitulo GROUP BY fecha ORDER BY suma DESC LIMIT 201"); 
 echo "<table align=center border=1>
 <tr><th>Nº</th>
 <th>Día</th>
