@@ -53,11 +53,11 @@ float:right;}
 <strong>Últimos capítulos introducidos <br> </strong>
 <?php
 
-$stocke=$miconexion->query("SELECT * FROM fechastitulos,titulocapitulo,tituloserie WHERE tituloserie.id_serie=titulocapitulo.serie and titulocapitulo.id_capitulo=fechastitulos.id_titulo ORDER BY fechastitulos.id_titulo DESC limit 5"); 
+$stocke=$miconexion->query("SELECT * FROM fechastitulos,titulocapitulo,tituloserie,temporada WHERE temporada.id_temporada=titulocapitulo.ns and tituloserie.id_serie=titulocapitulo.serie and titulocapitulo.id_capitulo=fechastitulos.id_titulo ORDER BY fechastitulos.id_titulo DESC limit 5"); 
 while ($rows = $stocke->fetch_assoc()){
 $fe=explode("-", $rows["fecha"]);
 
-echo $fe[2]."/".$fe[1]." - <a href=titulo.php?id=".$rows["id_titulo"].">".$rows["titulo_serie"]." ".$rows["s"]."x".$rows["e"]."</a><br>";
+echo $fe[2]."/".$fe[1]." - <a href=titulo.php?id=".$rows["id_titulo"].">".$rows["titulo_serie"]." ".$rows["numero_temporada"]."x".$rows["e"]."</a><br>";
 	
 }
 echo "<br><strong>Últimas películas introducidas</strong><br>";
@@ -94,6 +94,14 @@ $con=$miconexion->query("SELECT COUNT(*) as con FROM tituloserie");
 while ($rows = $con->fetch_assoc()){
 
 echo "Series: </td><td><strong>".$rows["con"]."</strong></td></tr>";
+	
+}
+echo "<tr><td>";
+$con=$miconexion->query("SELECT COUNT(*) as con FROM temporada"); 
+
+while ($rows = $con->fetch_assoc()){
+
+echo "Temporadas: </td><td><strong>".$rows["con"]."</strong></td></tr>";
 	
 }
 echo "<tr><td>";

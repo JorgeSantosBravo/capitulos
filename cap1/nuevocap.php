@@ -11,9 +11,9 @@ background-size: cover;}
 include "header/header.php";
 include "conexion.php";
 
-if (!$_POST){
+if (!isset($_POST["cap"])&&!isset($_POST["temp"])){
 echo "<table>
-<form action='nuevocap.php' method=post>
+<form action='' method=post>
 
 <tr><td>Fecha</td><td><input type='date' name='fecha'>	</td></tr>
 <tr><td>Visto en:</td><td> <input type='pc' size=2 name='pc'>	<input type='for' size=5 name='for'>	</td></tr>
@@ -42,7 +42,7 @@ echo "</td></tr>
 <tr><td>Comentario</td><td><textarea name='com'></textarea></td></tr>
 
 </table>
-<input type=submit value='Enviar'>
+<input name=cap type=submit value='Enviar'>
 </form>
 ";
 
@@ -60,6 +60,21 @@ function dialogo(){
 
 
 }else{
+	session_start();
+
+	//DOY VALOR AL ARRAY DE SESIÓN CON LOS CAMPOS DEL FORMULARIO
+	foreach($_POST as $campo => $valor) {
+        $_SESSION["cap"][$campo] = $valor;
+    }
+
+	 
+	
+	
+	
+var_dump($_SESSION["cap"]);
+
+	
+	
 	function maxid($nombreid, $tabla){
 include "conexion.php";
 $id=0;
@@ -118,28 +133,80 @@ $miconsulta="SELECT * FROM ".$tabla." WHERE ".$nombrecampo." LIKE '".$campo."'";
 	return $id;
 }
 
+function buscartemp($serie, $s){
+	$t=0;
+	include "conexion.php";
+	$consulta=$miconexion->query("SELECT * FROM temporada WHERE serie=".$serie." AND numero_temporada=".$s); 
+while ($rows = $consulta->fetch_assoc()){
+	$t=$rows["id_temporada"];
+	
+	
+}
+	
+	
+	return $t;
+}
 
-//PARA LOS DIRECTORES
-directores ($_POST["persona"]);
-echo "<br>".$_POST["persona"]."<br>";
 
 //PARA EL ID DE LA Serie
 //$ids=buscarid($_POST["serie"], "serie", "Nombre", "id_serie");
 
-//FINALMENTE INSERTA
+
+
+	$consulta="SELECT * FROM temporada WHERE serie=".$_SESSION["cap"]["serie"]." AND numero_temporada=".$_SESSION["cap"]["s"]; 
+$resultado=$miconexion->query($consulta);
+	 $filas=$miconexion->affected_rows;
+	 $id=0;
+	 
+	 if($filas>=1){
+	
+	
+//INSERT NORMAL SI LA TEMPORADA YA EXISTE
 if (!$miconexion->query("INSERT INTO titulo (id_titulo) VALUES ('".$idcap."')")){
 	echo $miconexion->error;
 }
-if (!$miconexion->query("INSERT INTO titulocapitulo VALUES ('".$idcap."', '".addslashes($_POST['titulo'])."', '".$_POST["serie"]."', '".$_POST['s']."', '".$_POST['e']."', '".$_POST['dur']."')")){
+if (!$miconexion->query("INSERT INTO titulocapitulo VALUES ('".$idcap."', '".addslashes($_SESSION["cap"]["titulo"])."', '".$_POST["serie"]."', '".buscartemp($_SESSION["cap"]["serie"], $_SESSION["cap"]["s"])."', '".$_POST['e']."', '".$_POST['dur']."')")){
+	echo $miconexion->error;
+}
+directores ($_SESSION["cap"]["persona"]);
+echo "<br>".$_SESSION["cap"]["persona"]."<br>";
+if (!$miconexion->query("INSERT INTO fechastitulos (id_visionado, id_titulo, fecha, medio, formato, comentario) VALUES ('".maxid("id_visionado", "fechastitulos")."', '".$idcap."', '".$_SESSION["cap"]["fecha"]."', '".$_SESSION["cap"]['pc']."', '".$_SESSION["cap"]['for']."', '".$_SESSION["cap"]['com']."')")){
 	echo $miconexion->error;
 }
 header ("Location:index.php");
-
-
-//ACTUALIZACIÓN: LAS FECHAS VAN EN UNA TABLA APARTE
-if (!$miconexion->query("INSERT INTO fechastitulos (id_visionado, id_titulo, fecha, medio, formato, comentario) VALUES ('".maxid("id_visionado", "fechastitulos")."', '".$idcap."', '".$_POST["fecha"]."', '".$_POST['pc']."', '".$_POST['for']."', '".$_POST['com']."')")){
+	
+}else if (!isset($_POST["temp"])){
+	echo "	<form action='nuevocap.php' method=post>
+<table>
+<tr><td>Año</td><td><input type='text' size=2 name='anio'>	</td></tr>
+<tr><td>Alias</td><td> <input type='text' size=2 name='alias'></td</tr></table>";
+	
+	
+echo "<input name=temp type=submit value='Enviar'>
+</form>";
+}
+else{
+	$nuevoid=$idcap+1;
+	$miconexion->query("INSERT INTO titulo (id_titulo) VALUES ('".$idcap."')");
+	if (!$miconexion->query("INSERT INTO temporada VALUES ('".$idcap."', '".$_SESSION["cap"]["s"]."', '".$_SESSION["cap"]["serie"]."', '".$_POST["alias"]."', '".$_POST["anio"]."')")){
+		echo $miconexion->error;
+	}
+//PARA LOS DIRECTORES
+$idcap++;
+directores ($_SESSION["cap"]["persona"]);
+echo "<br>".$_SESSION["cap"]["persona"]."<br>";
+	if (!$miconexion->query("INSERT INTO titulo (id_titulo) VALUES ('".($nuevoid)."')")){
 	echo $miconexion->error;
 }
+if (!$miconexion->query("INSERT INTO titulocapitulo VALUES ('".($nuevoid)."', '".addslashes($_SESSION["cap"]["titulo"])."', '".$_SESSION["cap"]["serie"]."', '".buscartemp($_SESSION["cap"]["serie"], $_SESSION["cap"]["s"])."', '".$_SESSION["cap"]['e']."', '".$_SESSION["cap"]['dur']."')")){
+	echo $miconexion->error;
+}
+if (!$miconexion->query("INSERT INTO fechastitulos (id_visionado, id_titulo, fecha, medio, formato, comentario) VALUES ('".maxid("id_visionado", "fechastitulos")."', '".$nuevoid."', '".$_SESSION["cap"]["fecha"]."', '".$_SESSION["cap"]['pc']."', '".$_SESSION["cap"]['for']."', '".$_SESSION["cap"]['com']."')")){
+	echo $miconexion->error;
+}
+header ("Location:index.php");
+}
+
 $miconexion->query("DELETE FROM titulosdirectores WHERE id_director=127");
 
 

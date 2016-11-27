@@ -46,7 +46,7 @@ $(function () {
             name: '2013',
             data: [ 0,0,
 			<?php
-			$stocke=$miconexion->query("SELECT COUNT(*) as con FROM titulo,fechastitulos WHERE titulo.id_titulo=fechastitulos.id_titulo and YEAR(fecha)=2013 GROUP BY MONTH(fecha)"); 
+			$stocke=$miconexion->query("SELECT COUNT(*) as con FROM titulocapitulo,fechastitulos WHERE titulocapitulo.id_capitulo=fechastitulos.id_titulo and YEAR(fecha)=2013 GROUP BY MONTH(fecha)"); 
 while ($rows = $stocke->fetch_assoc()){
 
 			?>
@@ -64,7 +64,7 @@ while ($rows = $stocke->fetch_assoc()){
             name: '2015',
             data: [
 			<?php
-			$stocke=$miconexion->query("SELECT COUNT(*) as con FROM titulo,fechastitulos WHERE titulo.id_titulo=fechastitulos.id_titulo and YEAR(fecha)=2015 GROUP BY MONTH(fecha)"); 
+			$stocke=$miconexion->query("SELECT COUNT(*) as con FROM titulocapitulo,fechastitulos WHERE titulocapitulo.id_capitulo=fechastitulos.id_titulo and YEAR(fecha)=2015 GROUP BY MONTH(fecha)"); 
 while ($rows = $stocke->fetch_assoc()){
 
 			?>
@@ -79,7 +79,7 @@ while ($rows = $stocke->fetch_assoc()){
             name: '2016',
             data: [
 			<?php
-			$stocke=$miconexion->query("SELECT COUNT(*) as con FROM titulo,fechastitulos WHERE titulo.id_titulo=fechastitulos.id_titulo and YEAR(fecha)=2016 GROUP BY MONTH(fecha)"); 
+			$stocke=$miconexion->query("SELECT COUNT(*) as con FROM titulocapitulo,fechastitulos WHERE titulocapitulo.id_capitulo=fechastitulos.id_titulo and YEAR(fecha)=2016 GROUP BY MONTH(fecha)"); 
 while ($rows = $stocke->fetch_assoc()){
 
 			?>

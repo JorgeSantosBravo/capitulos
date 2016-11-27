@@ -19,12 +19,12 @@ echo "<a href=titulo.php?id=".$rows["id_titulo"].">".$rows["año"]." - ".$rows["
 
 }
 
-$consultaseries=$miconexion->query("SELECT * FROM titulosdirectores,persona,titulocapitulo,tituloserie WHERE titulocapitulo.serie=tituloserie.id_serie and titulosdirectores.id_titulo=titulocapitulo.id_capitulo and titulosdirectores.id_director=persona.id_persona and id_persona LIKE '".$_GET["id"]."'"); 
+$consultaseries=$miconexion->query("SELECT * FROM titulosdirectores,persona,titulocapitulo,tituloserie,temporada WHERE temporada.id_temporada=titulocapitulo.ns AND titulocapitulo.serie=tituloserie.id_serie and titulosdirectores.id_titulo=titulocapitulo.id_capitulo and titulosdirectores.id_director=persona.id_persona and id_persona LIKE '".$_GET["id"]."'"); 
 $numseries=$miconexion->affected_rows;
 if ($numseries>=1){
 echo "<br>Director (capítulos) ($numseries):<br>";
 while ($rows = $consultaseries->fetch_assoc()){
-echo "<a href=titulo.php?id=".$rows["id_titulo"].">".$rows["titulo_serie"]." - ".$rows["titulo_capitulo"]." #".$rows["s"].".".$rows["e"]."</a><br>";
+echo "<a href=titulo.php?id=".$rows["id_titulo"].">".$rows["titulo_serie"]." - ".$rows["titulo_capitulo"]." #".$rows["numero_temporada"].".".$rows["e"]."</a><br>";
 
 }
 	 }

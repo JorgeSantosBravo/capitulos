@@ -8,7 +8,7 @@ $miconsulta="select * from titulo where id_titulo='".$_GET["id"]."'";
      $resultado=$miconexion->query($miconsulta);
 	 $filas=$miconexion->affected_rows;
      if($filas>=1){
-$resultado=$miconexion->query("SELECT * FROM titulocapitulo,tituloserie WHERE titulocapitulo.serie=tituloserie.id_serie and titulocapitulo.id_capitulo LIKE '$_GET[id]'");
+$resultado=$miconexion->query("SELECT * FROM temporada,titulocapitulo,tituloserie WHERE temporada.id_temporada=titulocapitulo.ns AND titulocapitulo.serie=tituloserie.id_serie and titulocapitulo.id_capitulo LIKE '$_GET[id]'");
 
 while ($rows = $resultado->fetch_assoc()) {
 if ($rows["miniserie"]==1){
@@ -24,8 +24,8 @@ echo'<title>'.$rows["titulo_capitulo"].'</title>';
 
 $nombre=$rows["titulo_serie"];
 echo "<h3>".$rows["titulo_capitulo"]."</h3><hr>";
-echo "Temporada ".$rows["s"]." Episodio ".$rows["e"]."<br>"; 
-$_SESSION["s"]=$rows["s"];
+echo "Temporada ".$rows["numero_temporada"]." Episodio ".$rows["e"]."<br>"; 
+$_SESSION["s"]=$rows["numero_temporada"];
 $_SESSION["e"]=$rows["e"];
 $_SESSION["titulo"]=$rows["titulo_capitulo"];
 

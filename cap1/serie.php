@@ -26,19 +26,25 @@ if ($rows["miniserie"]==0){
 echo "<strong>Estado</strong>: ".$rows["estado"]."<br>";}
 $_SESSION["estado"]=$rows["estado"];
 
+$temp=$miconexion->query("SELECT count(*) as con from temporada WHERE serie=".$_GET["id"]);
+while ($rows2 = $temp->fetch_assoc()) {
+
+echo "<strong>Temporadas</strong>: ".$rows2["con"]."<br>";
+
+}
+$caps=$miconexion->query("SELECT count(*) as con from titulocapitulo WHERE serie=".$_GET["id"]);
+while ($rows2 = $caps->fetch_assoc()) {
+
+echo "<strong>Capítulos</strong>: ".$rows2["con"]."<br>";
+
+}
 $dur=$miconexion->query("SELECT DISTINCT duracion, count(duracion) as con from titulocapitulo,tituloserie WHERE titulocapitulo.serie=tituloserie.id_serie and id_serie LIKE '$_GET[id]' group by duracion order by con DESC LIMIT 1");
 while ($rows2 = $dur->fetch_assoc()) {
 
-echo "<strong>Duración cap.</strong>: ".$rows2["duracion"]." minutos<br>";
+echo "<strong>Duración cap.</strong>: ".$rows2["duracion"]." minutos";
 
 }
 
-$dur=$miconexion->query("SELECT SUM(duracion) as sum FROM titulocapitulo,tituloserie WHERE titulocapitulo.serie=tituloserie.id_serie and tituloserie.id_serie LIKE '$_GET[id]'");
-while ($rows2 = $dur->fetch_assoc()) {
-
-echo "<strong>Duración total</strong>: ".$rows2["sum"]." minutos";
-
-}
 $_SESSION["poster"]=$rows["poster"];
 echo '<img witdh=160 height=237 class="poster" title='.urlencode($rows["titulo_serie"]).' src=poster/'.$rows["poster"].'><br>';
 echo "<div id=debajo>";
@@ -83,15 +89,24 @@ while ($rows = $resultado->fetch_assoc()) {
    array_push($a, "<a href=persona.php?id=".$rows["id_persona"].">".$rows["Nombre_persona"]."</a>");
 }
 echo implode(', ', $a);
+echo "<br><br>";
+$temp=$miconexion->query("SELECT * FROM temporada WHERE serie in (SELECT id_serie FROM tituloserie WHERE id_serie LIKE '$_GET[id]')");
+while ($rows = $temp->fetch_assoc()) {
+	if ($rows["alias_temporada"]!=""){
+		echo $rows["alias_temporada"];
+	}else{
+	echo "Temporada ".$rows["numero_temporada"];}
+echo 	" (".$rows["año_temporada"].")";
+//ESTO SERÁ UN DESPLEGABLE	
 echo "<br>";
-echo "Capítulos:<br>";
-$caps=$miconexion->query("SELECT * FROM titulocapitulo WHERE serie in (SELECT id_serie FROM tituloserie WHERE id_serie LIKE '$_GET[id]')");
+$caps=$miconexion->query("SELECT * FROM titulocapitulo,temporada WHERE temporada.id_temporada=titulocapitulo.ns AND temporada.id_temporada=".$rows["id_temporada"]);
 echo "<table>";
-while ($rows = $caps->fetch_assoc()) {
-echo "<tr><td><a href=titulo.php?id=".$rows["id_capitulo"].">".$rows["s"]." ".$rows["e"]."</a></td><td><a href=titulo.php?id=".$rows["id_capitulo"]."> ".$rows["titulo_capitulo"]."</a></td></tr>";
+while ($rows2 = $caps->fetch_assoc()) {
+echo "<tr><td><a href=titulo.php?id=".$rows2["id_capitulo"].">".$rows2["numero_temporada"]." ".$rows2["e"]."</a></td><td><a href=titulo.php?id=".$rows2["id_capitulo"]."> ".$rows2["titulo_capitulo"]."</a></td></tr>";
 	
 }
-echo "</table>";
+echo "</table><br>";
+}
 echo "</table><br></font>";
 echo "<a href='todas.php'>Volver a todas las series</a><br>";
 ?>
