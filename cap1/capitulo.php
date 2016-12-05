@@ -24,12 +24,23 @@ echo'<title>'.$rows["titulo_capitulo"].'</title>';
 
 $nombre=$rows["titulo_serie"];
 echo "<h3>".$rows["titulo_capitulo"]."</h3><hr>";
-echo "Temporada ".$rows["numero_temporada"]." Episodio ".$rows["e"]."<br>"; 
+
+$r2=$miconexion->query("SELECT * FROM titulocapitulo WHERE id_capitulo<'$_GET[id]' and serie=".$rows["serie"]." ORDER BY id_capitulo DESC LIMIT 1");
+while ($rows2 = $r2->fetch_assoc()) {
+	echo "<a href=titulo.php?id=".$rows2["id_capitulo"].">Anterior capítulo</a> | ";
+}
+
+echo "Temporada ".$rows["numero_temporada"]." Episodio ".$rows["e"];
+$r2=$miconexion->query("SELECT * FROM titulocapitulo WHERE id_capitulo>'$_GET[id]' and serie=".$rows["serie"]." ORDER BY id_capitulo ASC LIMIT 1");
+while ($rows2 = $r2->fetch_assoc()) {
+	echo " | <a href=titulo.php?id=".$rows2["id_capitulo"].">Siguiente capítulo</a>";
+}
+ 
 $_SESSION["s"]=$rows["numero_temporada"];
 $_SESSION["e"]=$rows["e"];
 $_SESSION["titulo"]=$rows["titulo_capitulo"];
 
-echo "<strong>Visto el:</strong> ";
+echo "<br><strong>Visto el:</strong> ";
 $fecha=$miconexion->query("SELECT * FROM titulo,fechastitulos WHERE titulo.id_titulo=fechastitulos.id_titulo and titulo.id_titulo LIKE '$_GET[id]'");
 
 while ($rows4 = $fecha->fetch_assoc()) {
@@ -63,6 +74,9 @@ echo "<strong>Director</strong>: ".$final."<br>";
 }
 echo "<strong>Duración</strong>: ".$rows["duracion"]."<br>";
 $_SESSION["dur"]=$rows["duracion"];
+
+
+
 }
 echo "</table><br></font>";
 ?>

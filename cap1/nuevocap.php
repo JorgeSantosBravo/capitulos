@@ -66,13 +66,6 @@ function dialogo(){
 	foreach($_POST as $campo => $valor) {
         $_SESSION["cap"][$campo] = $valor;
     }
-
-	 
-	
-	
-	
-var_dump($_SESSION["cap"]);
-
 	
 	
 	function maxid($nombreid, $tabla){
@@ -175,6 +168,8 @@ if (!$miconexion->query("INSERT INTO fechastitulos (id_visionado, id_titulo, fec
 }
 header ("Location:index.php");
 	
+	
+	//SI NO EXISTE
 }else if (!isset($_POST["temp"])){
 	echo "	<form action='nuevocap.php' method=post>
 <table>
@@ -192,13 +187,12 @@ else{
 		echo $miconexion->error;
 	}
 //PARA LOS DIRECTORES
-$idcap++;
 directores ($_SESSION["cap"]["persona"]);
 echo "<br>".$_SESSION["cap"]["persona"]."<br>";
-	if (!$miconexion->query("INSERT INTO titulo (id_titulo) VALUES ('".($nuevoid)."')")){
+	if (!$miconexion->query("INSERT INTO titulo (id_titulo) VALUES ('".$nuevoid."')")){
 	echo $miconexion->error;
 }
-if (!$miconexion->query("INSERT INTO titulocapitulo VALUES ('".($nuevoid)."', '".addslashes($_SESSION["cap"]["titulo"])."', '".$_SESSION["cap"]["serie"]."', '".buscartemp($_SESSION["cap"]["serie"], $_SESSION["cap"]["s"])."', '".$_SESSION["cap"]['e']."', '".$_SESSION["cap"]['dur']."')")){
+if (!$miconexion->query("INSERT INTO titulocapitulo VALUES ('".$nuevoid."', '".addslashes($_SESSION["cap"]["titulo"])."', '".$_SESSION["cap"]["serie"]."', '".buscartemp($_SESSION["cap"]["serie"], $_SESSION["cap"]["s"])."', '".$_SESSION["cap"]['e']."', '".$_SESSION["cap"]['dur']."')")){
 	echo $miconexion->error;
 }
 if (!$miconexion->query("INSERT INTO fechastitulos (id_visionado, id_titulo, fecha, medio, formato, comentario) VALUES ('".maxid("id_visionado", "fechastitulos")."', '".$nuevoid."', '".$_SESSION["cap"]["fecha"]."', '".$_SESSION["cap"]['pc']."', '".$_SESSION["cap"]['for']."', '".$_SESSION["cap"]['com']."')")){

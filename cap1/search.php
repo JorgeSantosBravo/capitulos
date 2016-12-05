@@ -65,11 +65,11 @@ function search($searchWord)
 function getData()
 {
 	include "conexion.php";
-    $stocke=$miconexion->query("SELECT Nombre_persona FROM persona"); 
+    $stocke=$miconexion->query("SELECT nombre_persona FROM persona"); 
 
 	$result=array();
 	while ($rows = $stocke->fetch_assoc()){
-array_push($result,$rows["Nombre_persona"]);
+array_push($result,$rows["nombre_persona"]);
 
 }
 

@@ -8,20 +8,55 @@
 
 include "header/header.php";
 include "conexion.php";
+function colores ($puntuacion){
+	$color="";
+	if ($puntuacion>=0&&$puntuacion<1){
+$color="F32A22";
+}else if ($puntuacion>=1&&$puntuacion<2){
+$color="F74B1B";
+}else if ($puntuacion>=2&&$puntuacion<3){
+$color="FA6815";
+}else if ($puntuacion>=3&&$puntuacion<4){
+$color="F2871F";
+}else if ($puntuacion>=4&&$puntuacion<5){
+$color="FE9B02";
+}else if ($puntuacion>=5&&$puntuacion<6){
+$color="F8B504";
+}else if ($puntuacion>=6&&$puntuacion<7){
+$color="FACE0B";
+}else if ($puntuacion>=7&&$puntuacion<8){
+$color="BFD207";
+}else if ($puntuacion>=8&&$puntuacion<9){
+$color="65C621";
+}else if ($puntuacion>=9&&$puntuacion<10){
+$color="4EC621";
+}else if ($puntuacion==10){
+$color="1BC621";
+}
 
+
+return $color;
+}
 
 $peli=$miconexion->query("SELECT * FROM titulo,titulopelicula WHERE titulo.id_titulo=titulopelicula.id_pelicula and id_pelicula LIKE '".$_GET["id"]."'"); 
 
 while ($rows = $peli->fetch_assoc()) {
 /*TÍTULO:*/ echo "<title>".$rows["titulo"]."</title>";
-echo "<table class=imagen><tr><td colspan=6>";
-echo "<img class=poster src=poster/".$rows["poster"]." width=230 height=345></td></tr>";
+echo "<table class=imagen><tr><td colspan=5>";
+echo "<a href=titulo.php?id=".$_GET["id"]."><img class=poster src=poster/".$rows["poster"]." width=230 height=345></a></td></tr>";
 
 
 $punt=$miconexion->query("SELECT * FROM titulo,fechastitulos WHERE titulo.id_titulo=fechastitulos.id_titulo and titulo.id_titulo LIKE '".$_GET["id"]."' ORDER BY fechastitulos.fecha DESC LIMIT 1");
 while ($rows2 = $punt->fetch_assoc()) {
 
-echo "<tr><td colspan=6 class=puntuacion>".$rows2["puntuacion"]."</td></tr><tr>";
+
+
+echo "<style>td.puntuacion #pu{border-radius: 19px 19px 19px 19px;
+-moz-border-radius: 19px 19px 19px 19px;
+-webkit-border-radius: 19px 19px 19px 19px;
+border: 0px solid #000000;background-color:#".colores($rows2["puntuacion"])."}</style>";
+echo "<tr><td colspan=6 class=puntuacion><div id=pu>";
+echo $rows2["puntuacion"]."</div></td></tr><tr>";
 if (!is_null($rows2["filmaffinity"])){
 echo "<td  size=1 align=center width=1><img src=iconos/filmaffinity.png width=24 height=24>";}
 if (!is_null($rows2["imdb"])){
@@ -44,18 +79,51 @@ echo "<td  size=1 align=center><img src=iconos/lb.png width=24 height=24>";	}
 
 echo "</tr>";
 if (!is_null($rows2["filmaffinity"])){
-echo "<td class=puntuacion>".$rows2["filmaffinity"]."</td>";}
+	echo "<style>td.puntuacion #fa{border-radius: 19px 19px 19px 19px;
+-moz-border-radius: 19px 19px 19px 19px;
+-webkit-border-radius: 19px 19px 19px 19px;
+border: 0px solid #000000;background-color:#".colores($rows2["filmaffinity"])."}</style>";
+echo "<td class='puntuacion'><div id=fa>";
+
+echo $rows2["filmaffinity"]."</div></td>";}
 if (!is_null($rows2["imdb"])){
-echo "<td class=puntuacion>".$rows2["imdb"]."</td>";}
+echo "<style>td.puntuacion #imdb{border-radius: 19px 19px 19px 19px;
+-moz-border-radius: 19px 19px 19px 19px;
+-webkit-border-radius: 19px 19px 19px 19px;
+border: 0px solid #000000;background-color:#".colores($rows2["imdb"])."}</style>";
+echo "<td class='puntuacion'><div id=imdb>";
+
+echo $rows2["imdb"]."</div></td>";}
 if (!is_null($rows2["tomatometer"])){
-echo "<td class=puntuacion>".$rows2["tomatometer"]."</td>";}
+echo "<style>td.puntuacion #to{border-radius: 19px 19px 19px 19px;
+-moz-border-radius: 19px 19px 19px 19px;
+-webkit-border-radius: 19px 19px 19px 19px;
+border: 0px solid #000000;background-color:#".colores($rows2["tomatometer"])."}</style>";
+echo "<td class='puntuacion'><div id=to>";
+
+echo $rows2["tomatometer"]."</div></td>";}
 if (!is_null($rows2["audiencescore"])){
-echo "<td class=puntuacion>".$rows2["audiencescore"]."</td>";}
+echo "<style>td.puntuacion #as{border-radius: 19px 19px 19px 19px;
+-moz-border-radius: 19px 19px 19px 19px;
+-webkit-border-radius: 19px 19px 19px 19px;
+border: 0px solid #000000;background-color:#".colores($rows2["audiencescore"])."}</style>";
+echo "<td class='puntuacion'><div id=as>";
+
+echo $rows2["audiencescore"]."</div></td>";}
 if (!is_null($rows2["letterboxd"])){
-echo "<td class=puntuacion>".$rows2["letterboxd"]."</td>";}
+echo "<style>td.puntuacion #lb{border-radius: 19px 19px 19px 19px;
+-moz-border-radius: 19px 19px 19px 19px;
+-webkit-border-radius: 19px 19px 19px 19px;
+border: 0px solid #000000;background-color:#".colores($rows2["letterboxd"])."}</style>";
+echo "<td class='puntuacion'><div id=lb>";
+
+echo $rows2["letterboxd"]."</div></td>";}
 
 }
 echo "</td></tr></table>";
+
+
+if (!isset($_GET["v"])){
 echo "<table class=datos>
 <tr><th align=left colspan=3>".$rows["titulo"]."</th></tr>
 <tr><td class=cabeza>Título orig.</td><td> </td><td>".$rows["titulo_original"]."</td></tr>
@@ -148,6 +216,22 @@ echo $final."</td></tr>";
 
 "</table>";
 }
+else{
+	$resultado=$miconexion->query("SELECT * FROM fechastitulos,titulopelicula WHERE titulopelicula.id_pelicula=fechastitulos.id_titulo and id_visionado=".$_GET["v"]);
+
+   while ($rows=$resultado->fetch_assoc()){
+	   $fe=explode("-", $rows["fecha"]);
+	echo "<table class=critica>";
+	echo "<tr><th align=left colspan=3>".$rows["titulo"]."</th></tr>";
+	echo "<tr><td>Vista el ".$fe[2]."/".$fe[1]."/".$fe[0]." en ".$rows["medio"]." por ".$rows["formato"]."</td></tr>";
+	echo "<tr><td>Audio: ".$rows["audio"]."</td></tr>";
+	echo "<tr><td></td></tr>";
+	echo "<tr><td>Crítica:</td></tr>";
+	echo "<tr><td>".$rows["comentario"]."</td></tr>";
+	echo "</table>";
+}
+}
+}
 
 echo "<table class=visionados><tr><td>";
 $numero=$miconexion->query("SELECT COUNT(*) as con FROM fechastitulos WHERE id_titulo LIKE '".$_GET["id"]."'");
@@ -170,7 +254,7 @@ $resultado=$miconexion->query("SELECT * FROM titulo,fechastitulos WHERE titulo.i
    while ($rows=$resultado->fetch_assoc()){
 echo "<tr><td>";
   $fe=explode("-", $rows["fecha"]);
- echo $fe[2]."/".$fe[1]."/".$fe[0];
+ echo "<a href=titulo.php?id=".$_GET["id"]."&v=".$rows["id_visionado"].">".$fe[2]."/".$fe[1]."/".$fe[0]."</a>";
  echo "</td></tr>";
    }
 

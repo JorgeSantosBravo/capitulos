@@ -6,12 +6,27 @@ include "header/header.php";
 include "conexion.php";
 $c=0;	//CONTADOR CUYO OBJETIVO ES DECIR SI NO HAY NINGÚN RESULTADO.
 $_GET["b"]=addslashes($_GET["b"]);
+
+$capitulos="SELECT * FROM temporada,tituloserie WHERE temporada.serie=tituloserie.id_serie and (alias_temporada LIKE '%".$_GET["b"]."%' or alias_temporada LIKE '".$_GET["b"]."')";
+$resultado=$miconexion->query($capitulos);
+	 $filas=$miconexion->affected_rows;
+     if($filas>=1){
+		 
+echo "<strong>Temporadas:</strong><br>";
+$consulta=$miconexion->query($capitulos); 
+while ($rows = $consulta->fetch_assoc()){
+	echo "<a href=titulo.php?id=".$rows["id_serie"].">".$rows["titulo_serie"]." #".$rows["numero_temporada"]." - ".$rows["alias_temporada"]."</a><br>";
+}
+$c++;
+	 }
+
+
 $capitulos="SELECT * FROM temporada,titulocapitulo,tituloserie WHERE temporada.id_temporada=titulocapitulo.ns AND titulocapitulo.serie=tituloserie.id_serie and (titulo_capitulo LIKE '%".$_GET["b"]."%' or titulo_capitulo LIKE '".$_GET["b"]."')";
 $resultado=$miconexion->query($capitulos);
 	 $filas=$miconexion->affected_rows;
      if($filas>=1){
 		 
-echo "<strong>Capítulos:</strong><br>";
+echo "<br><strong>Capítulos:</strong><br>";
 $consulta=$miconexion->query($capitulos); 
 while ($rows = $consulta->fetch_assoc()){
 	echo "<a href=titulo.php?id=".$rows["id_capitulo"].">".$rows["titulo_serie"]." - ".$rows["titulo_capitulo"]." #".$rows["numero_temporada"].".".$rows["e"]."</a><br>";

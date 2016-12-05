@@ -39,7 +39,7 @@ border-radius: 19px 19px 19px 19px;
 -moz-border-radius: 19px 19px 19px 19px;
 -webkit-border-radius: 19px 19px 19px 19px;
 border: 2px solid #7d7c7d;
-background-color:red;
+z-index: 1;
 text-align:center;
 color:white;
 font-size:20;
@@ -52,6 +52,13 @@ table.imagen{
 position:absolute;
 }
 table.datos{
+	font-family: 'Libre Baskerville', serif;
+	left:275px;
+	width:750px;
+	position:absolute;
+	line-height: 1.85; 
+}
+table.critica{
 	font-family: 'Libre Baskerville', serif;
 	left:275px;
 	width:750px;
