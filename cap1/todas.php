@@ -15,6 +15,13 @@ include ("conexion.php");
 $cont=$miconexion->query("SELECT * FROM tituloserie,titulo WHERE titulo.id_titulo=tituloserie.id_serie and seguimiento=1 ORDER BY inicio,id_serie ASC");
 
 while ($rows = $cont->fetch_assoc()) {
-echo ' <a href=titulo.php?id='.$rows["id_serie"].'><img class="todas" title='.urlencode($rows["titulo_serie"]).' src=poster/'.$rows["poster"].'></a>';
+	
+	if (strpos($rows["titulo_serie"], " ")){
+	$nueva=str_replace(" ", "&nbsp;", $rows["titulo_serie"]);}else{
+		$nueva=$rows["titulo_serie"];
+	}
+	
+echo ' <a href=titulo.php?id='.$rows["id_serie"].'><img class="todas" title='.$nueva.' src=poster/'.$rows["poster"].'></a>';
+
 }
 ?>

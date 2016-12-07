@@ -46,7 +46,13 @@ echo "<strong>Duración cap.</strong>: ".$rows2["duracion"]." minutos";
 }
 
 $_SESSION["poster"]=$rows["poster"];
-echo '<img witdh=160 height=237 class="poster" title='.urlencode($rows["titulo_serie"]).' src=poster/'.$rows["poster"].'><br>';
+
+if (strpos($rows["titulo_serie"], " ")){
+  $nueva=str_replace(" ", "&nbsp;", $rows["titulo_serie"]);}else{
+    $nueva=$rows["titulo_serie"];
+  }
+
+echo '<img witdh=160 height=237 class="poster" title='.$nueva.' src=poster/'.$rows["poster"].'><br>';
 echo "<div id=debajo>";
 if (!$rows["intro"]==""){
 echo "<iframe width='400' height='300' 

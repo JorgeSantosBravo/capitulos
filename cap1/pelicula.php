@@ -46,6 +46,15 @@ echo "<table class=imagen><tr><td colspan=5>";
 echo "<a href=titulo.php?id=".$_GET["id"]."><img class=poster src=poster/".$rows["poster"]." width=230 height=345></a></td></tr>";
 
 
+$i=1;
+$j=1;
+$pu=0;	//CONTADOR PARA HACER LA MEDIA
+$fa=0;
+$imdb=0;
+$rt=0;
+$as=0;
+$lb=0;
+
 $punt=$miconexion->query("SELECT * FROM titulo,fechastitulos WHERE titulo.id_titulo=fechastitulos.id_titulo and titulo.id_titulo LIKE '".$_GET["id"]."' ORDER BY fechastitulos.fecha DESC LIMIT 1");
 while ($rows2 = $punt->fetch_assoc()) {
 
@@ -56,9 +65,14 @@ echo "<style>td.puntuacion #pu{border-radius: 19px 19px 19px 19px;
 -webkit-border-radius: 19px 19px 19px 19px;
 border: 0px solid #000000;background-color:#".colores($rows2["puntuacion"])."}</style>";
 echo "<tr><td colspan=6 class=puntuacion><div id=pu>";
+	$pu=$rows2["puntuacion"];
 echo $rows2["puntuacion"]."</div></td></tr><tr>";
 if (!is_null($rows2["filmaffinity"])){
-echo "<td  size=1 align=center width=1><img src=iconos/filmaffinity.png width=24 height=24>";}
+echo "<td  size=1 align=center width=1><img src=iconos/filmaffinity.png width=24 height=24>";
+	$fa=$rows2["filmaffinity"];
+	$i++;
+	$j++;
+}
 if (!is_null($rows2["imdb"])){
 echo "<td  size=1 align=center><img src=iconos/imdb.png width=24 height=24>";}
 if (is_null($rows2["tomatometer"])){
@@ -92,8 +106,11 @@ echo "<style>td.puntuacion #imdb{border-radius: 19px 19px 19px 19px;
 -webkit-border-radius: 19px 19px 19px 19px;
 border: 0px solid #000000;background-color:#".colores($rows2["imdb"])."}</style>";
 echo "<td class='puntuacion'><div id=imdb>";
-
-echo $rows2["imdb"]."</div></td>";}
+echo $rows2["imdb"]."</div></td>";
+	$imdb=$rows2["imdb"];
+	$i++;
+	$j++;
+}
 if (!is_null($rows2["tomatometer"])){
 echo "<style>td.puntuacion #to{border-radius: 19px 19px 19px 19px;
 -moz-border-radius: 19px 19px 19px 19px;
@@ -101,7 +118,11 @@ echo "<style>td.puntuacion #to{border-radius: 19px 19px 19px 19px;
 border: 0px solid #000000;background-color:#".colores($rows2["tomatometer"])."}</style>";
 echo "<td class='puntuacion'><div id=to>";
 
-echo $rows2["tomatometer"]."</div></td>";}
+echo $rows2["tomatometer"]."</div></td>";
+	$rt=$rows2["tomatometer"];
+	$i++;
+	$j++;
+}
 if (!is_null($rows2["audiencescore"])){
 echo "<style>td.puntuacion #as{border-radius: 19px 19px 19px 19px;
 -moz-border-radius: 19px 19px 19px 19px;
@@ -109,7 +130,10 @@ echo "<style>td.puntuacion #as{border-radius: 19px 19px 19px 19px;
 border: 0px solid #000000;background-color:#".colores($rows2["audiencescore"])."}</style>";
 echo "<td class='puntuacion'><div id=as>";
 
-echo $rows2["audiencescore"]."</div></td>";}
+echo $rows2["audiencescore"]."</div></td>";
+		$as=$rows2["audiencescore"];
+		$i++;
+}
 if (!is_null($rows2["letterboxd"])){
 echo "<style>td.puntuacion #lb{border-radius: 19px 19px 19px 19px;
 -moz-border-radius: 19px 19px 19px 19px;
@@ -117,10 +141,43 @@ echo "<style>td.puntuacion #lb{border-radius: 19px 19px 19px 19px;
 border: 0px solid #000000;background-color:#".colores($rows2["letterboxd"])."}</style>";
 echo "<td class='puntuacion'><div id=lb>";
 
-echo $rows2["letterboxd"]."</div></td>";}
-
+echo $rows2["letterboxd"]."</div></td>";
+	$lb=$rows2["letterboxd"];
+	$i++;
+	$j++;
 }
-echo "</td></tr></table>";
+
+   $media=($pu+$fa+$imdb+$rt+$as+$lb)/$i;
+   $mostrarmedia=number_format($media, 2);
+   if ($j>1){
+	   $j-=1;
+   }
+   $mediaprof=($fa+$imdb+$rt+$lb)/$j;
+   if (!$mediaprof==0){
+   $mostrarmediaprof= number_format($mediaprof, 2);
+   }
+   echo "</td>";
+   
+   
+   
+echo "</td></tr>";
+if ($i>1){
+echo "<style>td.puntuacion #med{border-radius: 19px 19px 19px 19px;
+-moz-border-radius: 19px 19px 19px 19px;
+-webkit-border-radius: 19px 19px 19px 19px;
+border: 0px solid #000000;background-color:#".colores($mostrarmedia)."}</style>";
+
+echo "<tr><td class=puntuacion colspan=5><div id=med>".$mostrarmedia."</div></td></tr>";
+}
+
+
+echo "</table>";
+   
+   
+   $i=1;		//VOLVEMOS A PONER EL CONTADOR EN SU POSICIÓN INICIAL
+   $j=1;
+}
+
 
 
 if (!isset($_GET["v"])){
@@ -258,7 +315,32 @@ echo "<tr><td>";
  echo "</td></tr>";
    }
 
-echo "</table>";
+echo "</table><br><br><br>";
+?>
+<style>
+table.nube{
+background-color:#B40404;
+font-family: Trebuchet MS;
+position:absolute;
+right: 150px;
+top:180px;
+border-radius: 19px 19px 19px 19px;
+-moz-border-radius: 19px 19px 19px 19px;
+-webkit-border-radius: 19px 19px 19px 19px;
+border: 2px solid black;
+}
+</style>
+<?php
+ $resultado=$miconexion->query("SELECT * FROM nube WHERE id_titulo=".$_GET["id"]);
+	 $filas=$miconexion->affected_rows;
+     if($filas>=1){
+	 
+echo "<table class=nube><tr><td>";
+$numero=$miconexion->query("SELECT * FROM nube WHERE id_titulo=".$_GET["id"]);
+while ($rows=$numero->fetch_assoc()){
+echo "<a target='_blank' href=".$rows["link_archivo"].">Disponible</a></td></tr></table>";
+}
+	 }
 
 
 ?>

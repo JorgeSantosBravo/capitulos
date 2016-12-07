@@ -39,6 +39,7 @@ echo "<br><a href =visor.php?v=years/index.php>Anuarios</a><br>";
 echo "<a href =visor.php?v=Stats/index.php>Estadísticas</a><br>";
 echo "<a href =buscafecha.php>Buscar por fecha</a><br>";
 echo "<a href=mislistas.php>Mis listas</a><br>";
+echo "<a href=rankingactores.php>Ránking de actores</a><br>";
 $consulta=$miconexion->query("SELECT * FROM titulopelicula order by rand() limit 1"); 
 while ($rows = $consulta->fetch_assoc()){
 echo "<a href=titulo.php?id=".$rows["id_pelicula"].">Película aleatoria</a><br>";

@@ -79,8 +79,13 @@ return $id+1;
 }
  $idcap=maxid("id_titulo", "titulo");
 	
-function directores ($elemento){
+function directores ($elemento, $num){
 	include "conexion.php";
+	$iddd=$GLOBALS['idcap'];
+		if ($num==1){
+			$iddd+=1;
+		}
+		echo "ESTE ES EL IDDD".$iddd;
 	if (strpos($elemento, ",")){
 	$con=0;
 	for ($i=0;$i<strlen($elemento);$i++){
@@ -89,15 +94,16 @@ function directores ($elemento){
 		}
 	}
 	$dir=explode(', ', $elemento);
-	for ($j=0;$j<=$con;$j++){
 		
+	for ($j=0;$j<=$con;$j++){
+	
 		$dir[$j];
 		
-		$miconexion->query("INSERT INTO titulosdirectores (id_titulo, id_director) VALUES ('".$GLOBALS['idcap']."', '".addslashes(buscarid($dir[$j], "persona", "Nombre_persona", "id_persona"))."')");
+		$miconexion->query("INSERT INTO titulosdirectores (id_titulo, id_director) VALUES ('".$iddd."', '".addslashes(buscarid($dir[$j], "persona", "Nombre_persona", "id_persona"))."')");
 	}
 	}else{
 		
-		$miconexion->query("INSERT INTO titulosdirectores (id_titulo, id_director) VALUES ('".$GLOBALS['idcap']."', '".addslashes(buscarid($elemento, "persona", "Nombre_persona", "id_persona"))."')");
+		$miconexion->query("INSERT INTO titulosdirectores (id_titulo, id_director) VALUES ('".$iddd."', '".addslashes(buscarid($elemento, "persona", "Nombre_persona", "id_persona"))."')");
 	}
 	 
 }
@@ -161,7 +167,7 @@ if (!$miconexion->query("INSERT INTO titulo (id_titulo) VALUES ('".$idcap."')"))
 if (!$miconexion->query("INSERT INTO titulocapitulo VALUES ('".$idcap."', '".addslashes($_SESSION["cap"]["titulo"])."', '".$_POST["serie"]."', '".buscartemp($_SESSION["cap"]["serie"], $_SESSION["cap"]["s"])."', '".$_POST['e']."', '".$_POST['dur']."')")){
 	echo $miconexion->error;
 }
-directores ($_SESSION["cap"]["persona"]);
+directores ($_SESSION["cap"]["persona"],0);
 echo "<br>".$_SESSION["cap"]["persona"]."<br>";
 if (!$miconexion->query("INSERT INTO fechastitulos (id_visionado, id_titulo, fecha, medio, formato, comentario) VALUES ('".maxid("id_visionado", "fechastitulos")."', '".$idcap."', '".$_SESSION["cap"]["fecha"]."', '".$_SESSION["cap"]['pc']."', '".$_SESSION["cap"]['for']."', '".$_SESSION["cap"]['com']."')")){
 	echo $miconexion->error;
@@ -187,7 +193,7 @@ else{
 		echo $miconexion->error;
 	}
 //PARA LOS DIRECTORES
-directores ($_SESSION["cap"]["persona"]);
+directores ($_SESSION["cap"]["persona"], 1);
 echo "<br>".$_SESSION["cap"]["persona"]."<br>";
 	if (!$miconexion->query("INSERT INTO titulo (id_titulo) VALUES ('".$nuevoid."')")){
 	echo $miconexion->error;

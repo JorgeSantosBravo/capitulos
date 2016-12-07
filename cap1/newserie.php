@@ -134,7 +134,7 @@ if (!$miconexion->query("INSERT INTO titulo VALUES ('".$idcap."', '".$_POST['pos
 if (!$miconexion->query("INSERT INTO tituloserie VALUES ('".$idcap."', '".$_POST['nombre']."', '".$_POST['c']."', '".$_POST['ini']."', '".$_POST['fin']."', '".$_POST['estado']."', '".$_POST['intro']."', '".$_POST['seg']."', '".$_POST["miniserie"]."')")){
 	echo $miconexion->error;
 }else{
-//header ("Location:nuevocap.php");
+header ("Location:nuevocap.php");
 
 }
 creadores ($_POST["persona"]);
