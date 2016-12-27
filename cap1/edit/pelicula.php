@@ -227,7 +227,7 @@ if (!$miconexion->query("UPDATE titulo SET poster='".$_SESSION["poster"]."' WHER
 	echo $miconexion->error;
 }
 
-if (!$miconexion->query("UPDATE titulopelicula SET año='".$_POST["anio"]."', titulo='".$_POST["titulo"]."', titulo_original='".$_POST["titorig"]."', duracion='".$_POST["duracion"]."', documental='".$_POST["documental"]."', pais='".$_POST["pais"]."' WHERE id_pelicula LIKE '".$_GET["id"]."'")){
+if (!$miconexion->query("UPDATE titulopelicula SET año='".$_POST["anio"]."', titulo='".addslashes($_POST["titulo"])."', titulo_original='".addslashes($_POST["titorig"])."', duracion='".$_POST["duracion"]."', documental='".$_POST["documental"]."', pais='".$_POST["pais"]."' WHERE id_pelicula LIKE '".$_GET["id"]."'")){
 	echo $miconexion->error;
 }
 

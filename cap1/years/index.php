@@ -19,9 +19,9 @@ Todas las películas de:
 
 Estadísticas:
 <li><a href=visor.php?v=years/2013/stats.php>2013</a></li>
-<li><a href=e2014.php>2014</a></li>
-<li><a href=e2015.php>2015</a></li>
-<li><a href=e2016.php>2016</a></li>
+<li><a href=visor.php?v=years/2014/stats.php>2014</a></li>
+<li><a href=visor.php?v=years/2015/stats.php>2015</a></li>
+<li><a href=visor.php?v=years/2016/stats.php>2016</a></li>
 
 <br><br>
 

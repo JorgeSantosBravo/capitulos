@@ -1,0 +1,14 @@
+img.persona{
+	height:300;
+	width:156,5;
+	right:10;
+}
+img.poster{
+	height:231;
+	width:156;
+}
+
+td.nombre{
+	text-align:left;
+	font-size:20px;
+}

@@ -111,7 +111,7 @@ if (!isset($_POST["seg"])){
 	$_POST["seg"]=$_SESSION["seg"];
 }
 
-if (!$miconexion->query("UPDATE titulo SET poster='".$_SESSION["poster"]."' WHERE id_serie LIKE '".$_GET["id"]."' ")){
+if (!$miconexion->query("UPDATE titulo SET poster='".$_SESSION["poster"]."' WHERE id_titulo LIKE '".$_GET["id"]."' ")){
 	echo $miconexion->error;
 }
 if (!$miconexion->query("UPDATE tituloserie SET titulo_serie='".addslashes($_POST["nombre"])."', canal='".$_POST["c"]."', inicio='".$_POST["ini"]."', fin='".$_POST["fin"]."', estado='".$_POST["estado"]."', intro='".$_POST["intro"]."', seguimiento='".$_POST["seg"]."' WHERE id_serie LIKE '".$_GET["id"]."' ")){

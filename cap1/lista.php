@@ -18,8 +18,11 @@ if (!isset($_POST["uno"])&&!isset($_POST["guardar"])){
 include "header/header.php";
 echo "<form method='post' action=''>";
 echo "<h3>¿Qué tipo de lista será?</h3>";
-echo "<input type=radio name=tipo value=0>Personas<br>";
-echo "<input type=radio name=tipo value=1>Títulos";
+echo "<input type=radio name=tipo value=0>Personas";
+echo "<input type=radio name=tipo value=1>Películas";
+echo "<input type=radio name=tipo value=2>Series";
+echo "<input type=radio name=tipo value=3>Temporadas";
+echo "<input type=radio name=tipo value=4>Capítulos";
 echo "<h3>Nombre de la lista</h3>";
 echo "<input type=text name=nombre>";
 echo "<h3>Añade una descripción</h3>";
@@ -51,11 +54,11 @@ $primaria="id_persona";
 $nombre="Nombre_persona";
 $segundaconsulta="SELECT * FROM persona WHERE id_persona NOT IN (SELECT id_elemento FROM listaselementos) ORDER BY Nombre_persona ";
 $consulta = $miconexion->query($primeraconsulta); 
-}else {
-	$primeraconsulta="SELECT * FROM lista,listaselementos,titulo WHERE lista.id_lista=listaselementos.id_lista and listaselementos.id_elemento=titulo.id_titulo and lista.id_lista=".$idcap;
-$primaria="id_titulo";
-$nombre="Nombre_persona";
-$segundaconsulta="SELECT * FROM titulo WHERE id_titulo NOT IN (SELECT id_elemento FROM listaselementos) ORDER BY Nombre_persona ";
+}else if ($_SESSION["uno"]["tipo"]==1){
+	$primeraconsulta="SELECT * FROM lista,listaselementos,titulopelicula WHERE lista.id_lista=listaselementos.id_lista and listaselementos.id_elemento=titulopelicula.id_pelicula and lista.id_lista=".$idcap;
+$primaria="id_pelicula";
+$nombre="titulo";
+$segundaconsulta="SELECT * FROM titulopelicula WHERE id_pelicula NOT IN (SELECT id_elemento FROM listaselementos) ORDER BY año,titulo ";
 $consulta = $miconexion->query($primeraconsulta); 
 }
 	
@@ -112,11 +115,11 @@ echo "<select class='serie'><option id=0>Selecciona</option>";
 	$stocke=$miconexion->query($segundaconsulta);
 while ($rows = $stocke->fetch_assoc()){
 
-echo "<option id ='".$rows['id_persona']."'>".$rows[$nombre]."</option>";
+echo "<option id ='".$rows[$primaria]."'>".$rows[$nombre]."</option>";
 
 }
 echo "</select> <br><br>";
-echo "<input type=hidden name=ssess value=".$_SESSION["uno"]["nombre"].">";
+echo "<input type=hidden name=ssess value='".$_SESSION["uno"]["nombre"]."'>";
 echo "<input type='submit' name=guardar value='Guardar'>";
 ?>
 <div></div>

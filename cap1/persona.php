@@ -1,14 +1,24 @@
 <link rel="stylesheet" type="text/css" media="screen" href="Estilos/enlace.css">
 <link rel="stylesheet" type="text/css" media="screen" href="Estilos/trebuchet.css">
+<link rel="stylesheet" type="text/css" media="screen" href="Estilos/persona.css">
 <?php
 include "header/header.php";
 include "conexion.php";
 
+echo "<table>";
+
+
 $stocke=$miconexion->query("SELECT * FROM persona WHERE id_persona LIKE '".$_GET["id"]."'"); 
 while ($rows = $stocke->fetch_assoc()){
 echo "<title>".$rows["Nombre_persona"]."</title>";
-echo "<h2>".$rows["Nombre_persona"]."</h2><br>";
+
+
+
+echo "<tr rowspan=1><td><img class=persona src=poster/".$rows["foto"]."></td>";
+
+echo "<td valign=top class=nombre>".$rows["Nombre_persona"]."</td></tr>";
 }
+echo "</table><table><tr><td>";
 $consultapelis=$miconexion->query("SELECT * FROM persona,titulopelicula,titulosdirectores WHERE titulosdirectores.id_titulo=titulopelicula.id_pelicula and persona.id_persona=titulosdirectores.id_director and persona.id_persona=".$_GET["id"]." ORDER BY titulopelicula.año ASC"); 
 $numpelis=$miconexion->affected_rows;
 if ($numpelis>=1){
@@ -76,5 +86,5 @@ while ($rows = $actores->fetch_assoc()){
 echo "<a href=titulo.php?id=".$rows["id_titulo"].">".$rows["año"]." - ".$rows["titulo"]."</a><br>";
 }
 	 }	 
-
+echo "</td></tr>";
 ?>
