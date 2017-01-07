@@ -37,8 +37,8 @@ $color="1BC621";
 
 return $color;
 }
-
-$peli=$miconexion->query("SELECT * FROM titulo,titulopelicula WHERE titulo.id_titulo=titulopelicula.id_pelicula and id_pelicula LIKE '".$_GET["id"]."'"); 
+$i=0;
+$peli=$miconexion->query("SELECT * FROM titulo,titulopelicula WHERE titulo.id_titulo=titulopelicula.id_pelicula and id_pelicula=".$_GET["id"]); 
 
 while ($rows = $peli->fetch_assoc()) {
 /*TÍTULO:*/ echo "<title>".$rows["titulo"]."</title>";
@@ -46,137 +46,102 @@ echo "<table class=imagen><tr><td colspan=5>";
 echo "<a href=titulo.php?id=".$_GET["id"]."><img class=poster src=poster/".$rows["poster"]." width=230 height=345></a></td></tr>";
 
 
-$i=1;
-$j=1;
-$pu=0;	//CONTADOR PARA HACER LA MEDIA
-$fa=0;
-$imdb=0;
-$rt=0;
-$as=0;
-$lb=0;
-
-$punt=$miconexion->query("SELECT * FROM titulo,fechastitulos WHERE titulo.id_titulo=fechastitulos.id_titulo and titulo.id_titulo LIKE '".$_GET["id"]."' ORDER BY fechastitulos.fecha DESC LIMIT 1");
-while ($rows2 = $punt->fetch_assoc()) {
-
-
-
 echo "<style>td.puntuacion #pu{border-radius: 19px 19px 19px 19px;
 -moz-border-radius: 19px 19px 19px 19px;
 -webkit-border-radius: 19px 19px 19px 19px;
-border: 0px solid #000000;background-color:#".colores($rows2["puntuacion"])."}</style>";
+border: 0px solid #000000;background-color:#".colores($rows["puntuacion"])."}</style>";
+if (!$rows["puntuacion"]==0){
 echo "<tr><td colspan=6 class=puntuacion><div id=pu>";
-	$pu=$rows2["puntuacion"];
-echo $rows2["puntuacion"]."</div></td></tr><tr>";
-if (!is_null($rows2["filmaffinity"])){
-echo "<td  size=1 align=center width=1><img src=iconos/filmaffinity.png width=24 height=24>";
-	$fa=$rows2["filmaffinity"];
-	$i++;
-	$j++;
+
+echo $rows["puntuacion"]."</div></td></tr><tr>";
 }
-if (!is_null($rows2["imdb"])){
-echo "<td  size=1 align=center><img src=iconos/imdb.png width=24 height=24>";}
-if (is_null($rows2["tomatometer"])){
+if (!is_null($rows["filmaffinity"])){
+echo "<td  size=1 align=center width=1><img src=iconos/filmaffinity.png width=24 height=24>";
+$i++;
+}
+if (!is_null($rows["imdb"])){
+echo "<td  size=1 align=center><img src=iconos/imdb.png width=24 height=24>";
+$i++;
+}
+if (is_null($rows["tomatometer"])){
 	
-}else if ($rows2["tomatometer"]>=6.0&&$rows2["tomatometer"]<=7.4){
+}else if ($rows["tomatometer"]>=6.0&&$rows["tomatometer"]<=7.4){
 echo "<td  size=1 align=center><img src=iconos/tomato.png width=24 height=24>";}
-else if ($rows2["tomatometer"]<=5.9){
+else if ($rows["tomatometer"]<=5.9){
 echo "<td  size=1 align=center ><img src=iconos/rotten.png width=24 height=24>";}	
-else if ($rows2["tomatometer"]>7.4){
+else if ($rows["tomatometer"]>7.4){
 	echo "<td  size=1 align=center><img src=iconos/fresh.png width=24 height=24>";}
-if (is_null($rows2["audiencescore"])){
-}else if ($rows2["audiencescore"]>=5){
+if (is_null($rows["audiencescore"])){
+}else if ($rows["audiencescore"]>=5){
 echo "<td size=1 align=center><img src=iconos/pc.png width=24 height=24>";}	
 else{
 	echo "<td  size=1 align=center><img src=iconos/badpc.png width=24 height=24>";}
-if (!is_null($rows2["letterboxd"])){
-echo "<td  size=1 align=center><img src=iconos/lb.png width=24 height=24>";	}
+if (!is_null($rows["letterboxd"])){
+echo "<td  size=1 align=center><img src=iconos/lb.png width=24 height=24>";
+$i++;	}
 
 echo "</tr>";
-if (!is_null($rows2["filmaffinity"])){
+if (!is_null($rows["filmaffinity"])){
 	echo "<style>td.puntuacion #fa{border-radius: 19px 19px 19px 19px;
 -moz-border-radius: 19px 19px 19px 19px;
 -webkit-border-radius: 19px 19px 19px 19px;
-border: 0px solid #000000;background-color:#".colores($rows2["filmaffinity"])."}</style>";
+border: 0px solid #000000;background-color:#".colores($rows["filmaffinity"])."}</style>";
 echo "<td class='puntuacion'><div id=fa>";
 
-echo $rows2["filmaffinity"]."</div></td>";}
-if (!is_null($rows2["imdb"])){
+echo $rows["filmaffinity"]."</div></td>";}
+if (!is_null($rows["imdb"])){
 echo "<style>td.puntuacion #imdb{border-radius: 19px 19px 19px 19px;
 -moz-border-radius: 19px 19px 19px 19px;
 -webkit-border-radius: 19px 19px 19px 19px;
-border: 0px solid #000000;background-color:#".colores($rows2["imdb"])."}</style>";
+border: 0px solid #000000;background-color:#".colores($rows["imdb"])."}</style>";
 echo "<td class='puntuacion'><div id=imdb>";
-echo $rows2["imdb"]."</div></td>";
-	$imdb=$rows2["imdb"];
-	$i++;
-	$j++;
+echo $rows["imdb"]."</div></td>";
 }
-if (!is_null($rows2["tomatometer"])){
+if (!is_null($rows["tomatometer"])){
 echo "<style>td.puntuacion #to{border-radius: 19px 19px 19px 19px;
 -moz-border-radius: 19px 19px 19px 19px;
 -webkit-border-radius: 19px 19px 19px 19px;
-border: 0px solid #000000;background-color:#".colores($rows2["tomatometer"])."}</style>";
+border: 0px solid #000000;background-color:#".colores($rows["tomatometer"])."}</style>";
 echo "<td class='puntuacion'><div id=to>";
-
-echo $rows2["tomatometer"]."</div></td>";
-	$rt=$rows2["tomatometer"];
-	$i++;
-	$j++;
+echo $rows["tomatometer"]."</div></td>";
+$i++;
 }
-if (!is_null($rows2["audiencescore"])){
+if (!is_null($rows["audiencescore"])){
 echo "<style>td.puntuacion #as{border-radius: 19px 19px 19px 19px;
 -moz-border-radius: 19px 19px 19px 19px;
 -webkit-border-radius: 19px 19px 19px 19px;
-border: 0px solid #000000;background-color:#".colores($rows2["audiencescore"])."}</style>";
+border: 0px solid #000000;background-color:#".colores($rows["audiencescore"])."}</style>";
 echo "<td class='puntuacion'><div id=as>";
-
-echo $rows2["audiencescore"]."</div></td>";
-		$as=$rows2["audiencescore"];
-		$i++;
+echo $rows["audiencescore"]."</div></td>";
+$i++;
 }
-if (!is_null($rows2["letterboxd"])){
+if (!is_null($rows["letterboxd"])){
 echo "<style>td.puntuacion #lb{border-radius: 19px 19px 19px 19px;
 -moz-border-radius: 19px 19px 19px 19px;
 -webkit-border-radius: 19px 19px 19px 19px;
-border: 0px solid #000000;background-color:#".colores($rows2["letterboxd"])."}</style>";
+border: 0px solid #000000;background-color:#".colores($rows["letterboxd"])."}</style>";
 echo "<td class='puntuacion'><div id=lb>";
-
-echo $rows2["letterboxd"]."</div></td>";
-	$lb=$rows2["letterboxd"];
-	$i++;
-	$j++;
+echo $rows["letterboxd"]."</div></td>";
 }
-
-   $media=($pu+$fa+$imdb+$rt+$as+$lb)/$i;
-   $mostrarmedia=number_format($media, 2);
-   if ($j>1){
-	   $j-=1;
-   }
-   $mediaprof=($fa+$imdb+$rt+$lb)/$j;
-   if (!$mediaprof==0){
-   $mostrarmediaprof= number_format($mediaprof, 2);
-   }
    echo "</td>";
    
    
    
 echo "</td></tr>";
-if ($i>1){
+
 echo "<style>td.puntuacion #med{border-radius: 19px 19px 19px 19px;
 -moz-border-radius: 19px 19px 19px 19px;
 -webkit-border-radius: 19px 19px 19px 19px;
-border: 0px solid #000000;background-color:#".colores($mostrarmedia)."}</style>";
-
-echo "<tr><td class=puntuacion colspan=5><div id=med>".$mostrarmedia."</div></td></tr>";
+border: 0px solid #000000;background-color:#".colores($rows["media"])."}</style>";
+if ($i>1){
+if (!$rows["media"]==0){
+echo "<tr><td class=puntuacion colspan=5><div id=med>".number_format($rows["media"],2)."</div></td></tr>";
 }
-
+}
 
 echo "</table>";
-   
-   
-   $i=1;		//VOLVEMOS A PONER EL CONTADOR EN SU POSICIÓN INICIAL
-   $j=1;
-}
+ 
+
 
 
 

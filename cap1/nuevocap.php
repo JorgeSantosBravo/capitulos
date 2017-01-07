@@ -7,6 +7,7 @@ body{ background: #000 url('fondos/degradado.jpg') no-repeat top right fixed;
 background-size: cover;}
 </style>
 <title>Nuevo capítulo</title>
+
 <?php
 include "header/header.php";
 include "conexion.php";
@@ -177,6 +178,16 @@ header ("Location:index.php");
 	
 	//SI NO EXISTE
 }else if (!isset($_POST["temp"])){
+	?>
+	<script type="text/javascript">
+window.onbeforeunload = function exitAlert()
+	{
+	var textillo = "Los datos que no se han guardado se perderan.";
+	return textillo;
+	}
+</script>
+	
+	<?php
 	echo "	<form action='nuevocap.php' method=post>
 <table>
 <tr><td>Año</td><td><input type='text' size=2 name='anio'>	</td></tr>

@@ -33,6 +33,7 @@ echo "<input type=submit value='Enviar'>
 
 ";
 }else{
+	echo "<h2>".$_POST["dia"]." del ".$_POST["mes"]." del ".$_POST["ano"]."</h2>";
 	$i=0;
 $fecha=$_POST["ano"]."-".$_POST["mes"]."-".$_POST["dia"];
 $caps="SELECT * FROM titulocapitulo,fechastitulos,tituloserie WHERE titulocapitulo.serie=tituloserie.id_serie and titulocapitulo.id_capitulo=fechastitulos.id_titulo and fecha='$fecha'";

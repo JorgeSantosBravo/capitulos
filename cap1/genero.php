@@ -1,5 +1,5 @@
-<title>Todas las películas </title>
-<style type="text/css">
+<head>
+<style>
 #barra{
 	background-color: #333;;
 border-radius: 21px 21px 21px 21px;
@@ -14,17 +14,6 @@ text-align:right;
 	#cuenta{
 		color:white;
 text-align:center;
-
-	}
-	a{
-		font-size:20px;
-		text-decoration:none;
-		color:white;
-text-align:center;
-	}
-	a.borrar{
-		font:menu;
-		
 	}
 img.poster{
 
@@ -68,9 +57,19 @@ color:white;
 -moz-border-radius: 21px 21px 21px 21px;
 -webkit-border-radius: 21px 21px 21px 21px;
 border: 0px solid #000000;
-}
-#textocentrado{
-	text-align:center;
+a{
+		font-size:20px;
+		text-decoration:none;
+		color:white;
+text-align:center;
+	}
+	a.borrar{
+		font-size:10px;
+		color:white;
+		text-decoration:none;
+		font:menu;
+		
+	}
 }
 </style>
 <script type="text/javascript">
@@ -80,39 +79,39 @@ function getParameterByName(name) {
     results = regex.exec(location.search);
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
-
 function cambiar(op){
+var id = getParameterByName('id');
 var dec = getParameterByName('dec');
-if (dec==""){
-	dec=0000;
-}
-var a = getParameterByName('a');
-if (a==""){
-	a=0;
-}
 var opcion=document.getElementById(op);
 
-location.href="allmovies.php?dec="+dec+"&orderby="+opcion.value+"&a="+a;
+location.href="genero.php?id="+id+"&dec="+dec+"&orderby="+opcion.value;
 
 }
 
+function cambiargen(op){
+
+var opcion=document.getElementById(op);
+var o = getParameterByName('orderby');
+var dec = getParameterByName('dec');
+location.href="genero.php?id="+opcion.value+"&dec="+dec+"&orderby="+o;
+
+}
 function decada(op){
 var o = getParameterByName('orderby');
+var id = getParameterByName('id');
 if (o==""){
 	o=0000;
 }
 var opcion=document.getElementById(op);
 
-location.href="allmovies.php?dec="+opcion.value+"&orderby="+o;
+location.href="genero.php?id="+id+"&dec="+opcion.value+"&orderby="+o;
 
 }
 </script>
+
+</head>
+<body>
 <?php
-
-function hacermedia($id){
-	
-}
-
 $orden="año DESC";
 if (isset($_GET["orderby"])){
 switch($_GET["orderby"]){
@@ -121,8 +120,10 @@ switch($_GET["orderby"]){
 	case "año_asc":$orden="año ASC";break;
 	case "año_desc":$orden="año DESC";break;
 	case "title":$orden="titulo ASC";break;
-	case "media":$orden="media DESC";break;
-	case "mediaprof":$orden="mediaprof DESC";break;
+	case "media_desc":$orden="media DESC";break;
+	case "media_asc":$orden="media ASC";break;
+	case "mediaprof_desc":$orden="mediaprof DESC";break;
+	case "mediaprof_asc":$orden="mediaprof ASC";break;
 	default: $orden="año DESC";
 }
 }
@@ -144,22 +145,21 @@ switch($_GET["dec"]){
 	default: $plus="AND año>1910";
 }
 }
-if (isset($_GET["a"])&&!$_GET["a"]==0){
-
-$plus="AND año=".$_GET["a"];
-
-}
 ?>
 <div id="barra">
-Ordenar por:
+Ordernar por:
 
 <select id="opciones" name="opciones" onchange="cambiar(this.id)">
 
 <option value=""></option>
 
 <option value="title">Título</option>
-<option value="media">Nota media</option>
-<option value="mediaprof">Nota media prof.</option>
+<option value="ano" disabled="disabled">Nota media</option>
+<option value="media_desc">Mejores primero</option>
+<option value="media_asc">Peores primero</option>
+<option value="ano" disabled="disabled">Nota media prof.</option>
+<option value="mediaprof_desc">Mejores según prof. primero</option>
+<option value="mediaprof_asc">Peores según prof. primero</option>
 <option value="año" disabled="disabled">Año</option>
 <option value="año_desc">Nuevas primero</option>
 <option value="año_asc">Antiguas primero</option>
@@ -187,27 +187,53 @@ echo "<option value='".$i."'>".$i."</option>";
 
 
 </select>
-<a class="borrar" href="allmovies.php">Borrar filtros </a>
+
+
+Géneros:
+
+<select id="genero" name="genero" onchange="cambiargen(this.id)">
+
+<option value=""></option>
+<?php
+include "conexion.php";
+$consulta=$miconexion->query("SELECT * FROM genero ORDER BY nombre_genero ASC"); 
+while ($rows = $consulta->fetch_assoc()){
+	if ($rows["id_genero"]!=5){
+echo "<option value=".$rows["id_genero"].">".$rows["nombre_genero"]."</option>";
+}
+}
+
+
+?>
+
+
+</select>
+<?php
+echo "<a class='borrar' href=genero.php?id=".$_GET["id"].">Borrar filtros </a>";
+?>
 </div>
 <?php
 include "header/header.php";
+
+
 echo "<div id='cuenta'>";
-if (isset($_GET["dec"])&&$_GET["dec"]>=1910){
-for ($j=$_GET["dec"];$j<($_GET["dec"]+10);$j++){
-	echo "<a href=allmovies.php?dec=".$_GET["dec"]."&orderby=".$_GET["orderby"]."&a=".$j.">".$j."</a> ";
-}
+$con=$miconexion->query("SELECT nombre_genero,COUNT(*) as con FROM genero,peliculasgeneros WHERE genero.id_genero=peliculasgeneros.id_genero and genero.id_genero=".$_GET["id"]);
+if ($rows = $con->fetch_assoc()) {
+echo "Hay ".$rows["con"]." películas en el género ".$rows["nombre_genero"];
 }
 echo "</div>";
-$cont=$miconexion->query("SELECT COUNT(*) as con FROM titulo,titulopelicula WHERE titulo.id_titulo=titulopelicula.id_pelicula ".$plus);
-while ($rows = $cont->fetch_assoc()) {
-	echo "<div id='textocentrado'>".$rows["con"]." películas</div>";
-}
-$cont=$miconexion->query("SELECT * FROM titulo,titulopelicula WHERE titulo.id_titulo=titulopelicula.id_pelicula ".$plus." ORDER BY ".$orden);
+
+
+
 echo "<div id='centro'>";
-while ($rows = $cont->fetch_assoc()) {
-echo ' <a href=titulo.php?id='.$rows["id_titulo"].' >
-<img class="poster" title='.urlencode($rows["titulo"]).' src=poster/'.$rows["poster"].'>
-</a>';
+$cons="SELECT * FROM titulopelicula,peliculasgeneros,genero,titulo WHERE titulo.id_titulo=titulopelicula.id_pelicula and titulopelicula.id_pelicula=peliculasgeneros.id_pelicula and peliculasgeneros.id_genero=genero.id_genero and genero.id_genero=".$_GET["id"]." ".$plus." ORDER BY ".$orden;
+$consulta=$miconexion->query($cons); 
+while ($rows = $consulta->fetch_assoc()){
+echo "<title>".$rows["nombre_genero"]."</title>";
+echo "<a href=titulo.php?id=".$rows["id_titulo"]."><img class=poster src=poster/".$rows["poster"]."></a>";	
+	
 }
 echo "</div>";
+
 ?>
+</body>

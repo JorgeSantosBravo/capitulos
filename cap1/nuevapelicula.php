@@ -10,7 +10,7 @@ background-size: cover;}
 <?php
 include "header/header.php";
 include "conexion.php";
-
+  date_default_timezone_set('Europe/Madrid');
 if (!$_POST){
 echo "<table>
 <form action='nuevapelicula.php' method=post>
@@ -295,6 +295,7 @@ echo "<tr><td>Guión</td><td><input type=text name=guion></td></tr>
 
 
 }else{
+
 	function maxid($nombreid, $tabla){
 include "conexion.php";
 $id=0;
@@ -391,7 +392,49 @@ directores($_POST["foto"], "peliculasfotografos");
 if (!$miconexion->query("INSERT INTO titulo VALUES ('".$idcap."', '".$_POST['poster']."')")){
 	echo $miconexion->error;
 }
-if (!$miconexion->query("INSERT INTO titulopelicula VALUES ('".$idcap."', '".$_POST["ano"]."', '".addslashes($_POST['titulo'])."', '".addslashes($_POST['tituloorig'])."', '".$_POST['dur']."' , '".$_POST["doc"]."', '".$_POST['pais']."')")){
+
+
+//HACE LA MEDIA
+$i=1;
+$j=1;
+$pu=0;	//CONTADOR PARA HACER LA MEDIA
+$fa=0;
+$imdb=0;
+$rt=0;
+$as=0;
+$lb=0;
+$pu=$_POST["punt"];
+	if (!$_POST["fa"]==0){
+	$fa=$_POST["fa"];
+	$i++;
+	$j++;
+}
+if (!$_POST["imdb"]==0){
+	$imdb=$_POST["imdb"];
+	$i++;
+	$j++;
+}
+
+if (!$_POST["rt"]==0){
+	$rt=$_POST["rt"];
+	$i++;
+	$j++;
+}
+if (!$_POST["as"]==0){
+		$as=$_POST["as"];
+		$i++;
+}
+if (!$_POST["lb"]==0){
+	$lb=($_POST["lb"]*2);
+	$i++;
+	$j++;
+}
+$media=($pu+$fa+$imdb+$rt+$as+$lb)/$i;
+if ($j>1){
+	   $j-=1;
+   }
+ $mediaprof=($fa+$imdb+$rt+$lb)/$j;
+if (!$miconexion->query("INSERT INTO titulopelicula VALUES ('".$idcap."', '".$_POST["ano"]."', '".addslashes($_POST['titulo'])."', '".addslashes($_POST['tituloorig'])."', '".$_POST['dur']."' , '".$_POST["doc"]."', '".$_POST['pais']."', '".$_POST['punt']."', '".$_POST['fa']."', '".$_POST['imdb']."', '".$_POST['rt']."', '".$_POST['as']."', '".($_POST['lb']*2)."', '".$media."', '".$mediaprof."')")){
 	echo $miconexion->error;
 }
 header ("Location:index.php");
@@ -463,6 +506,7 @@ if (!$miconexion->query("INSERT INTO fechastitulos VALUES ('".maxid("id_visionad
 	echo $miconexion->error;
 }
 
+//PARA PONER EN NULL LOS 0
 if (!$miconexion->query("UPDATE fechastitulos SET filmaffinity=NULL WHERE filmaffinity=0")){
 	echo $miconexion->error;
 }
@@ -476,6 +520,27 @@ if (!$miconexion->query("UPDATE fechastitulos SET audiencescore=NULL WHERE audie
 	echo $miconexion->error;
 }
 if (!$miconexion->query("UPDATE fechastitulos SET letterboxd=NULL WHERE letterboxd=0")){
+	echo $miconexion->error;
+}
+
+if (!$miconexion->query("UPDATE titulopelicula SET filmaffinity=NULL WHERE filmaffinity=0")){
+	echo $miconexion->error;
+}
+if (!$miconexion->query("UPDATE titulopelicula SET imdb=NULL WHERE imdb=0")){
+	echo $miconexion->error;
+}
+if (!$miconexion->query("UPDATE titulopelicula SET tomatometer=NULL WHERE tomatometer=0")){
+	echo $miconexion->error;
+}
+if (!$miconexion->query("UPDATE titulopelicula SET audiencescore=NULL WHERE audiencescore=0")){
+	echo $miconexion->error;
+}
+if (!$miconexion->query("UPDATE titulopelicula SET letterboxd=NULL WHERE letterboxd=0")){
+	echo $miconexion->error;
+}
+
+
+if (!$miconexion->query("DELETE FROM peliculasactores WHERE id_actor=127")){
 	echo $miconexion->error;
 }
 }

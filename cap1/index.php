@@ -30,6 +30,9 @@ background-size: cover;}
 <?php
 include "header/header.php";
 include ("conexion.php");
+  
+  date_default_timezone_set('Europe/Madrid');
+  
 ?>
 <div id="izquierda">
 
@@ -89,7 +92,7 @@ $con=$miconexion->query("SELECT COUNT(*) as con FROM titulopelicula");
 
 while ($rows = $con->fetch_assoc()){
 
-echo "Películas: </td><td><strong>".$rows["con"]."</strong></td></tr>";
+echo "Películas: </td><td><strong><a href=allmovies.php>".$rows["con"]."</strong></a></td></tr>";
 	
 }
 echo "<tr><td>";
@@ -146,27 +149,27 @@ echo "Tiempo total: ".conversorSegundosHoras($rows["con"]);
 	
 }
 
-
+$ano=date ("Y");
 
 echo "<br><br>";
-$con=$miconexion->query("SELECT COUNT(*) as con FROM titulocapitulo,fechastitulos WHERE titulocapitulo.id_capitulo=fechastitulos.id_titulo and YEAR(fechastitulos.fecha)=".date ("Y").""); 
+$con=$miconexion->query("SELECT COUNT(*) as con FROM titulocapitulo,fechastitulos WHERE titulocapitulo.id_capitulo=fechastitulos.id_titulo and YEAR(fechastitulos.fecha)=".$ano); 
 $caps=0;
 while ($rows = $con->fetch_assoc()){
 $caps=$rows["con"];
-echo " Este año <strong><a href=visor.php?v=years/2016/m2016.php#final>".$rows["con"]."</a></strong> capítulos <br> en ";
+echo " Este año <strong><a href=visor.php?v=years/".$ano."/m".$ano.".php#final>".$rows["con"]."</a></strong> capítulos <br> en ";
 	
 }
 
-$datetime1 = new DateTime(date('Y').'-01-01');
+$datetime1 = new DateTime($ano.'-01-00');
 $datetime2 = new DateTime(date('Y-m-d'));
 $interval = $datetime1->diff($datetime2);
 $dias=substr($interval->format('%R%a días'),1);
 echo $dias." (".substr(($caps/$dias),0,4)."c/d)";
 echo "<br><br>";
-$con=$miconexion->query("SELECT COUNT(*) as con FROM titulopelicula,fechastitulos WHERE titulopelicula.id_pelicula=fechastitulos.id_titulo and YEAR(fechastitulos.fecha)=".date ("Y").""); 
+$con=$miconexion->query("SELECT COUNT(*) as con FROM titulopelicula,fechastitulos WHERE titulopelicula.id_pelicula=fechastitulos.id_titulo and YEAR(fechastitulos.fecha)=".$ano); 
 
 while ($rows = $con->fetch_assoc()){
-echo "  <strong><a href=visor.php?v=years/2016/p2016.php#final>".$rows["con"]."</a></strong> películas";
+echo "  <strong><a href=visor.php?v=years/".$ano."/p".$ano.".php#final>".$rows["con"]."</a></strong> películas";
 	
 }
 

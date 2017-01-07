@@ -6,6 +6,7 @@ body{ background: #000 url('fondos/degradado.jpg') no-repeat top right fixed;
 -o-background-size: cover;
 background-size: cover;}
 </style>
+<title>Re-ver película</title>
 <?php
 
 include "conexion.php";
@@ -62,6 +63,73 @@ $fecha=$f[2].'/'.$f[1].'/'.$f[0];
 }
 
 if (!$miconexion->query("INSERT INTO fechastitulos VALUES ('".$id."', '".$fecha."', '".$_POST["pelicula"]."', '".$_POST['pc']."', '".$_POST['for']."', '".$_POST['audio']."', '".$_POST['com']."', '".$_POST['punt']."', '".$_POST['fa']."', '".$_POST['imdb']."', '".$_POST['rt']."', '".$_POST['as']."', '".($_POST['lb']*2)."')")){
+	echo $miconexion->error;
+}
+
+
+//HACE LA MEDIA
+$i=1;
+$j=1;
+$pu=0;	//CONTADOR PARA HACER LA MEDIA
+$fa=0;
+$imdb=0;
+$rt=0;
+$as=0;
+$lb=0;
+$pu=$_POST["punt"];
+	if (!$_POST["fa"]==0){
+	$fa=$_POST["fa"];
+	$i++;
+	$j++;
+}
+if (!$_POST["imdb"]==0){
+	$imdb=$_POST["imdb"];
+	$i++;
+	$j++;
+}
+
+if (!$_POST["rt"]==0){
+	$rt=$_POST["rt"];
+	$i++;
+	$j++;
+}
+if (!$_POST["as"]==0){
+		$as=$_POST["as"];
+		$i++;
+}
+if (!$_POST["lb"]==0){
+	$lb=($_POST["lb"]*2);
+	$i++;
+	$j++;
+}
+$media=($pu+$fa+$imdb+$rt+$as+$lb)/$i;
+if ($j>1){
+	   $j-=1;
+   }
+ $mediaprof=($fa+$imdb+$rt+$lb)/$j;
+
+if (!$miconexion->query("UPDATE titulopelicula SET puntuacion='".$_POST['punt']."', filmaffinity='".$_POST['fa']."', imdb='".$_POST['imdb']."', tomatometer='".$_POST['rt']."', audiencescore='".$_POST['as']."', letterboxd='".($_POST['lb']*2)."', media='".$media."', mediaprof='".$mediaprof."' WHERE id_pelicula=".$_POST["pelicula"])){
+	echo $miconexion->error;
+}
+if (!$miconexion->query("UPDATE titulopelicula SET filmaffinity=NULL WHERE filmaffinity=0")){
+	echo $miconexion->error;
+}
+if (!$miconexion->query("UPDATE titulopelicula SET imdb=NULL WHERE imdb=0")){
+	echo $miconexion->error;
+}
+if (!$miconexion->query("UPDATE titulopelicula SET tomatometer=NULL WHERE tomatometer=0")){
+	echo $miconexion->error;
+}
+if (!$miconexion->query("UPDATE titulopelicula SET audiencescore=NULL WHERE audiencescore=0")){
+	echo $miconexion->error;
+}
+if (!$miconexion->query("UPDATE titulopelicula SET letterboxd=NULL WHERE letterboxd=0")){
+	echo $miconexion->error;
+}
+if (!$miconexion->query("UPDATE titulopelicula SET media=NULL WHERE media=0")){
+	echo $miconexion->error;
+}
+if (!$miconexion->query("UPDATE titulopelicula SET mediaprof=NULL WHERE mediaprof=0")){
 	echo $miconexion->error;
 }
 if (!$miconexion->query("UPDATE fechastitulos SET filmaffinity=NULL WHERE filmaffinity=0")){

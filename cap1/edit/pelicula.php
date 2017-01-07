@@ -25,7 +25,7 @@ if (!$_POST){
 echo "
 <form action='pelicula.php?id=".$_GET["id"]."' method=post>
 <table>";
-$consulta=$miconexion->query("SELECT * FROM titulopelicula,titulo WHERE titulo.id_titulo=titulopelicula.id_pelicula and titulopelicula.id_pelicula LIKE '".$_GET["id"]."'"); 
+$consulta=$miconexion->query("SELECT * FROM titulopelicula,titulo WHERE titulo.id_titulo=titulopelicula.id_pelicula and titulopelicula.id_pelicula=".$_GET["id"]); 
 while ($rows = $consulta->fetch_assoc()){
 echo "<tr><td>Año</td><td><input type='text' name='anio' value='".$rows["año"]."'></td></tr>";	
 echo "<tr><td>Título</td><td><input type='text' name='titulo' value=\"".$rows["titulo"]."\"></td></tr>";	
@@ -115,7 +115,14 @@ array_push($a, $rows2["nombre_tema"]);
 }
 $final= implode(', ', $a);
 echo "<tr><td>Tema</td><td><input type='text' name=tema value=\"".$final."\"</td></tr>";
+$consulta=$miconexion->query("SELECT * FROM titulopelicula,titulo WHERE titulo.id_titulo=titulopelicula.id_pelicula and titulopelicula.id_pelicula=".$_GET["id"]); 
+while ($rows = $consulta->fetch_assoc()){
+echo "<table>
+<tr><th>Punt.</th><th>FA</th><th>IMDB</th><th>RT</th><th>AS</th><th>LB</th></tr>
+<tr><td><input type='text' name='punt' size=1 value='".$rows["puntuacion"]."'></td><td><input type=text name=fa size=1 value='".$rows["filmaffinity"]."'></td><td><input type=text name=imdb size=1 value='".$rows["imdb"]."'></td><td><input type=text name=rt size=1 value='".$rows["tomatometer"]."'></td><td><input type=text name=as size=1 value='".$rows["audiencescore"]."'></td><td><input type=text name=lb size=1 value='".($rows["letterboxd"]/2)."'></td></tr>
 
+</table>";
+}
 echo "</table>
 <input type=submit value='Enviar'><input type=button value='Volver atrás' onclick=window.location.href='../pelicula.php?id=".$_GET["id"]."'>
 
@@ -226,8 +233,47 @@ $_SESSION["poster"]=$_POST["poster"];
 if (!$miconexion->query("UPDATE titulo SET poster='".$_SESSION["poster"]."' WHERE id_titulo LIKE '".$_GET["id"]."'")){
 	echo $miconexion->error;
 }
+//HACE LA MEDIA
+$i=1;
+$j=1;
+$pu=0;	//CONTADOR PARA HACER LA MEDIA
+$fa=0;
+$imdb=0;
+$rt=0;
+$as=0;
+$lb=0;
+$pu=$_POST["punt"];
+	if (!$_POST["fa"]==0){
+	$fa=$_POST["fa"];
+	$i++;
+	$j++;
+}
+if (!$_POST["imdb"]==0){
+	$imdb=$_POST["imdb"];
+	$i++;
+	$j++;
+}
 
-if (!$miconexion->query("UPDATE titulopelicula SET año='".$_POST["anio"]."', titulo='".addslashes($_POST["titulo"])."', titulo_original='".addslashes($_POST["titorig"])."', duracion='".$_POST["duracion"]."', documental='".$_POST["documental"]."', pais='".$_POST["pais"]."' WHERE id_pelicula LIKE '".$_GET["id"]."'")){
+if (!$_POST["rt"]==0){
+	$rt=$_POST["rt"];
+	$i++;
+	$j++;
+}
+if (!$_POST["as"]==0){
+		$as=$_POST["as"];
+		$i++;
+}
+if (!$_POST["lb"]==0){
+	$lb=($_POST["lb"]*2);
+	$i++;
+	$j++;
+}
+$media=($pu+$fa+$imdb+$rt+$as+$lb)/$i;
+if ($j>1){
+	   $j-=1;
+   }
+ $mediaprof=($fa+$imdb+$rt+$lb)/$j;
+if (!$miconexion->query("UPDATE titulopelicula SET año='".$_POST["anio"]."', titulo='".addslashes($_POST["titulo"])."', titulo_original='".addslashes($_POST["titorig"])."', duracion='".$_POST["duracion"]."', documental='".$_POST["documental"]."', pais='".$_POST["pais"]."', puntuacion='".$_POST['punt']."', filmaffinity='".$_POST['fa']."', imdb='".$_POST['imdb']."', tomatometer='".$_POST['rt']."', audiencescore='".$_POST['as']."', letterboxd='".($_POST['lb']*2)."', media='".$media."', mediaprof='".$mediaprof."' WHERE id_pelicula=".$_GET["id"])){
 	echo $miconexion->error;
 }
 
