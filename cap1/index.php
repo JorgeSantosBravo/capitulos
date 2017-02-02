@@ -42,11 +42,12 @@ echo "<br><a href =visor.php?v=years/index.php>Anuarios</a><br>";
 echo "<a href =visor.php?v=Stats/index.php>Estadísticas</a><br>";
 echo "<a href =buscafecha.php>Buscar por fecha</a><br>";
 echo "<a href=mislistas.php>Mis listas</a><br>";
-echo "<a href=rankingactores.php>Ránking de actores</a><br>";
+echo "<a href=rankings.php>Ránkings</a><br>";
 $consulta=$miconexion->query("SELECT * FROM titulopelicula order by rand() limit 1"); 
 while ($rows = $consulta->fetch_assoc()){
 echo "<a href=titulo.php?id=".$rows["id_pelicula"].">Película aleatoria</a><br>";
 }
+echo "<a href=visor.php?v=archivos/index.php>Gestión de archivos</a><br>";
 echo "<br><input type=button value='Nuevo capítulo' onclick=window.location.href='nuevocap.php'>";
 echo "<br><br><input type=button value='Nueva lista' onclick=window.location.href='lista.php'>";
 echo "<br><br><input type=button value='Nueva película' onclick=window.location.href='nuevapelicula.php'>";
@@ -60,7 +61,7 @@ float:right;}
 <strong>Últimos capítulos introducidos <br> </strong>
 <?php
 
-$stocke=$miconexion->query("SELECT * FROM fechastitulos,titulocapitulo,tituloserie,temporada WHERE temporada.id_temporada=titulocapitulo.ns and tituloserie.id_serie=titulocapitulo.serie and titulocapitulo.id_capitulo=fechastitulos.id_titulo ORDER BY fechastitulos.id_titulo DESC limit 5"); 
+$stocke=$miconexion->query("SELECT * FROM fechastitulos,titulocapitulo,tituloserie,temporada WHERE temporada.id_temporada=titulocapitulo.ns and tituloserie.id_serie=titulocapitulo.serie and titulocapitulo.id_capitulo=fechastitulos.id_titulo ORDER BY fechastitulos.id_visionado DESC limit 5"); 
 while ($rows = $stocke->fetch_assoc()){
 $fe=explode("-", $rows["fecha"]);
 

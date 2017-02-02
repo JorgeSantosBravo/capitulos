@@ -95,7 +95,7 @@ while ($rows2 = $r2->fetch_assoc()) {
 
 array_push($a, $rows2["nombre_productora"]);
 }
-$final= implode(', ', $a);
+$final= implode(' / ', $a);
 echo "<tr><td>Productoras</td><td><input type='text' name=prod value=\"".$final."\"</td></tr>";
 
 $a = array();
@@ -104,7 +104,7 @@ while ($rows2 = $r2->fetch_assoc()) {
 
 array_push($a, $rows2["nombre_genero"]);
 }
-$final= implode(', ', $a);
+$final= implode('. ', $a);
 echo "<tr><td>Género</td><td><input type='text' name=gen value=\"".$final."\"</td></tr>";
 
 $a = array();
@@ -113,7 +113,7 @@ while ($rows2 = $r2->fetch_assoc()) {
 
 array_push($a, $rows2["nombre_tema"]);
 }
-$final= implode(', ', $a);
+$final= implode('. ', $a);
 echo "<tr><td>Tema</td><td><input type='text' name=tema value=\"".$final."\"</td></tr>";
 $consulta=$miconexion->query("SELECT * FROM titulopelicula,titulo WHERE titulo.id_titulo=titulopelicula.id_pelicula and titulopelicula.id_pelicula=".$_GET["id"]); 
 while ($rows = $consulta->fetch_assoc()){
@@ -153,6 +153,7 @@ return $id+1;
 	
 function directores ($elemento, $tabla){
 	include "../conexion.php";
+	
 	if (strpos($elemento, ",")){
 	$con=0;
 	for ($i=0;$i<strlen($elemento);$i++){
@@ -162,9 +163,14 @@ function directores ($elemento, $tabla){
 	}
 	$dir=explode(', ', $elemento);
 	for ($j=0;$j<=$con;$j++){
-		
-		$dir[$j];
-		
+		/*
+		if (strpos($dir[$j],"'")){
+			$dir[$j]=addslashes($dir[$j]);
+		echo $dir[$j]." - ".buscarid($dir[$j], "persona", "Nombre_persona", "id_persona");
+	}
+	*/
+		 $dir[$j]=addslashes($dir[$j]);
+		echo $dir[$j]." - ".buscarid($dir[$j], "persona", "Nombre_persona", "id_persona")."<br>";
 		$miconexion->query("INSERT INTO ".$tabla." VALUES ('".$_GET['id']."', '".buscarid($dir[$j], "persona", "Nombre_persona", "id_persona")."')");
 	}
 	}else{
@@ -194,31 +200,31 @@ $miconsulta="SELECT * FROM ".$tabla." WHERE ".$nombrecampo." LIKE '".$campo."'";
 		 
 		 $id=maxid($nombreid, $tabla);
 		 
-		 $miconexion->query("INSERT INTO ".$tabla." (".$nombreid.", ".$nombrecampo.") VALUES ('".$id."', '".addslashes($campo)."')");
+		 $miconexion->query("INSERT INTO ".$tabla." (".$nombreid.", ".$nombrecampo.") VALUES ('".$id."', '".$campo."')");
 	 }
 	return $id;
 }
 
 
 //PARA LOS DIRECTORES
-$_POST["dire"]=addslashes($_POST["dire"]);
+//$_POST["dire"]=addslashes($_POST["dire"]);
 directores ($_POST["dire"], "titulosdirectores");
 echo "<br>".$_POST["dire"]."<br>";
 
 //PARA LOS ACTORES
-$_POST["rep"]=addslashes($_POST["rep"]);
+//$_POST["rep"]=addslashes($_POST["rep"]);
 directores($_POST["rep"], "peliculasactores");
 
 //PARA LOS GUIONISTAS
-$_POST["guion"]=addslashes($_POST["guion"]);
+//$_POST["guion"]=addslashes($_POST["guion"]);
 directores($_POST["guion"], "peliculasguionistas");
 
 //PARA LA BSO
-$_POST["musica"]=addslashes($_POST["musica"]);
+//$_POST["musica"]=addslashes($_POST["musica"]);
 directores($_POST["musica"], "peliculasmusicos");
 
 //PARA LA FOTOGRAFÍA
-$_POST["foto"]=addslashes($_POST["foto"]);
+//$_POST["foto"]=addslashes($_POST["foto"]);
 directores($_POST["foto"], "peliculasfotografos");
 
 //PARA EL POSTER
@@ -277,15 +283,16 @@ if (!$miconexion->query("UPDATE titulopelicula SET año='".$_POST["anio"]."', ti
 	echo $miconexion->error;
 }
 
+//PARA LAS PRODUCTORAS
 $elemento=$_POST["prod"];
-if (strpos($elemento, ",")){
+if (strpos($elemento, "/")){
 	$con=0;
 	for ($i=0;$i<strlen($elemento);$i++){
-		if ($elemento[$i]==","){
+		if ($elemento[$i]=="/"){
 			$con++;
 		}
 	}
-	$dir=explode(', ', $elemento);
+	$dir=explode(' / ', $elemento);
 	for ($j=0;$j<=$con;$j++){
 		
 		$dir[$j];
@@ -299,14 +306,14 @@ if (strpos($elemento, ",")){
 
 //PARA LOS GÉNEROS
 $elemento=$_POST["gen"];
-if (strpos($elemento, ",")){
+if (strpos($elemento, ".")){
 	$con=0;
 	for ($i=0;$i<strlen($elemento);$i++){
-		if ($elemento[$i]==","){
+		if ($elemento[$i]=="."){
 			$con++;
 		}
 	}
-	$dir=explode(', ', $elemento);
+	$dir=explode('. ', $elemento);
 	for ($j=0;$j<=$con;$j++){
 		
 		$dir[$j];
@@ -320,14 +327,14 @@ if (strpos($elemento, ",")){
 	
 //PARA LOS TEMAS
 $elemento=$_POST["tema"];
-if (strpos($elemento, ",")){
+if (strpos($elemento, ".")){
 	$con=0;
 	for ($i=0;$i<strlen($elemento);$i++){
-		if ($elemento[$i]==","){
+		if ($elemento[$i]=="."){
 			$con++;
 		}
 	}
-	$dir=explode(', ', $elemento);
+	$dir=explode('. ', $elemento);
 	for ($j=0;$j<=$con;$j++){
 		
 		$dir[$j];
@@ -337,6 +344,46 @@ if (strpos($elemento, ",")){
 	}else{
 		
 		$miconexion->query("INSERT INTO peliculastemas VALUES ('".$_GET['id']."', '".buscarid($elemento, "tema", "nombre_tema", "id_tema")."')");
-	}		
+	}
+//PARA PONER EN NULL LOS 0
+if (!$miconexion->query("UPDATE fechastitulos SET filmaffinity=NULL WHERE filmaffinity=0")){
+	echo $miconexion->error;
+}
+if (!$miconexion->query("UPDATE fechastitulos SET imdb=NULL WHERE imdb=0")){
+	echo $miconexion->error;
+}
+if (!$miconexion->query("UPDATE fechastitulos SET tomatometer=NULL WHERE tomatometer=0")){
+	echo $miconexion->error;
+}
+if (!$miconexion->query("UPDATE fechastitulos SET audiencescore=NULL WHERE audiencescore=0")){
+	echo $miconexion->error;
+}
+if (!$miconexion->query("UPDATE fechastitulos SET letterboxd=NULL WHERE letterboxd=0")){
+	echo $miconexion->error;
+}
+
+if (!$miconexion->query("UPDATE titulopelicula SET filmaffinity=NULL WHERE filmaffinity=0")){
+	echo $miconexion->error;
+}
+if (!$miconexion->query("UPDATE titulopelicula SET imdb=NULL WHERE imdb=0")){
+	echo $miconexion->error;
+}
+if (!$miconexion->query("UPDATE titulopelicula SET tomatometer=NULL WHERE tomatometer=0")){
+	echo $miconexion->error;
+}
+if (!$miconexion->query("UPDATE titulopelicula SET audiencescore=NULL WHERE audiencescore=0")){
+	echo $miconexion->error;
+}
+if (!$miconexion->query("UPDATE titulopelicula SET letterboxd=NULL WHERE letterboxd=0")){
+	echo $miconexion->error;
+}
+
+if (!$miconexion->query("DELETE FROM peliculasactores WHERE id_actor=127")){
+	echo $miconexion->error;
+}
+if (!$miconexion->query("DELETE FROM peliculastemas WHERE id_tema=8")){
+	echo $miconexion->error;
+}
+	unset ($_SESSION["poster"]);
 	header("Location:../titulo.php?id=".$_GET["id"]);
 }

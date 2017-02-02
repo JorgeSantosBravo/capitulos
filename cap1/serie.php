@@ -78,6 +78,16 @@ echo "</div>";
 	top: 105px; 
 	right: 270px;
        }
+
+table.nube{
+background-color:#B40404;
+font-family: Trebuchet MS;
+border-radius: 19px 19px 19px 19px;
+-moz-border-radius: 19px 19px 19px 19px;
+-webkit-border-radius: 19px 19px 19px 19px;
+border: 1px solid black;
+}
+
 </style>
 <div id="boton">
 <?php
@@ -109,8 +119,19 @@ echo "<br>";
 $caps=$miconexion->query("SELECT * FROM titulocapitulo,temporada WHERE temporada.id_temporada=titulocapitulo.ns AND temporada.id_temporada=".$rows["id_temporada"]);
 echo "<table>";
 while ($rows2 = $caps->fetch_assoc()) {
-echo "<tr><td><a href=titulo.php?id=".$rows2["id_capitulo"].">".$rows2["numero_temporada"]." ".$rows2["e"]."</a></td><td><a href=titulo.php?id=".$rows2["id_capitulo"]."> ".$rows2["titulo_capitulo"]."</a></td></tr>";
-	
+echo "<tr><td><a href=titulo.php?id=".$rows2["id_capitulo"].">".$rows2["numero_temporada"]." ".$rows2["e"]."</a></td><td><a href=titulo.php?id=".$rows2["id_capitulo"]."> ".$rows2["titulo_capitulo"]."</a></td><td>";
+	 $resultado=$miconexion->query("SELECT * FROM nube WHERE id_titulo=".$rows2["id_capitulo"]);
+	 $filas=$miconexion->affected_rows;
+     if($filas>=1){
+	 
+echo "<table class=nube><tr><td>";
+$numero=$miconexion->query("SELECT * FROM nube WHERE id_titulo=".$rows2["id_capitulo"]);
+while ($rows=$numero->fetch_assoc()){
+echo "<a target='_blank' href=".$rows["link_archivo"].">Disponible</a></td></tr></table>";
+}
+	 }
+
+echo "</td></tr>";
 }
 echo "</table><br>";
 }

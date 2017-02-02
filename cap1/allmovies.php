@@ -90,9 +90,12 @@ var a = getParameterByName('a');
 if (a==""){
 	a=0;
 }
+var pais = getParameterByName('pais');
+if (pais==""){
+	pais=0;
+}
 var opcion=document.getElementById(op);
-
-location.href="allmovies.php?dec="+dec+"&orderby="+opcion.value+"&a="+a;
+location.href="allmovies.php?dec="+dec+"&orderby="+opcion.value+"&a="+a+"&pais="+pais;
 
 }
 
@@ -101,9 +104,33 @@ var o = getParameterByName('orderby');
 if (o==""){
 	o=0000;
 }
+
+var pais = getParameterByName('pais');
+if (pais==""){
+	pais=0;
+}
 var opcion=document.getElementById(op);
 
-location.href="allmovies.php?dec="+opcion.value+"&orderby="+o;
+location.href="allmovies.php?dec="+opcion.value+"&orderby="+o+"&pais="+pais;
+
+}
+function paises(op){
+	var dec = getParameterByName('dec');
+if (dec==""){
+	dec=0000;
+}
+var a = getParameterByName('a');
+if (a==""){
+	a=0;
+}
+var o = getParameterByName('orderby');
+if (o==""){
+	o=0000;
+}
+
+var opcion=document.getElementById(op);
+
+location.href="allmovies.php?dec="+dec+"&orderby="+o+"&a="+a+"&pais="+opcion.value;
 
 }
 </script>
@@ -113,7 +140,7 @@ function hacermedia($id){
 	
 }
 
-$orden="año DESC";
+$orden="año DESC, id_pelicula DESC";
 if (isset($_GET["orderby"])){
 switch($_GET["orderby"]){
 	case "dur_desc":$orden="duracion DESC";break;
@@ -121,8 +148,10 @@ switch($_GET["orderby"]){
 	case "año_asc":$orden="año ASC";break;
 	case "año_desc":$orden="año DESC";break;
 	case "title":$orden="titulo ASC";break;
-	case "media":$orden="media DESC";break;
-	case "mediaprof":$orden="mediaprof DESC";break;
+	case "media_desc":$orden="media DESC";break;
+	case "media_asc":$orden="media ASC";break;
+	case "mediaprof_desc":$orden="mediaprof DESC";break;
+	case "mediaprof_asc":$orden="mediaprof ASC";break;
 	default: $orden="año DESC";
 }
 }
@@ -149,6 +178,10 @@ if (isset($_GET["a"])&&!$_GET["a"]==0){
 $plus="AND año=".$_GET["a"];
 
 }
+
+if (isset($_GET["pais"])&&!$_GET["pais"]==0){
+	$plus.= " AND pais LIKE '".urldecode($_GET["pais"])."'";
+}
 ?>
 <div id="barra">
 Ordenar por:
@@ -158,8 +191,12 @@ Ordenar por:
 <option value=""></option>
 
 <option value="title">Título</option>
-<option value="media">Nota media</option>
-<option value="mediaprof">Nota media prof.</option>
+<option value="ano" disabled="disabled">Nota media</option>
+<option value="media_desc">Mejores primero</option>
+<option value="media_asc">Peores primero</option>
+<option value="ano" disabled="disabled">Nota media prof.</option>
+<option value="mediaprof_desc">Mejores según prof. primero</option>
+<option value="mediaprof_asc">Peores según prof. primero</option>
 <option value="año" disabled="disabled">Año</option>
 <option value="año_desc">Nuevas primero</option>
 <option value="año_asc">Antiguas primero</option>
@@ -187,6 +224,23 @@ echo "<option value='".$i."'>".$i."</option>";
 
 
 </select>
+Países:
+
+<select id="pais" name="pais" onchange="paises(this.id)">
+
+<option value=""></option>
+<?php
+
+$cont=$miconexion->query("SELECT DISTINCT(pais) FROM titulopelicula ORDER BY pais ASC");
+while ($rows = $cont->fetch_assoc()) {
+	echo "<option value='".$rows["pais"]."'>".$rows["pais"]."</option>";
+}
+
+
+?>
+
+
+</select>
 <a class="borrar" href="allmovies.php">Borrar filtros </a>
 </div>
 <?php
@@ -194,10 +248,15 @@ include "header/header.php";
 echo "<div id='cuenta'>";
 if (isset($_GET["dec"])&&$_GET["dec"]>=1910){
 for ($j=$_GET["dec"];$j<($_GET["dec"]+10);$j++){
-	echo "<a href=allmovies.php?dec=".$_GET["dec"]."&orderby=".$_GET["orderby"]."&a=".$j.">".$j."</a> ";
+	if (!isset($_GET["pais"]))
+	{
+		$_GET["pais"]="";
+};
+	echo "<a href=allmovies.php?dec=".$_GET["dec"]."&orderby=".$_GET["orderby"]."&a=".$j."&pais=".$_GET["pais"].">".$j."</a> ";
 }
 }
 echo "</div>";
+
 $cont=$miconexion->query("SELECT COUNT(*) as con FROM titulo,titulopelicula WHERE titulo.id_titulo=titulopelicula.id_pelicula ".$plus);
 while ($rows = $cont->fetch_assoc()) {
 	echo "<div id='textocentrado'>".$rows["con"]." películas</div>";

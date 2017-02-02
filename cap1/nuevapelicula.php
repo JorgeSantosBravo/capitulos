@@ -213,6 +213,7 @@ echo "<table>
 <option value="República Democrática del Congo Zaire" id="CD">República Democrática del Congo Zaire</option>
 <option value="República Dominicana" id="DO">República Dominicana</option>
 <option value="Reunión" id="RE">Reunión</option>
+<option value="RFA" id="RF">RFA</option>
 <option value="Ruanda" id="RW">Ruanda</option>
 <option value="Rumania" id="RO">Rumania</option>
 <option value="Rusia" id="RU">Rusia</option>
@@ -439,15 +440,16 @@ if (!$miconexion->query("INSERT INTO titulopelicula VALUES ('".$idcap."', '".$_P
 }
 header ("Location:index.php");
 
+//PARA LAS PRODUCTORAS
 $elemento=$_POST["productora"];
-if (strpos($elemento, ",")){
+if (strpos($elemento, "/")){
 	$con=0;
 	for ($i=0;$i<strlen($elemento);$i++){
-		if ($elemento[$i]==","){
+		if ($elemento[$i]=="/"){
 			$con++;
 		}
 	}
-	$dir=explode(', ', $elemento);
+	$dir=explode(' / ', $elemento);
 	for ($j=0;$j<=$con;$j++){
 		
 		$dir[$j];
@@ -461,14 +463,14 @@ if (strpos($elemento, ",")){
 
 //PARA LOS GÉNEROS
 $elemento=$_POST["gen"];
-if (strpos($elemento, ",")){
+if (strpos($elemento, ".")){
 	$con=0;
 	for ($i=0;$i<strlen($elemento);$i++){
-		if ($elemento[$i]==","){
+		if ($elemento[$i]=="."){
 			$con++;
 		}
 	}
-	$dir=explode(', ', $elemento);
+	$dir=explode('. ', $elemento);
 	for ($j=0;$j<=$con;$j++){
 		
 		$dir[$j];
@@ -482,14 +484,14 @@ if (strpos($elemento, ",")){
 	
 //PARA LOS TEMAS
 $elemento=$_POST["tema"];
-if (strpos($elemento, ",")){
+if (strpos($elemento, ".")){
 	$con=0;
 	for ($i=0;$i<strlen($elemento);$i++){
-		if ($elemento[$i]==","){
+		if ($elemento[$i]=="."){
 			$con++;
 		}
 	}
-	$dir=explode(', ', $elemento);
+	$dir=explode('. ', $elemento);
 	for ($j=0;$j<=$con;$j++){
 		
 		$dir[$j];
@@ -543,6 +545,14 @@ if (!$miconexion->query("UPDATE titulopelicula SET letterboxd=NULL WHERE letterb
 if (!$miconexion->query("DELETE FROM peliculasactores WHERE id_actor=127")){
 	echo $miconexion->error;
 }
+$miconexion-query("DELETE FROM peliculasactores WHERE id_actor=127;
+DELETE FROM peliculasfotografos WHERE id_foto=127;
+DELETE FROM peliculasguionistas WHERE id_guionista=127;
+DELETE FROM peliculasmusicos WHERE id_musico=127;
+DELETE FROM titulosdirectores WHERE id_director=127;
+
+");
+
 }
 echo "<BR><br> - O - <br><br> <a href=rewatchmovie.php>REWATCH</a>";
 

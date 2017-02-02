@@ -42,55 +42,33 @@ $(function () {
             verticalAlign: 'middle',
             borderWidth: 0
         },
-        series: [{
-            name: '2013',
-            data: [ 0,0,
-			<?php
-			$stocke=$miconexion->query("SELECT SUM(duracion) as con FROM titulocapitulo,fechastitulos WHERE fechastitulos.id_titulo=titulocapitulo.id_capitulo and YEAR(fecha)=2013 GROUP BY MONTH(fecha)"); 
-while ($rows = $stocke->fetch_assoc()){
-
-			?>
-			<?php
-			echo $rows["con"];
-			?>,
-			<?php
-}
-			?>
-			]
-        }, {
-            name: '2014',
-            data: [2551, 933, 418, 100, 695, 2719, 2984, 0, 1145, 1918, 2450, 1565]
-        }, {
-            name: '2015',
+        series: [
+		
+	<?php  for ($i=2013;$i<=date('Y');$i++) { ?>
+			{
+			name: '<?php echo $i; ?>',
             data: [
 			<?php
-			$stocke=$miconexion->query("SELECT SUM(duracion) as con FROM titulocapitulo,fechastitulos WHERE fechastitulos.id_titulo=titulocapitulo.id_capitulo and YEAR(fecha)=2015 GROUP BY MONTH(fecha)"); 
+			for ($j=1;$j<=12;$j++){
+			$stocke=$miconexion->query("SELECT SUM(duracion) as con FROM titulocapitulo,fechastitulos WHERE titulocapitulo.id_capitulo=fechastitulos.id_titulo and YEAR(fecha)=".$i." and MONTH(fecha)=".$j); 
 while ($rows = $stocke->fetch_assoc()){
 
 			?>
 			<?php
-			echo $rows["con"];
+			if (is_null($rows["con"])){
+				echo 0;
+			}else{
+				echo $rows["con"];
+			}
 			?>,
 			<?php
-}
+			}}
 			?>
 			]
-        }, {
-            name: '2016',
-            data: [
-			<?php
-			$stocke=$miconexion->query("SELECT SUM(duracion) as con FROM titulocapitulo,fechastitulos WHERE fechastitulos.id_titulo=titulocapitulo.id_capitulo and YEAR(fecha)=2016 GROUP BY MONTH(fecha)"); 
-while ($rows = $stocke->fetch_assoc()){
-
-			?>
-			<?php
-			echo $rows["con"];
-			?>,
-			<?php
-}
-			?>
-			]
-        }]
+        },
+			<?php   } ?>
+		
+		]
     });
 });
 		</script>

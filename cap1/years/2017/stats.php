@@ -16,17 +16,19 @@ echo "Capítulos vistos: ".$rows["con"];
 }
 */
 ?>
-<h2>Películas</h2>
+<h2><a href="visor.php?v=years/2017/stats.php&ver=movies">Películas</a> | <a href="visor.php?v=years/2017/stats.php&ver=series">Series</a></h2>
 <?php
+$total=0;
+if ($_GET["ver"]=="movies"){
+
+
 $consulta=$miconexion->query("SELECT COUNT(*) as con FROM titulopelicula,fechastitulos WHERE titulopelicula.id_pelicula=fechastitulos.id_titulo and YEAR(fechastitulos.fecha)=2017"); 
 while ($rows = $consulta->fetch_assoc()){
 
 echo $rows["con"]." vistas";
-
+$total=$rows["con"];
 }
-?>
- de las cuales...<br> 
- <?php
+echo "de las cuales <br>";
  $consulta=$miconexion->query("SELECT COUNT(*) as con FROM titulopelicula,fechastitulos WHERE titulopelicula.id_pelicula=fechastitulos.id_titulo and YEAR(fechastitulos.fecha)=2017 and documental=1"); 
 while ($rows = $consulta->fetch_assoc()){
 
@@ -106,13 +108,24 @@ echo "<tr><td><a href=persona.php?id=".$rows["id_persona"].">".$rows["Nombre_per
 }
 echo "</table>";
 echo "<h3>Puntuaciones</h3>";
- $consulta=$miconexion->query("SELECT puntuacion,COUNT(*) as con FROM fechastitulos,titulopelicula WHERE fechastitulos.id_titulo=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 GROUP BY puntuacion ORDER BY puntuacion DESC"); 
+ $consulta=$miconexion->query("SELECT fechastitulos.puntuacion,COUNT(*) as con FROM fechastitulos,titulopelicula WHERE fechastitulos.id_titulo=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 GROUP BY fechastitulos.puntuacion ORDER BY fechastitulos.puntuacion DESC"); 
 echo "<table>";
  while ($rows = $consulta->fetch_assoc()){
 echo "<tr><td>".$rows["puntuacion"]."</td><td></td><td>".$rows["con"]."</td></tr>";
 }
-echo "</table>";
+echo "</table><table>";
 
+ $consulta=$miconexion->query("SELECT fechastitulos.puntuacion,COUNT(*) as con FROM fechastitulos,titulopelicula WHERE fechastitulos.id_titulo=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 AND fechastitulos.puntuacion>=5"); 
+ while ($rows = $consulta->fetch_assoc()){
+
+echo "<tr><td>Aprobados</td><td>".$rows["con"]."</td><td>".number_format(($rows["con"]*100/$total),2)."%</td></tr>";
+ }
+ $consulta=$miconexion->query("SELECT fechastitulos.puntuacion,COUNT(*) as con FROM fechastitulos,titulopelicula WHERE fechastitulos.id_titulo=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 AND fechastitulos.puntuacion<5"); 
+ while ($rows = $consulta->fetch_assoc()){
+
+echo "<tr><td>Suspensos</td><td>".$rows["con"]."</td><td>".number_format(($rows["con"]*100/$total),2)."%</td></tr>";
+ }
+echo "</table>";
 echo "<h3>Por géneros</h3>";
  $consulta=$miconexion->query("SELECT *, COUNT(*) as con FROM fechastitulos,titulopelicula,genero,peliculasgeneros WHERE fechastitulos.id_titulo=titulopelicula.id_pelicula and peliculasgeneros.id_genero=genero.id_genero and peliculasgeneros.id_pelicula=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 GROUP BY genero.id_genero ORDER BY con DESC"); 
 echo "<table>";
@@ -129,7 +142,7 @@ echo "<tr><td>".$rows["nombre_tema"]."</td><td></td><td>".$rows["con"]."</td></t
 echo "</table>";
 
 echo "<h3>Mejores puntuadas</h3><hr>";
-$que="SELECT * FROM fechastitulos,titulopelicula,titulo WHERE titulo.id_titulo=titulopelicula.id_pelicula and fechastitulos.id_titulo=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 ORDER BY puntuacion DESC,filmaffinity DESC,imdb DESC LIMIT 10";
+$que="SELECT * FROM fechastitulos,titulopelicula,titulo WHERE titulo.id_titulo=titulopelicula.id_pelicula and fechastitulos.id_titulo=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 ORDER BY fechastitulos.puntuacion DESC,fechastitulos.filmaffinity DESC,fechastitulos.imdb DESC LIMIT 10";
  $consulta=$miconexion->query($que); 
 
 echo "<table><tr>";
@@ -148,7 +161,7 @@ echo "</tr><tr>";
 echo "</tr></table>";
 
 echo "<h3>Mejores puntuadas según Filmaffinity</h3><hr>";
-$que="SELECT * FROM fechastitulos,titulopelicula,titulo WHERE titulo.id_titulo=titulopelicula.id_pelicula and fechastitulos.id_titulo=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 ORDER BY filmaffinity DESC LIMIT 10";
+$que="SELECT * FROM fechastitulos,titulopelicula,titulo WHERE titulo.id_titulo=titulopelicula.id_pelicula and fechastitulos.id_titulo=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 ORDER BY fechastitulos.filmaffinity DESC LIMIT 10";
  $consulta=$miconexion->query($que); 
 
 echo "<table><tr>";
@@ -167,7 +180,7 @@ echo "</tr><tr>";
 echo "</tr></table>";
 
 echo "<h3>Mejores puntuadas según IMDB</h3><hr>";
- $que="SELECT * FROM fechastitulos,titulopelicula,titulo WHERE titulo.id_titulo=titulopelicula.id_pelicula and fechastitulos.id_titulo=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 ORDER BY imdb DESC LIMIT 10"; 
+ $que="SELECT * FROM fechastitulos,titulopelicula,titulo WHERE titulo.id_titulo=titulopelicula.id_pelicula and fechastitulos.id_titulo=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 ORDER BY fechastitulos.imdb DESC LIMIT 10"; 
  $consulta=$miconexion->query($que); 
 
 echo "<table><tr>";
@@ -186,7 +199,7 @@ echo "</tr><tr>";
 echo "</tr></table>";
 
 echo "<h3>Mejores puntuadas según RottenTomatoes</h3><hr>";
- $que="SELECT * FROM fechastitulos,titulopelicula,titulo WHERE titulo.id_titulo=titulopelicula.id_pelicula and fechastitulos.id_titulo=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 ORDER BY tomatometer DESC,filmaffinity DESC,imdb DESC LIMIT 10"; 
+ $que="SELECT * FROM fechastitulos,titulopelicula,titulo WHERE titulo.id_titulo=titulopelicula.id_pelicula and fechastitulos.id_titulo=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 ORDER BY fechastitulos.tomatometer DESC,fechastitulos.filmaffinity DESC,fechastitulos.imdb DESC LIMIT 10"; 
  $consulta=$miconexion->query($que); 
 
 echo "<table><tr>";
@@ -205,7 +218,7 @@ echo "</tr><tr>";
 echo "</tr></table>";
 
 echo "<h3>Mejores puntuadas según AudienceScore</h3><hr>";
- $que="SELECT * FROM fechastitulos,titulopelicula,titulo WHERE titulo.id_titulo=titulopelicula.id_pelicula and fechastitulos.id_titulo=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 ORDER BY audiencescore DESC,filmaffinity DESC,imdb DESC LIMIT 10"; 
+ $que="SELECT * FROM fechastitulos,titulopelicula,titulo WHERE titulo.id_titulo=titulopelicula.id_pelicula and fechastitulos.id_titulo=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 ORDER BY fechastitulos.audiencescore DESC,fechastitulos.filmaffinity DESC,fechastitulos.imdb DESC LIMIT 10"; 
 $consulta=$miconexion->query($que); 
 
 echo "<table><tr>";
@@ -224,7 +237,7 @@ echo "</tr><tr>";
 echo "</tr></table>";
 
 echo "<h3>Mejores puntuadas según Letterboxd</h3><hr>";
- $que="SELECT * FROM fechastitulos,titulopelicula,titulo WHERE titulo.id_titulo=titulopelicula.id_pelicula and fechastitulos.id_titulo=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 ORDER BY letterboxd DESC,filmaffinity DESC,imdb DESC LIMIT 10"; 
+ $que="SELECT * FROM fechastitulos,titulopelicula,titulo WHERE titulo.id_titulo=titulopelicula.id_pelicula and fechastitulos.id_titulo=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 ORDER BY fechastitulos.letterboxd DESC,fechastitulos.filmaffinity DESC,fechastitulos.imdb DESC LIMIT 10"; 
 $consulta=$miconexion->query($que); 
 
 echo "<table><tr>";
@@ -241,8 +254,29 @@ echo "</tr><tr>";
  }
 
 echo "</tr></table>";
+
+echo "<h3>Mejores puntuadas según media profesional</h3><hr>";
+ $que="SELECT * FROM fechastitulos,titulopelicula,titulo WHERE titulo.id_titulo=titulopelicula.id_pelicula and fechastitulos.id_titulo=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 ORDER BY media DESC LIMIT 10"; 
+$consulta=$miconexion->query($que); 
+
+echo "<table><tr>";
+ while ($rows = $consulta->fetch_assoc()){
+
+echo "<td><a href=titulo.php?id=".$rows["id_titulo"]."><img class=p width=130 height=192.5 title=".$rows["titulo"]." src=poster/".$rows["poster"]."></a></td>";
+
+}
+echo "</tr><tr>";
+ $consulta2=$miconexion->query($que); 
+
+ while ($rows2 = $consulta2->fetch_assoc()){
+	echo "<td align=center>".number_format($rows2["media"],2)."</td>";
+ }
+
+echo "</tr></table>";
+
+
 echo "<h3>Peores puntuadas</h3><hr>";
-$que="SELECT * FROM fechastitulos,titulopelicula,titulo WHERE  titulo.id_titulo=titulopelicula.id_pelicula and fechastitulos.id_titulo=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 ORDER BY puntuacion ASC,filmaffinity ASC,imdb ASC LIMIT 10"; 
+$que="SELECT * FROM fechastitulos,titulopelicula,titulo WHERE  titulo.id_titulo=titulopelicula.id_pelicula and fechastitulos.id_titulo=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 ORDER BY fechastitulos.puntuacion ASC,fechastitulos.filmaffinity ASC,fechastitulos.imdb ASC LIMIT 10"; 
 $consulta=$miconexion->query($que); 
 
 echo "<table><tr>";
@@ -260,7 +294,7 @@ echo "</tr><tr>";
 
 echo "</tr></table>";
 echo "<h3>Peores puntuadas según Filmaffinity</h3><hr>";
- $que="SELECT * FROM fechastitulos,titulopelicula,titulo WHERE titulo.id_titulo=titulopelicula.id_pelicula and fechastitulos.id_titulo=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 and filmaffinity>0 ORDER BY filmaffinity ASC LIMIT 10";
+ $que="SELECT * FROM fechastitulos,titulopelicula,titulo WHERE titulo.id_titulo=titulopelicula.id_pelicula and fechastitulos.id_titulo=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 and fechastitulos.filmaffinity>0 ORDER BY fechastitulos.filmaffinity ASC LIMIT 10";
  $consulta=$miconexion->query($que); 
 
 echo "<table><tr>";
@@ -278,7 +312,7 @@ echo "</tr><tr>";
 
 echo "</tr></table>";
 echo "<h3>Peores puntuadas según IMDB</h3><hr>";
-  $que="SELECT * FROM fechastitulos,titulopelicula,titulo WHERE titulo.id_titulo=titulopelicula.id_pelicula and fechastitulos.id_titulo=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 ORDER BY imdb ASC LIMIT 10"; 
+  $que="SELECT * FROM fechastitulos,titulopelicula,titulo WHERE titulo.id_titulo=titulopelicula.id_pelicula and fechastitulos.id_titulo=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 ORDER BY fechastitulos.imdb ASC LIMIT 10"; 
  $consulta=$miconexion->query($que); 
 
 echo "<table><tr>";
@@ -296,7 +330,7 @@ echo "</tr><tr>";
 
 echo "</tr></table>";
 echo "<h3>Peores puntuadas según RottenTomatoes</h3><hr>";
- $que=("SELECT * FROM fechastitulos,titulopelicula,titulo WHERE  titulo.id_titulo=titulopelicula.id_pelicula and fechastitulos.id_titulo=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 and tomatometer>0 ORDER BY tomatometer ASC,filmaffinity ASC,imdb ASC LIMIT 10"); 
+ $que=("SELECT * FROM fechastitulos,titulopelicula,titulo WHERE  titulo.id_titulo=titulopelicula.id_pelicula and fechastitulos.id_titulo=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 and fechastitulos.tomatometer>0 ORDER BY fechastitulos.tomatometer ASC,fechastitulos.filmaffinity ASC,fechastitulos.imdb ASC LIMIT 10"); 
 $consulta=$miconexion->query($que); 
 
 echo "<table><tr>";
@@ -314,7 +348,7 @@ echo "</tr><tr>";
 
 echo "</tr></table>";
 echo "<h3>Peores puntuadas según AudienceScore</h3><hr>";
- $que=("SELECT * FROM fechastitulos,titulopelicula,titulo WHERE titulo.id_titulo=titulopelicula.id_pelicula and  fechastitulos.id_titulo=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 and audiencescore>0 ORDER BY audiencescore ASC,filmaffinity ASC,imdb ASC LIMIT 10"); 
+ $que=("SELECT * FROM fechastitulos,titulopelicula,titulo WHERE titulo.id_titulo=titulopelicula.id_pelicula and  fechastitulos.id_titulo=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 and fechastitulos.audiencescore>0 ORDER BY fechastitulos.audiencescore ASC,fechastitulos.filmaffinity ASC,fechastitulos.imdb ASC LIMIT 10"); 
 $consulta=$miconexion->query($que); 
 
 echo "<table><tr>";
@@ -332,7 +366,7 @@ echo "</tr><tr>";
 
 echo "</tr></table>";
 echo "<h3>Peores puntuadas según Letterboxd</h3><hr>";
- $que=("SELECT * FROM fechastitulos,titulopelicula,titulo WHERE titulo.id_titulo=titulopelicula.id_pelicula and fechastitulos.id_titulo=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 and letterboxd>0 ORDER BY letterboxd ASC,filmaffinity ASC,imdb ASC LIMIT 10"); 
+ $que=("SELECT * FROM fechastitulos,titulopelicula,titulo WHERE titulo.id_titulo=titulopelicula.id_pelicula and fechastitulos.id_titulo=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 and fechastitulos.letterboxd>0 ORDER BY fechastitulos.letterboxd ASC,fechastitulos.filmaffinity ASC,fechastitulos.imdb ASC LIMIT 10"); 
 $consulta=$miconexion->query($que); 
 
 echo "<table><tr>";
@@ -350,8 +384,28 @@ echo "</tr><tr>";
 
 echo "</tr></table>";
 
+echo "<h3>Peores puntuadas según media profesional</h3><hr>";
+ $que="SELECT * FROM fechastitulos,titulopelicula,titulo WHERE titulo.id_titulo=titulopelicula.id_pelicula and fechastitulos.id_titulo=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 ORDER BY media ASC LIMIT 10"; 
+$consulta=$miconexion->query($que); 
+
+echo "<table><tr>";
+ while ($rows = $consulta->fetch_assoc()){
+
+echo "<td><a href=titulo.php?id=".$rows["id_titulo"]."><img class=p width=130 height=192.5 title=".$rows["titulo"]." src=poster/".$rows["poster"]."></a></td>";
+
+}
+echo "</tr><tr>";
+ $consulta2=$miconexion->query($que); 
+
+ while ($rows2 = $consulta2->fetch_assoc()){
+	echo "<td align=center>".number_format($rows2["media"],2)."</td>";
+ }
+
+echo "</tr></table>";
+
+
 echo "<h3>Españolas mejor puntuadas</h3><hr>";
- $que="SELECT * FROM fechastitulos,titulopelicula,titulo WHERE  titulo.id_titulo=titulopelicula.id_pelicula and fechastitulos.id_titulo=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 and puntuacion>0 AND pais='España' ORDER BY puntuacion DESC,filmaffinity DESC,imdb DESC LIMIT 5"; 
+ $que="SELECT * FROM fechastitulos,titulopelicula,titulo WHERE  titulo.id_titulo=titulopelicula.id_pelicula and fechastitulos.id_titulo=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 and fechastitulos.puntuacion>0 AND pais='España' ORDER BY fechastitulos.puntuacion DESC,fechastitulos.filmaffinity DESC,fechastitulos.imdb DESC LIMIT 5"; 
  $consulta=$miconexion->query($que); 
 echo "<table><tr>";
  while ($rows = $consulta->fetch_assoc()){
@@ -367,8 +421,29 @@ echo "</tr><tr>";
  }
 
 echo "</tr></table>";
+
+echo "<h3>Extranjeras mejor puntuadas</h3><hr>";
+ $que="SELECT * FROM fechastitulos,titulopelicula,titulo WHERE  titulo.id_titulo=titulopelicula.id_pelicula and fechastitulos.id_titulo=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 and fechastitulos.puntuacion>0 AND pais NOT LIKE 'España' AND pais NOT LIKE 'Estados Unidos' AND pais NOT LIKE 'Reino Unido' ORDER BY fechastitulos.puntuacion DESC,fechastitulos.filmaffinity DESC,fechastitulos.imdb DESC LIMIT 5"; 
+ $consulta=$miconexion->query($que); 
+echo "<table><tr>";
+ while ($rows = $consulta->fetch_assoc()){
+
+echo "<td><a href=titulo.php?id=".$rows["id_titulo"]."><img class=p width=156 height=231 title=".$rows["titulo"]." src=poster/".$rows["poster"]."></a></td>";
+
+}
+echo "</tr><tr>";
+ $consulta2=$miconexion->query($que); 
+
+ while ($rows2 = $consulta2->fetch_assoc()){
+	echo "<td align=center>".$rows2["puntuacion"]."</td>";
+ }
+
+echo "</tr></table>";
+
+
+
 echo "<h3>Documentales mejor puntuados</h3><hr>";
- $que=("SELECT * FROM fechastitulos,titulopelicula,titulo WHERE  titulo.id_titulo=titulopelicula.id_pelicula and fechastitulos.id_titulo=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 and puntuacion>0 AND documental=1 ORDER BY puntuacion DESC,filmaffinity DESC,imdb DESC LIMIT 5"); 
+ $que=("SELECT * FROM fechastitulos,titulopelicula,titulo WHERE  titulo.id_titulo=titulopelicula.id_pelicula and fechastitulos.id_titulo=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 and fechastitulos.puntuacion>0 AND documental=1 ORDER BY fechastitulos.puntuacion DESC,fechastitulos.filmaffinity DESC,fechastitulos.imdb DESC LIMIT 5"); 
  $consulta=$miconexion->query($que); 
 echo "<table><tr>";
  while ($rows = $consulta->fetch_assoc()){
@@ -386,7 +461,7 @@ echo "</tr><tr>";
 echo "</tr></table>";
 
 echo "<h3>Dramas mejor puntuados</h3><hr>";
- $que=("SELECT * FROM fechastitulos,titulopelicula,genero,peliculasgeneros,titulo WHERE  titulo.id_titulo=titulopelicula.id_pelicula and  fechastitulos.id_titulo=titulopelicula.id_pelicula and peliculasgeneros.id_genero=genero.id_genero and peliculasgeneros.id_pelicula=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 and genero.id_genero=2 ORDER BY puntuacion DESC,filmaffinity DESC,imdb DESC LIMIT 5"); 
+ $que=("SELECT * FROM fechastitulos,titulopelicula,genero,peliculasgeneros,titulo WHERE  titulo.id_titulo=titulopelicula.id_pelicula and  fechastitulos.id_titulo=titulopelicula.id_pelicula and peliculasgeneros.id_genero=genero.id_genero and peliculasgeneros.id_pelicula=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 and genero.id_genero=2 ORDER BY fechastitulos.puntuacion DESC,fechastitulos.filmaffinity DESC,fechastitulos.imdb DESC LIMIT 5"); 
 $consulta=$miconexion->query($que); 
 echo "<table><tr>";
  while ($rows = $consulta->fetch_assoc()){
@@ -403,7 +478,7 @@ echo "</tr><tr>";
 
 echo "</tr></table>";
 echo "<h3>Películas de animación mejor puntuadas</h3><hr>";
- $que=("SELECT * FROM fechastitulos,titulopelicula,genero,peliculasgeneros,titulo WHERE  titulo.id_titulo=titulopelicula.id_pelicula and fechastitulos.id_titulo=titulopelicula.id_pelicula and peliculasgeneros.id_genero=genero.id_genero and peliculasgeneros.id_pelicula=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 and genero.id_genero=14 ORDER BY puntuacion DESC,filmaffinity DESC,imdb DESC LIMIT 5"); 
+ $que=("SELECT * FROM fechastitulos,titulopelicula,genero,peliculasgeneros,titulo WHERE  titulo.id_titulo=titulopelicula.id_pelicula and fechastitulos.id_titulo=titulopelicula.id_pelicula and peliculasgeneros.id_genero=genero.id_genero and peliculasgeneros.id_pelicula=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 and genero.id_genero=14 ORDER BY fechastitulos.puntuacion DESC,fechastitulos.filmaffinity DESC,fechastitulos.imdb DESC LIMIT 5"); 
 $consulta=$miconexion->query($que); 
 echo "<table><tr>";
  while ($rows = $consulta->fetch_assoc()){
@@ -420,7 +495,7 @@ echo "</tr><tr>";
 
 echo "</tr></table>";
 echo "<h3>Películas de ciencia ficción mejor puntuadas</h3><hr>";
- $que=("SELECT * FROM fechastitulos,titulopelicula,genero,peliculasgeneros,titulo WHERE  titulo.id_titulo=titulopelicula.id_pelicula and fechastitulos.id_titulo=titulopelicula.id_pelicula and peliculasgeneros.id_genero=genero.id_genero and peliculasgeneros.id_pelicula=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 and genero.id_genero=7 ORDER BY puntuacion DESC,filmaffinity DESC,imdb DESC LIMIT 5"); 
+ $que=("SELECT * FROM fechastitulos,titulopelicula,genero,peliculasgeneros,titulo WHERE  titulo.id_titulo=titulopelicula.id_pelicula and fechastitulos.id_titulo=titulopelicula.id_pelicula and peliculasgeneros.id_genero=genero.id_genero and peliculasgeneros.id_pelicula=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 and genero.id_genero=7 ORDER BY fechastitulos.puntuacion DESC,fechastitulos.filmaffinity DESC,fechastitulos.imdb DESC LIMIT 5"); 
 $consulta=$miconexion->query($que); 
 echo "<table><tr>";
  while ($rows = $consulta->fetch_assoc()){
@@ -437,7 +512,7 @@ echo "</tr><tr>";
 
 echo "</tr></table>";
 echo "<h3>Películas de terror mejor puntuadas</h3><hr>";
- $que=("SELECT * FROM fechastitulos,titulopelicula,genero,peliculasgeneros ,titulo WHERE  titulo.id_titulo=titulopelicula.id_pelicula and fechastitulos.id_titulo=titulopelicula.id_pelicula and peliculasgeneros.id_genero=genero.id_genero and peliculasgeneros.id_pelicula=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 and genero.id_genero=6 ORDER BY puntuacion DESC,filmaffinity DESC,imdb DESC LIMIT 5"); 
+ $que=("SELECT * FROM fechastitulos,titulopelicula,genero,peliculasgeneros ,titulo WHERE  titulo.id_titulo=titulopelicula.id_pelicula and fechastitulos.id_titulo=titulopelicula.id_pelicula and peliculasgeneros.id_genero=genero.id_genero and peliculasgeneros.id_pelicula=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 and genero.id_genero=6 ORDER BY fechastitulos.puntuacion DESC,fechastitulos.filmaffinity DESC,fechastitulos.imdb DESC LIMIT 5"); 
 $consulta=$miconexion->query($que); 
 echo "<table><tr>";
  while ($rows = $consulta->fetch_assoc()){
@@ -454,7 +529,7 @@ echo "</tr><tr>";
 
 echo "</tr></table>";
 echo "<h3>Películas de acción mejor puntuadas</h3><hr>";
- $que=("SELECT * FROM fechastitulos,titulopelicula,genero,peliculasgeneros ,titulo WHERE  titulo.id_titulo=titulopelicula.id_pelicula and  fechastitulos.id_titulo=titulopelicula.id_pelicula and peliculasgeneros.id_genero=genero.id_genero and peliculasgeneros.id_pelicula=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 and genero.id_genero=3 ORDER BY puntuacion DESC,filmaffinity DESC,imdb DESC LIMIT 5"); 
+ $que=("SELECT * FROM fechastitulos,titulopelicula,genero,peliculasgeneros ,titulo WHERE  titulo.id_titulo=titulopelicula.id_pelicula and  fechastitulos.id_titulo=titulopelicula.id_pelicula and peliculasgeneros.id_genero=genero.id_genero and peliculasgeneros.id_pelicula=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 and genero.id_genero=3 ORDER BY fechastitulos.puntuacion DESC,fechastitulos.filmaffinity DESC,fechastitulos.imdb DESC LIMIT 5"); 
 $consulta=$miconexion->query($que); 
 echo "<table><tr>";
  while ($rows = $consulta->fetch_assoc()){
@@ -500,7 +575,7 @@ switch ($i){
 	case 12: echo "diciembre ";break;
 }
 echo "</h3><hr>";
- $consulta=$miconexion->query("SELECT * FROM fechastitulos,titulopelicula,titulo WHERE titulo.id_titulo=titulopelicula.id_pelicula and fechastitulos.id_titulo=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 AND MONTH(fecha)=$i GROUP BY titulopelicula.id_pelicula ORDER BY puntuacion DESC,filmaffinity DESC,imdb DESC LIMIT 5 "); 
+ $consulta=$miconexion->query("SELECT * FROM fechastitulos,titulopelicula,titulo WHERE titulo.id_titulo=titulopelicula.id_pelicula and fechastitulos.id_titulo=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 AND MONTH(fecha)=$i GROUP BY titulopelicula.id_pelicula ORDER BY fechastitulos.puntuacion DESC,fechastitulos.filmaffinity DESC,fechastitulos.imdb DESC LIMIT 5 "); 
 echo "<table><tr>";
  while ($rows = $consulta->fetch_assoc()){
 
@@ -508,7 +583,7 @@ echo "<td><a href=titulo.php?id=".$rows["id_titulo"]."><img class=p width=156 he
 
 }
 echo "</tr><tr>";
- $consulta2=$miconexion->query("SELECT * FROM fechastitulos,titulopelicula,titulo WHERE titulo.id_titulo=titulopelicula.id_pelicula and fechastitulos.id_titulo=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 AND MONTH(fecha)=$i GROUP BY titulopelicula.id_pelicula ORDER BY puntuacion DESC,filmaffinity DESC,imdb DESC LIMIT 5 "); 
+ $consulta2=$miconexion->query("SELECT * FROM fechastitulos,titulopelicula,titulo WHERE titulo.id_titulo=titulopelicula.id_pelicula and fechastitulos.id_titulo=titulopelicula.id_pelicula and YEAR(fechastitulos.fecha)=2017 AND MONTH(fecha)=$i GROUP BY titulopelicula.id_pelicula ORDER BY fechastitulos.puntuacion DESC,fechastitulos.filmaffinity DESC,fechastitulos.imdb DESC LIMIT 5 "); 
 
  while ($rows2 = $consulta2->fetch_assoc()){
 	echo "<td align=center>".$rows2["puntuacion"]."</td>";
@@ -548,7 +623,21 @@ while ($rows = $consulta->fetch_assoc()){
 echo "<strong>Película más larga</strong>: <a href=titulo.php?id=".$rows["id_pelicula"].">".$rows["titulo"]. " (".$rows["duracion"]." mins)</a>";
 
 }
+}else{
+	$consulta=$miconexion->query("SELECT COUNT(*) as con FROM titulocapitulo,fechastitulos WHERE titulocapitulo.id_capitulo=fechastitulos.id_titulo and YEAR(fechastitulos.fecha)=2017"); 
+while ($rows = $consulta->fetch_assoc()){
 
+echo $rows["con"]." vistos";
+
+}
+echo "<br>";
+$consulta=$miconexion->query("SELECT COUNT(*) as con FROM temporada,titulocapitulo,fechastitulos WHERE temporada.id_temporada=titulocapitulo.ns AND titulocapitulo.id_capitulo=fechastitulos.id_titulo and YEAR(fechastitulos.fecha)=2017 AND numero_temporada=1 AND e=1"); 
+while ($rows = $consulta->fetch_assoc()){
+
+echo $rows["con"]." series empezadas";
+
+}
+}
 
 ?>
 </div>
