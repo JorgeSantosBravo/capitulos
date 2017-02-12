@@ -119,7 +119,7 @@ $consulta=$miconexion->query("SELECT * FROM titulopelicula,titulo WHERE titulo.i
 while ($rows = $consulta->fetch_assoc()){
 echo "<table>
 <tr><th>Punt.</th><th>FA</th><th>IMDB</th><th>RT</th><th>AS</th><th>LB</th></tr>
-<tr><td><input type='text' name='punt' size=1 value='".$rows["puntuacion"]."'></td><td><input type=text name=fa size=1 value='".$rows["filmaffinity"]."'></td><td><input type=text name=imdb size=1 value='".$rows["imdb"]."'></td><td><input type=text name=rt size=1 value='".$rows["tomatometer"]."'></td><td><input type=text name=as size=1 value='".$rows["audiencescore"]."'></td><td><input type=text name=lb size=1 value='".($rows["letterboxd"]/2)."'></td></tr>
+<tr><td><input type='text' name='punt' size=1 value='".$rows["puntuacion"]."'></td><td><input type=text name=fa size=1 value='".$rows["filmaffinity"]."'></td><td><input type=text name=imdb size=1 value='".$rows["imdb"]."'></td><td><input type=text name=rt size=1 value='".$rows["tomatometer"]."'></td><td><input type=text name=as size=1 value='".$rows["audiencescore"]."'></td><td><input type=text name=lb size=1 value='".$rows["letterboxd"]."'></td></tr>
 
 </table>";
 }
@@ -270,7 +270,7 @@ if (!$_POST["as"]==0){
 		$i++;
 }
 if (!$_POST["lb"]==0){
-	$lb=($_POST["lb"]*2);
+	$lb=$_POST["lb"];
 	$i++;
 	$j++;
 }
@@ -279,7 +279,7 @@ if ($j>1){
 	   $j-=1;
    }
  $mediaprof=($fa+$imdb+$rt+$lb)/$j;
-if (!$miconexion->query("UPDATE titulopelicula SET año='".$_POST["anio"]."', titulo='".addslashes($_POST["titulo"])."', titulo_original='".addslashes($_POST["titorig"])."', duracion='".$_POST["duracion"]."', documental='".$_POST["documental"]."', pais='".$_POST["pais"]."', puntuacion='".$_POST['punt']."', filmaffinity='".$_POST['fa']."', imdb='".$_POST['imdb']."', tomatometer='".$_POST['rt']."', audiencescore='".$_POST['as']."', letterboxd='".($_POST['lb']*2)."', media='".$media."', mediaprof='".$mediaprof."' WHERE id_pelicula=".$_GET["id"])){
+if (!$miconexion->query("UPDATE titulopelicula SET año='".$_POST["anio"]."', titulo='".addslashes($_POST["titulo"])."', titulo_original='".addslashes($_POST["titorig"])."', duracion='".$_POST["duracion"]."', documental='".$_POST["documental"]."', pais='".$_POST["pais"]."', puntuacion='".$_POST['punt']."', filmaffinity='".$_POST['fa']."', imdb='".$_POST['imdb']."', tomatometer='".$_POST['rt']."', audiencescore='".$_POST['as']."', letterboxd='".$_POST['lb']."', media='".$media."', mediaprof='".$mediaprof."' WHERE id_pelicula=".$_GET["id"])){
 	echo $miconexion->error;
 }
 

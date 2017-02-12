@@ -11,4 +11,5 @@
 
 
 <h2>Películas</h2>
+<a href="visor.php?v=Stats/general.php">General</a><br>
 <a href="visor.php?v=Stats/peliculasmaslargas.php">Películas más largas</a><br>
