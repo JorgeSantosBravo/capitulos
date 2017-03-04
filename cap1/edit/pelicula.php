@@ -235,10 +235,11 @@ $_SESSION["poster"]=$_POST["poster"];
 }else{
 
 }
-
+/*
 if (!$miconexion->query("UPDATE titulo SET poster='".$_SESSION["poster"]."' WHERE id_titulo LIKE '".$_GET["id"]."'")){
 	echo $miconexion->error;
 }
+*/
 //HACE LA MEDIA
 $i=1;
 $j=1;

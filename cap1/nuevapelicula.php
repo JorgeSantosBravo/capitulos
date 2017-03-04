@@ -426,7 +426,7 @@ if (!$_POST["as"]==0){
 		$i++;
 }
 if (!$_POST["lb"]==0){
-	$lb=($_POST["lb"]*2);
+	$lb=$_POST["lb"];
 	$i++;
 	$j++;
 }
@@ -435,7 +435,7 @@ if ($j>1){
 	   $j-=1;
    }
  $mediaprof=($fa+$imdb+$rt+$lb)/$j;
-if (!$miconexion->query("INSERT INTO titulopelicula VALUES ('".$idcap."', '".$_POST["ano"]."', '".addslashes($_POST['titulo'])."', '".addslashes($_POST['tituloorig'])."', '".$_POST['dur']."' , '".$_POST["doc"]."', '".$_POST['pais']."', '".$_POST['punt']."', '".$_POST['fa']."', '".$_POST['imdb']."', '".$_POST['rt']."', '".$_POST['as']."', '".($_POST['lb']*2)."', '".$media."', '".$mediaprof."')")){
+if (!$miconexion->query("INSERT INTO titulopelicula VALUES ('".$idcap."', '".$_POST["ano"]."', '".addslashes($_POST['titulo'])."', '".addslashes($_POST['tituloorig'])."', '".$_POST['dur']."' , '".$_POST["doc"]."', '".$_POST['pais']."', '".$_POST['punt']."', '".$_POST['fa']."', '".$_POST['imdb']."', '".$_POST['rt']."', '".$_POST['as']."', '".$_POST['lb']."', '".$media."', '".$mediaprof."')")){
 	echo $miconexion->error;
 }
 header ("Location:index.php");
@@ -504,7 +504,7 @@ if (strpos($elemento, ".")){
 	}		
 	
 //PARA LA FECHA
-if (!$miconexion->query("INSERT INTO fechastitulos VALUES ('".maxid("id_visionado", "fechastitulos")."', '".$fecha."', '".$idcap."', '".$_POST['pc']."', '".$_POST['for']."', '".$_POST['audio']."', '".$_POST['com']."', '".$_POST['punt']."', '".$_POST['fa']."', '".$_POST['imdb']."', '".$_POST['rt']."', '".$_POST['as']."', '".($_POST['lb']*2)."')")){
+if (!$miconexion->query("INSERT INTO fechastitulos VALUES ('".maxid("id_visionado", "fechastitulos")."', '".$fecha."', '".$idcap."', '".$_POST['pc']."', '".$_POST['for']."', '".$_POST['audio']."', '".$_POST['com']."', '".$_POST['punt']."', '".$_POST['fa']."', '".$_POST['imdb']."', '".$_POST['rt']."', '".$_POST['as']."', '".$_POST['lb']."')")){
 	echo $miconexion->error;
 }
 

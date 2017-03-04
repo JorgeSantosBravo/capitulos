@@ -149,7 +149,7 @@ if (!isset($_GET["v"])){
 echo "<table class=datos>
 <tr><th align=left colspan=3>".$rows["titulo"]."</th></tr>
 <tr><td class=cabeza>Título orig.</td><td> </td><td>".$rows["titulo_original"]."</td></tr>
-<tr><td class=cabeza>Año</td><td> </td><td>".$rows["año"]."</td></tr>
+<tr><td class=cabeza>Año</td><td> </td><td><a href=year.php?a=".$rows["año"].">".$rows["año"]."</a></td></tr>
 <tr><td class=cabeza>Duración</td><td> </td><td>".$rows["duracion"]."</td></tr>
 <tr><td class=cabeza>País</td><td> </td><td><a href=allmovies.php?pais=".urlencode($rows["pais"]).">".$rows["pais"]."</a></td></tr>
 <tr><td class=cabeza valign=top>Dirección</td><td> </td><td>
