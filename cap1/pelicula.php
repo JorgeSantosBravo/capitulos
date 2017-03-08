@@ -132,10 +132,10 @@ echo "</td></tr>";
 echo "<style>td.puntuacion #med{border-radius: 19px 19px 19px 19px;
 -moz-border-radius: 19px 19px 19px 19px;
 -webkit-border-radius: 19px 19px 19px 19px;
-border: 0px solid #000000;background-color:#".colores($rows["media"])."}</style>";
+border: 0px solid #000000;background-color:#".colores($rows["mediaprof"])."}</style>";
 if ($i>1){
 if (!$rows["media"]==0){
-echo "<tr><td class=puntuacion colspan=5><div id=med>".number_format($rows["media"],2)."</div></td></tr>";
+echo "<tr><td class=puntuacion colspan=5><div id=med>".number_format($rows["mediaprof"],2)."</div></td></tr>";
 }
 }
 

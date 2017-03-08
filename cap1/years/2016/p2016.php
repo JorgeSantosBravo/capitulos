@@ -26,7 +26,7 @@ echo '<td><a name="'.$fechcompl.'"></a> '.$fechcompl.'</td>';
 echo "<td align=center>".$rows["formato"]."</td>";
 echo '<td align=center>'.$rows["año"].'</td>';
 echo '<td align=center><img  width=35 height=50 src=poster/'.$rows["poster"].'></td>';
-echo '<td align=center><a href=titulo.php?id='.$rows["id_titulo"].'>'.$rows["titulo"].'</a></td>';
+echo '<td  align=center><a href=titulo.php?id='.$rows["id_titulo"].'>'.$rows["titulo"].'</a></td>';
 echo '<td align=center>'.$rows["puntuacion"].'</td>';
 $i++;
 }
